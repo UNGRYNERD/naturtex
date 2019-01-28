@@ -1,5 +1,29 @@
 /** Colors */
-$brand-primary:         #27ae60;
+$white:               #fff;
+$primary:             #615d59;
+$super-light:         #f5f4f3;
+$light:               #eae7e4;
+$dark:                #9a9691;
 
 /** Box Model  */
-$spacer:                2rem;
+$gap:                   8px;
+$spacer:                $gap * 2;
+$container-px:          1170px;
+$container-full-px:     1560px;
+$container-small-px:    940px;
+
+$container:             rem($container-px);
+$container-full:        rem($container-full-px);
+$container-small:       rem($container-small-px);
+
+/** Grid settings */
+$lg:                    rem(1200px);
+$md:                    rem(1024px);
+$sm:                    rem(768px);
+$xs:                    rem(450px);
+
+/** Fonts */
+$font-primary:          Arial, Helvetica, sans-serif;
+
+/** Misc */
+$transition-standard:   all 0.3s ease-in-out;

@@ -30,4 +30,24 @@ class App extends Controller
         }
         return get_the_title();
     }
+
+    public function languageSwitcher()
+    {
+        if (!function_exists('icl_get_languages')) {
+            return false;
+        }
+
+        $languages = icl_get_languages('skip_missing=0');
+        if (!empty($languages)) {
+            $selector = '';
+            $selector .= '<ul id="lang-switcher">';
+            foreach ($languages as $l) {
+                $selector .= '<li><a href="'.$l['url'].'" ' . ($l['active'] ? 'class="active" ' : '') . '>';
+                $selector .= $l['language_code'];
+                $selector .= '</a></li>';
+            }
+            $selector .= '</ul>';
+        }
+        return $selector;
+    }
 }
