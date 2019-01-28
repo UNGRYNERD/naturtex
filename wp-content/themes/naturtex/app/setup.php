@@ -34,6 +34,7 @@ add_action('after_setup_theme', function () {
      * @link https://developer.wordpress.org/reference/functions/add_theme_support/#title-tag
      */
     add_theme_support('title-tag');
+    add_theme_support('custom-logo');
 
     /**
      * Register navigation menus
@@ -79,14 +80,10 @@ add_action('widgets_init', function () {
         'before_title'  => '<h3>',
         'after_title'   => '</h3>'
     ];
-    register_sidebar([
-        'name'          => __('Primary', 'sage'),
-        'id'            => 'sidebar-primary'
-    ] + $config);
-    register_sidebar([
-        'name'          => __('Footer', 'sage'),
-        'id'            => 'sidebar-footer'
-    ] + $config);
+    // register_sidebar([
+    //     'name'          => __('Primary', 'sage'),
+    //     'id'            => 'sidebar-primary'
+    // ] + $config);
 });
 
 /**
@@ -126,4 +123,15 @@ add_action('after_setup_theme', function () {
     sage('blade')->compiler()->directive('asset', function ($asset) {
         return "<?= " . __NAMESPACE__ . "\\asset_path({$asset}); ?>";
     });
+
+    /**
+     * Create @inline_svg() Blade directive
+     */
+    sage('blade')->compiler()->directive('inline_svg', function ($svg) {
+        if (empty($svg)) {
+            return;
+        }
+        return file_get_contents(asset_path($svg));
+    });
+
 });

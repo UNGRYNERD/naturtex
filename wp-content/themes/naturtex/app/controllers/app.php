@@ -40,9 +40,9 @@ class App extends Controller
         $languages = icl_get_languages('skip_missing=0');
         if (!empty($languages)) {
             $selector = '';
-            $selector .= '<ul id="lang-switcher">';
+            $selector .= '<ul class="lang-switcher">';
             foreach ($languages as $l) {
-                $selector .= '<li><a href="'.$l['url'].'" ' . ($l['active'] ? 'class="active" ' : '') . '>';
+                $selector .= '<li><a href="'.$l['url'].'" ' . ($l['active'] ? 'class="is-active" ' : '') . '>';
                 $selector .= $l['language_code'];
                 $selector .= '</a></li>';
             }

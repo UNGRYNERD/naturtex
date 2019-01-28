@@ -1,0 +1,148 @@
+.super-menu {
+  background-color: $super-light;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  opacity: 0;
+  z-index: -1;
+  visibility: hidden;
+  transition: visibility, opacity 0.3s ease-in-out;
+
+  @media (min-width: $md) {
+    flex-flow: row;
+  }
+
+  .lang-switcher {
+    @include lang-switcher;
+
+    @media (min-width: $md) {
+      display: none;
+    }
+  }
+
+  &__contact {
+    order: 2;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    opacity: 0;
+
+    @media (min-width: $md) {
+      order: 0;
+      padding: rem(100px);
+      align-items: flex-end;
+      border-right: 1px solid $dark;
+    }
+
+    &-title {
+      @include menu;
+
+      display: none;
+
+      @media (min-width: $md) {
+        display: block;
+        color: $primary;
+        margin: 0 0 rem(40px) 0;
+      }
+    }
+
+    &-data {
+      display: none;
+
+      @media (min-width: $md) {
+        display: block;
+        font-size: rem(14px);
+        font-weight: bold;
+        line-height: 1.3;
+        text-align: right;
+        color: $dark;
+        margin-bottom: rem(40px);
+      }
+    }
+
+    &-social {
+      display: flex;
+    }
+
+    &::before {
+      content: '';
+      width: 136px;
+      border-top: 1px solid $grey;
+      margin-bottom: rem(33px);
+
+      @media (min-width: $md) {
+        display: none;
+      }
+    }
+  }
+
+  &__social-link {
+    max-width: rem(25px);
+    margin: 0 rem(10px);
+
+    @media (min-width: $md) {
+      margin: 0 0 0 rem(20px);
+    }
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  .nav {
+    opacity: 0;
+    margin: rem(48px) 0 rem(50px) 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    justify-content: center;
+
+    @media (min-width: $md) {
+      padding: rem(100px) rem(80px);
+      margin: 0;
+      align-items: flex-start;
+    }
+
+    .menu-item {
+      @include menu;
+
+      margin: rem(4px) 0;
+
+      @media (min-width: $md) {
+        text-align: left;
+      }
+
+      a {
+        padding: rem(12px) rem(20px);
+        display: block;
+        border-radius: 26px;
+
+        &:hover {
+          text-decoration: none;
+          background-color: $light;
+        }
+      }
+    }
+  }
+
+  &.is-open {
+    z-index: 99;
+    opacity: 1;
+    visibility: visible;
+
+    .super-menu__contact,
+    .nav {
+      opacity: 1;
+      transition: opacity 0.3s ease-in;
+      transition-delay: 0.3s;
+    }
+  }
+}
