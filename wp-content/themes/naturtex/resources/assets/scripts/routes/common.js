@@ -30,7 +30,7 @@ const Common = {
   setupFeaturedSlideshow: function () {
     $('.featured__slideshow').owlCarousel({
       items: 1,
-      nav: false,
+      nav: true,
       dots: true,
       loop: true,
       autoplay: false,

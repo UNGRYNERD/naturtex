@@ -30,6 +30,43 @@
         }
       }
     }
+
+    &.owl-carousel {
+      .owl-nav {
+        display: none;
+
+        @media (min-width: $md) {
+          display: block;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: calc(100% + 30px);
+          left: -15px;
+        }
+
+        @media (min-width: $lg) {
+          width: calc(100% + 130px);
+          left: -65px;
+        }
+
+        .owl-prev,
+        .owl-next {
+          background: url('../images/arrow.svg') no-repeat;
+          width: 13px;
+          height: 24px;
+
+          span {
+            display: none;
+          }
+        }
+
+        .owl-next {
+          position: absolute;
+          right: 0;
+          transform: rotate(180deg);
+        }
+      }
+    }
   }
 
   &-item {
