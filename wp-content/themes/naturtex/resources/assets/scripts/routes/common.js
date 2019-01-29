@@ -1,4 +1,4 @@
-var Common = {
+const Common = {
   setupSuperMenu: function () {
     $('.header__menu-toggle').on('click', function (event) {
       event.preventDefault();
@@ -16,12 +16,24 @@ var Common = {
       $(this).closest('.header__search').toggleClass('is-open');
     });
   },
+  setupMainSlideshow: function () {
+    $('.slide').owlCarousel({
+      items: 1,
+      nav: false,
+      dots: true,
+      loop: true,
+      autoplay: false,
+      autoplayTimeout: 6000,
+      autoplayHoverPause: true,
+    });
+  },
 };
 export default {
   init() {
     // JavaScript to be fired on all pages
     Common.setupSuperMenu();
     Common.setupSearch();
+    Common.setupMainSlideshow();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired

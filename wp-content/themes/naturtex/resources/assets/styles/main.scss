@@ -12,10 +12,12 @@
  */
 // @import "~some-node-module";
 @import "~normalize.css/normalize";
+@import "~owl.carousel/dist/assets/owl.carousel";
 
 /** Import theme styles */
 @import "common/global";
 @import "components/super-menu";
+@import "components/slideshow";
 @import "components/buttons";
 @import "components/comments";
 @import "components/forms";

@@ -43,12 +43,14 @@
       transition: $transition-standard;
 
       @media (min-width: $md) {
+        z-index: 10;
         position: absolute;
         left: 100%;
       }
 
       svg {
         g {
+          transition: stroke 1s ease-in-out;
           stroke: $primary;
         }
       }
@@ -109,10 +111,12 @@
 
             @media (min-width: $md) {
               left: 20px;
+              transition: $transition-standard;
             }
 
             svg {
               g {
+                transition: stroke 1s ease-in-out;
                 stroke: $white;
               }
             }

@@ -1,5 +1,6 @@
 // import external dependencies
 import 'jquery';
+import 'owl.carousel';
 
 // Import everything from autoload
 import "./autoload/**/*"
