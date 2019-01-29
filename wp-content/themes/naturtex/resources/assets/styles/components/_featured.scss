@@ -1,0 +1,140 @@
+.featured {
+  @include container;
+
+  &__title {
+    @include section-title;
+  }
+
+  &__slideshow {
+    max-width: 100%;
+
+    .owl-dots {
+      text-align: center;
+      margin: $spacer * 2 0 0 0;
+
+      button.owl-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background-color: $light;
+        margin: 0 $gap/2;
+        border: 1px solid transparent;
+
+        &.active {
+          background-color: $primary;
+        }
+
+        &:focus {
+          outline: none;
+          border-color: $primary;
+        }
+      }
+    }
+  }
+
+  &-item {
+    max-width: ($container-px - ($gap * 4));
+    display: flex;
+    flex-flow: column;
+
+    @media (min-width: $md) {
+      flex-flow: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    &__img {
+      @media (min-width: $md) {
+        flex: 0 0 60%;
+        max-width: 60%;
+        height: auto;
+      }
+    }
+
+    &__content {
+      @media (min-width: $md) {
+        flex: 0 0 40%;
+        max-width: 40%;
+        padding-left: rem(60px);
+      }
+    }
+
+    &__title {
+      @include title-h3;
+
+      color: $primary;
+      margin: rem(26px) 0 rem(28px) 0;
+
+      @media (min-width: $md) {
+        margin-top: 0;
+      }
+    }
+
+    &__text {
+      font-size: rem(16px);
+      font-weight: bold;
+      line-height: 1.5;
+      color: $primary;
+
+      @media (min-width: $md) {
+        font-size: rem(20px);
+        background-color: $super-light;
+        padding: rem(60px) rem(40px) rem(40px) rem(40px);
+        margin-left: -120px;
+      }
+
+      p:first-child {
+        margin-top: 0;
+      }
+
+      p:last-of-type {
+        margin-bottom: 30px;
+
+        @media (min-width: $md) {
+          margin-bottom: 20px;
+        }
+      }
+
+      .button {
+        margin: 0 auto;
+        width: 160px;
+        display: block;
+
+        @media (min-width: $md) {
+          margin-right: 0;
+        }
+      }
+    }
+
+    &--reverse {
+      @media (min-width: $md) {
+        flex-flow: row-reverse;
+      }
+
+      .featured-item {
+        &__content {
+          @media (min-width: $md) {
+            flex: 0 0 40%;
+            max-width: 40%;
+            padding-right: rem(60px);
+            padding-left: 0;
+          }
+        }
+
+        &__title {
+          @media (min-width: $md) {
+            text-align: center;
+          }
+        }
+
+        &__text {
+          @media (min-width: $md) {
+            margin-left: 0;
+            margin-right: -120px;
+          }
+        }
+      }
+    }
+  }
+}

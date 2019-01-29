@@ -51,6 +51,7 @@ add_action('after_setup_theme', function () {
      */
     add_theme_support('post-thumbnails');
     add_image_size('featured', 1440, 750, true);
+    add_image_size('featured-medium', 800, 600, true);
 
     /**
      * Enable HTML5 markup support

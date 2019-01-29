@@ -26,6 +26,9 @@
   font-size: rem(18px);
   font-weight: bold;
   text-align: center;
+  text-transform: uppercase;
+  margin: 0 0 rem(20px) 0;
+  color: $primary;
 }
 
 @mixin title-h3 {
@@ -35,6 +38,7 @@
   text-align: center;
 
   @media (min-width: $md) {
+    text-align: left;
     font-size: rem(36px);
   }
 }

@@ -27,6 +27,17 @@ const Common = {
       autoplayHoverPause: true,
     });
   },
+  setupFeaturedSlideshow: function () {
+    $('.featured__slideshow').owlCarousel({
+      items: 1,
+      nav: false,
+      dots: true,
+      loop: true,
+      autoplay: false,
+      autoplayTimeout: 6000,
+      autoplayHoverPause: true,
+    });
+  },
 };
 export default {
   init() {
@@ -34,6 +45,7 @@ export default {
     Common.setupSuperMenu();
     Common.setupSearch();
     Common.setupMainSlideshow();
+    Common.setupFeaturedSlideshow();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired

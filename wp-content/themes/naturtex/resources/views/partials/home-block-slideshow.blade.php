@@ -1,4 +1,4 @@
-<section class="slide section owl-carousel">
+<section class="slide owl-carousel">
   @while (have_rows('slide'))  @php(the_row())
     <article class="slide__item">
       {!! wp_get_attachment_image(get_sub_field('image'), 'featured') !!}

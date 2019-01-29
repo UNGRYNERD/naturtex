@@ -1,0 +1,16 @@
+.button {
+  font-size: rem(14px);
+  font-weight: bold;
+  color: $primary;
+  text-transform: uppercase;
+  padding: rem(18px) rem(60px);
+  border: 2px solid $primary;
+  display: inline-block;
+  transition: $transition-standard;
+
+  &:hover {
+    color: $white;
+    background-color: $primary;
+    text-decoration: none;
+  }
+}
