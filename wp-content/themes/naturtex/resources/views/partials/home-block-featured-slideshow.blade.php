@@ -6,7 +6,7 @@
   <div class="featured__slideshow owl-carousel">
     @while (have_rows('slide'))  @php(the_row())
       <article class="featured-item {{ $reverse ? "featured-item--reverse" : "" }}">
-        {!! wp_get_attachment_image(get_sub_field('image'), 'featured-med', false, ['class' => 'featured-item__img']) !!}
+        {!! wp_get_attachment_image(get_sub_field('image'), 'featured-medium', false, ['class' => 'featured-item__img']) !!}
         <div class="featured-item__content">
           @if (get_sub_field('title'))
             <h3 class="featured-item__title">{{ the_sub_field('title') }}</h3>

@@ -46,16 +46,16 @@
 
     &__img {
       @media (min-width: $md) {
-        flex: 0 0 60%;
-        max-width: 60%;
+        flex: 0 0 58%;
+        max-width: 58%;
         height: auto;
       }
     }
 
     &__content {
       @media (min-width: $md) {
-        flex: 0 0 40%;
-        max-width: 40%;
+        flex: 0 0 42%;
+        max-width: 42%;
         padding-left: rem(60px);
       }
     }
