@@ -1,0 +1,32 @@
+.text {
+  @include body-text;
+
+  .embed {
+    padding-bottom: 56.25%;
+    overflow: hidden;
+    height: auto;
+    position: relative;
+
+    iframe,
+    object,
+    embed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  h1 {
+    @include slide-title;
+  }
+
+  h2 {
+    @include slide-title;
+  }
+
+  h3 {
+    @include title-h3;
+  }
+}

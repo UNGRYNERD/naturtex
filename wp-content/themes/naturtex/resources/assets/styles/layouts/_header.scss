@@ -27,13 +27,14 @@
   &__search {
     margin-right: auto;
     position: relative;
+    height: 28px;
 
     @media (min-width: $md) {
       order: 3;
       margin-left: auto;
       margin-right: 0;
-      width: 207px;
       position: relative;
+      width: 19px;
     }
 
     &-link {
@@ -45,7 +46,7 @@
       @media (min-width: $md) {
         z-index: 10;
         position: absolute;
-        left: 100%;
+        right: 0;
       }
 
       svg {
@@ -63,7 +64,7 @@
     .search-wrap {
       position: absolute;
       left: -10px;
-      top: -5px;
+      top: 0;
       width: 0;
       overflow: hidden;
       border-radius: 15px;
@@ -74,7 +75,6 @@
         position: absolute;
         max-width: 207px;
         right: -10px;
-        top: -14px;
         left: auto;
       }
 
@@ -110,7 +110,7 @@
             z-index: 10;
 
             @media (min-width: $md) {
-              left: 20px;
+              right: 170px;
               transition: $transition-standard;
             }
 

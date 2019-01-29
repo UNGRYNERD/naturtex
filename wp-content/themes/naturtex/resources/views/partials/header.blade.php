@@ -12,13 +12,9 @@
       </div>
     </div>
 
-    @if (has_custom_logo())
-      {{ the_custom_logo() }}
-    @else
-      <a class="header__site-name" href="{{ home_url('/') }}">
-        {{ bloginfo('name') }}
-      </a>
-    @endif
+    <a title="{{ bloginfo('name') }}" class="custom-logo-link" href="{{ home_url('/') }}">
+      <img src="@asset('images/logo.svg')" alt="{{ bloginfo('name') }}">
+    </a>
 
     <a href="#" class="header__menu-toggle">
       <span></span>

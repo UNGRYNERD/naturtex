@@ -75,3 +75,20 @@ add_filter('get_search_form', function(){
     echo template(realpath(get_template_directory() . '/views/partials/searchform.blade.php'), []);
   return $form;
 });
+
+
+add_filter('embed_oembed_html', function($html, $url, $args) {
+  $provider = '';
+  if (preg_match("#https?://youtu\.be/.*#i", $url) || preg_match("#https?://(www\.)?youtube\.com/watch.*#i", $url)) {
+    $provider = 'youtube';
+  } elseif (preg_match("/vimeo.com\/([^&]+)/i", $url)) {
+    $provider = 'vimeo';
+  }
+  elseif (preg_match("/twitch\/([^&]+)/i", $url)) {
+    $provider = 'twitch';
+  }
+  if (!empty($provider)) {
+    $html = "<div class='embed ".$provider."' >". $html . "</div>";
+  }
+  return $html;
+}, 10, 3);
