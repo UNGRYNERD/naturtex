@@ -1,0 +1,60 @@
+.footer {
+  padding: rem(20px) 0;
+
+  @media (min-width: $md) {
+    padding: rem(43px) 0;
+  }
+
+  .container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    text-align: center;
+
+    @media (min-width: $md) {
+      flex-flow: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__nav {
+    @media (min-width: $md) {
+      flex: 1;
+      margin-right: rem(200px);
+    }
+
+    .nav {
+      list-style: none;
+      margin: 0 0 rem(43px) 0;
+      padding: 0;
+      color: $primary;
+
+      @media (min-width: $md) {
+        display: flex;
+        margin: 0;
+        flex: 1;
+        justify-content: space-between;
+      }
+
+      .menu-item {
+        margin-bottom: rem($gap);
+
+        @media (min-width: $md) {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &__social {
+    &-link {
+      margin: 0 rem(10px);
+      display: inline-block;
+
+      img {
+        width: rem(26px);
+        display: block;
+      }
+    }
+  }
+}

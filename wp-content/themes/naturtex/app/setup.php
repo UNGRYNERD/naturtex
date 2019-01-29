@@ -42,6 +42,7 @@ add_action('after_setup_theme', function () {
      */
     register_nav_menus([
         'main-menu' => __('Primary Navigation', 'sage'),
+        'footer-menu' => __('Footer Navigation', 'sage'),
         'lang-menu' => __('Language Navigation', 'sage')
     ]);
 
