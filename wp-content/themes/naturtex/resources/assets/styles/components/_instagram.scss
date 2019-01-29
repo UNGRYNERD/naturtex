@@ -1,0 +1,32 @@
+.instagram {
+  margin-top: rem(50px);
+  background-color: $super-light;
+  padding: rem(28px) 0;
+
+  @media (min-width: $md) {
+    padding: rem(60px) 0;
+  }
+
+  &__title {
+    font-size: rem(14px);
+    font-weight: bold;
+    color: $primary;
+    text-align: center;
+    margin: 0 0 29px 0;
+
+    img {
+      display: inline-block;
+      margin-right: rem(6px);
+      width: 19px;
+      vertical-align: middle;
+    }
+  }
+
+  #sb_instagram.sbi_col_4.sbi_disable_mobile #sbi_images .sbi_item {
+    width: 50%;
+
+    @media (min-width: $md) {
+      width: 25%;
+    }
+  }
+}

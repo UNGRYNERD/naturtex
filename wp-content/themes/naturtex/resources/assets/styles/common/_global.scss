@@ -36,8 +36,8 @@ body {
 .container {
   @include container;
 
-  &--big {
-    max-width: $container-full;
+  &--full {
+    max-width: rem($container-full-px);
   }
 }
 
