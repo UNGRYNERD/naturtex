@@ -1,0 +1,50 @@
+.pagination {
+  list-style: none;
+  text-align: center;
+  position: relative;
+  margin: $gap * 5 auto;
+
+  li {
+    display: inline-block;
+    font-size: rem(18px);
+    font-weight: bold;
+    line-height: 1.44;
+
+    .page-numbers {
+      display: none;
+      color: $primary;
+      text-align: center;
+      line-height: $gap * 4;
+      min-width: $gap * 4;
+      height: $gap * 4;
+      padding: 0 $gap;
+
+      @media (min-width: $md) {
+        display: inline-block;
+      }
+
+      &:hover {
+        text-decoration: none;
+        background: $primary;
+        color: $white;
+      }
+
+      &.current {
+        background: $primary;
+        color: $white;
+      }
+
+      &.next {
+        color: transparent;
+        background: url('../images/arrow.svg') center center no-repeat;
+        transform: rotate(180deg);
+      }
+
+      &.prev {
+        display: inline-block;
+        color: transparent;
+        background: url('../images/arrow.svg') center center no-repeat;
+      }
+    }
+  }
+}

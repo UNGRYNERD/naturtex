@@ -58,4 +58,35 @@ class App extends Controller
         $nopaging_url = ($position) ? substr($current_url, 0, $position) : $current_url;
         return trailingslashit($nopaging_url) == $url ? "is-current" : "";
     }
+
+    public function pagination()
+    {
+        global $wp_query;
+        $query = $query ? $query : $wp_query;
+        $big = 999999999;
+        $args = array();
+        $paginate = paginate_links(array(
+            'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big, false))),
+            'type' => 'array',
+            'total' => $query->max_num_pages,
+            'format' => '?paged=%#%',
+            'mid_size' => 2,
+            'end_size' => 1,
+            'current' => max(1, get_query_var('paged')),
+            'prev_text' => esc_html__('Anterior', 'naturtex'),
+            'next_text' => esc_html__('Siguiente', 'naturtex'),
+            'add_args' => array($args)
+            )
+        );
+
+        if ($query->max_num_pages > 1) {
+            $pag = '<ul class="pagination">';
+            foreach ($paginate as $page) {
+                $pag .= '<li>' . $page . '</li>';
+            }
+            $pag .= '</ul>';
+        }
+
+        return $pag;
+    }
 }

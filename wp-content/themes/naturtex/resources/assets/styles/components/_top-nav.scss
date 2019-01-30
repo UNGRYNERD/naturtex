@@ -1,5 +1,5 @@
 .top-nav {
-  margin: 0 0 rem(50px) 0;
+  margin: 0;
   padding: 0;
   list-style: none;
   display: flex;
@@ -13,6 +13,10 @@
 
   &__wrapper {
     text-align: center;
+    width: 100%;
+    margin: 0 0 rem(40px) 0;
+    position: relative;
+    min-height: 46px;
   }
 
   &__item {
@@ -111,6 +115,10 @@
     &:hover {
       @media (max-width: $md) {
         max-height: 999px;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
       }
 
       &::after {

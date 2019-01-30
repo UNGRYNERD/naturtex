@@ -1,0 +1,60 @@
+.projects {
+  display: flex;
+  flex-wrap: wrap;
+
+  .project-item {
+    flex: 0 0 100%;
+    padding: rem($spacer);
+
+    @media (min-width: $xs) {
+      flex: 0 0 50%;
+    }
+
+    @media (min-width: $md) {
+      padding: rem(25px);
+      flex: 0 0 (100% / 3);
+    }
+
+    &__image {
+      display: block;
+      position: relative;
+
+      img {
+        width: 100%;
+        display: block;
+      }
+
+      &::after {
+        content: '';
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('../images/plus.svg') center center no-repeat rgba($black, 0.6);
+        transition: $transition-standard;
+      }
+    }
+
+    &__title {
+      font-size: rem(18px);
+      font-weight: bold;
+      line-height: 1.44;
+      color: $primary;
+      text-align: center;
+    }
+
+    a {
+      display: block;
+
+      &:hover {
+        .project-item__image {
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}

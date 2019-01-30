@@ -18,10 +18,12 @@
     @while(have_posts()) @php(the_post())
       <article class="project-item">
         <a href="{{ the_permalink() }}">
-          {{ the_post_thumbnail('featured-project', ['class' => 'project-item__image']) }}
+          <span class="project-item__image">{{ the_post_thumbnail('featured-project') }}</span>
           <h2 class="project-item__title">{{ the_title() }}</h2>
         </a>
       </article>
     @endwhile
+
+    {!! App::pagination() !!}
   </section>
 @endsection
