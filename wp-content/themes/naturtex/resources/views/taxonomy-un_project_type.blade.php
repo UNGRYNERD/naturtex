@@ -4,14 +4,15 @@
   <section class="projects archive section container">
     <nav class="top-nav__wrapper">
       <ul class="top-nav top-nav--dropdown">
+
+        @foreach (ProjectsArchive::projectsTypes() as $term)
+            <li class="top-nav__item {{ App::isCurrentURL($term['link']) }}">
+              <a href="{{ $term['link'] }}">{{ $term['name'] }}</a>
+            </li>
+        @endforeach
         <li class="top-nav__item {{ App::isCurrentURL(get_post_type_archive_link('un_project')) }}">
           <a href="{{ get_post_type_archive_link('un_project') }}">{{ __('All', 'naturtex') }}</a>
         </li>
-        @foreach (ProjectsArchive::projectsTypes() as $term)
-          <li class="top-nav__item {{ App::isCurrentURL($term['link']) }}">
-            <a href="{{ $term['link'] }}">{{ $term['name'] }}</a>
-          </li>
-        @endforeach
       </ul>
     </nav>
 

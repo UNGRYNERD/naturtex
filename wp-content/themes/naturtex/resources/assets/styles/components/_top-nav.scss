@@ -1,0 +1,166 @@
+.top-nav {
+  margin: 0 0 rem(50px) 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  font-size: rem(18px);
+  font-weight: bold;
+  letter-spacing: 0.6px;
+  text-align: center;
+  color: $primary;
+  overflow: hidden;
+
+  &__wrapper {
+    text-align: center;
+  }
+
+  &__item {
+    position: relative;
+    height: 65px;
+
+    &::after {
+      display: inline-block;
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: $white;
+      border: 2px solid $white;
+      box-shadow: 0 0 0 2px $primary;
+      position: absolute;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100vw;
+      height: 2px;
+      background-color: $primary;
+      bottom: 11px;
+    }
+
+    a {
+      color: $primary;
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: relative;
+
+      &::after {
+        display: inline-block;
+        content: "";
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background-color: $white;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+      }
+    }
+
+    &:last-child {
+      &::before {
+        background-color: $white;
+      }
+    }
+
+    &.is-current {
+      &::after {
+        background-color: $primary;
+      }
+    }
+  }
+
+  &--dropdown {
+    @media (max-width: $md) {
+      display: inline-flex;
+      flex-flow: column;
+      justify-content: flex-start;
+      background-color: $light;
+      font-size: rem(14px);
+      letter-spacing: 0.5px;
+      max-height: 46px;
+      position: relative;
+    }
+
+    &::after {
+      @media (max-width: $md) {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 8px;
+        background: url('../images/dropdown.svg') no-repeat;
+        background-size: cover;
+        border: 0;
+        border-radius: 0;
+        box-shadow: 0;
+        right: 15px;
+        top: 20px;
+        transform: rotate(180deg);
+      }
+    }
+
+    &:hover {
+      @media (max-width: $md) {
+        max-height: 999px;
+      }
+
+      &::after {
+        @media (max-width: $md) {
+          transform: rotate(0deg);
+        }
+      }
+    }
+
+    .top-nav {
+      &__item {
+        @media (max-width: $md) {
+          display: block;
+          height: auto;
+          order: 1;
+          background-color: $super-light;
+        }
+
+        &::before,
+        &::after {
+          @media (max-width: $md) {
+            display: none;
+          }
+        }
+
+        a {
+          @media (max-width: $md) {
+            padding: rem(12px) rem(45px) rem(12px) rem(45px);
+          }
+
+          &::after {
+            @media (max-width: $md) {
+              display: none;
+            }
+          }
+        }
+
+        &.is-current {
+          @media (max-width: $md) {
+            order: 0;
+            background-color: $light;
+          }
+
+          a {
+            @media (max-width: $md) {
+              pointer-events: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
