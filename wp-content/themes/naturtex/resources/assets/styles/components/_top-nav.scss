@@ -83,6 +83,11 @@
     }
   }
 
+  &--small {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
   &--dropdown {
     @media (max-width: $md) {
       display: inline-flex;

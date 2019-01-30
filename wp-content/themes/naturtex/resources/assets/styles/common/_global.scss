@@ -31,6 +31,8 @@ img {
 
 body {
   @include body-text;
+
+  color: $primary;
 }
 
 .container {

@@ -1,0 +1,52 @@
+.project {
+  &__title {
+    @include body-title;
+
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 rem(35px) 0;
+
+    @media (min-width: $md) {
+      margin: 0 0 rem(66px) 0;
+    }
+  }
+
+  &__item {
+    margin-bottom: rem(20px);
+
+    @media (min-width: $md) {
+      flex: 0 0 50%;
+      margin-bottom: rem(40px);
+    }
+
+    &:nth-child(even) {
+      @media (min-width: $md) {
+        padding-left: rem(20px);
+        padding-right: 0;
+      }
+    }
+
+    &:nth-child(odd) {
+      @media (min-width: $md) {
+        padding-right: rem(20px);
+        padding-left: 0;
+      }
+    }
+
+    strong {
+      color: $dark;
+      font-weight: normal;
+    }
+  }
+
+  &__image {
+    display: block;
+  }
+
+  &__data {
+    @media (min-width: $md) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
