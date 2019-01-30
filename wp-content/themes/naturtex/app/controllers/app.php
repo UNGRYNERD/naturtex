@@ -50,4 +50,12 @@ class App extends Controller
         }
         return $selector;
     }
+
+    public static function isCurrentURL($url) {
+        global $wp;
+        $current_url =  home_url($wp->request);
+        $position = strpos($current_url , '/page');
+        $nopaging_url = ($position) ? substr($current_url, 0, $position) : $current_url;
+        return trailingslashit($nopaging_url) == $url ? "is-current" : "";
+    }
 }

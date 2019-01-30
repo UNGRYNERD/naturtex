@@ -53,6 +53,8 @@ add_action('after_setup_theme', function () {
     add_theme_support('post-thumbnails');
     add_image_size('featured', 1440, 750, true);
     add_image_size('featured-medium', 800, 600, true);
+    add_image_size('featured-project', 630, 916, true);
+    add_image_size('featured-project-medium', 1100, 830, true);
 
     /**
      * Enable HTML5 markup support
@@ -136,5 +138,4 @@ add_action('after_setup_theme', function () {
         }
         return file_get_contents(asset_path($svg));
     });
-
 });
