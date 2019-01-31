@@ -2,9 +2,13 @@
   display: flex;
   flex-wrap: wrap;
 
+  @media (min-width: $md) {
+    padding-top: rem(47px);
+  }
+
   .project-item {
     flex: 0 0 100%;
-    padding: rem($spacer);
+    padding: 0 rem($spacer) rem($spacer * 2) rem($spacer);
 
     @media (min-width: $xs) {
       flex: 0 0 50%;

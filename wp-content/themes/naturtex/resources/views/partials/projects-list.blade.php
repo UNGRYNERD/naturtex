@@ -1,4 +1,4 @@
-<section class="projects archive section container">
+<section class="projects archive container">
   <nav class="top-nav__wrapper">
     <ul class="top-nav top-nav--dropdown">
       <li class="top-nav__item {{ App::isCurrentURL(get_post_type_archive_link('un_project')) }}">

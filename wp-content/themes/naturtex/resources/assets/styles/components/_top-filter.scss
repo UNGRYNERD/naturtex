@@ -1,0 +1,32 @@
+.top-filter {
+  margin: rem(27px) auto 0 auto;
+  max-width: 450px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  font-size: rem(18px);
+  line-height: 1;
+  letter-spacing: 0.6px;
+  text-align: center;
+  color: $primary;
+  overflow: hidden;
+
+  &__item {
+    flex: 1;
+
+    &:not(:last-child) {
+      @media (min-width: $md) {
+        border-right: 1px solid $light;
+      }
+    }
+
+    a {
+      color: $primary;
+    }
+
+    &.is-current {
+      font-weight: bold;
+    }
+  }
+}

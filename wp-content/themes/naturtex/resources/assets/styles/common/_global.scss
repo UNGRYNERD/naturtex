@@ -44,5 +44,9 @@ body {
 }
 
 .section {
-  padding-top: rem(47px);
+  padding-top: rem($spacer);
+
+  @media (min-width: $md) {
+    padding-top: rem(47px);
+  }
 }

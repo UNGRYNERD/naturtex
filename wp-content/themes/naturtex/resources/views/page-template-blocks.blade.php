@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-  @if (!is_home() || !is_front_page())
+  @if (!is_home() && !is_front_page())
     <header class="section">
       <h1 class="page__title">{{ the_title() }}</h1>
     </header>
