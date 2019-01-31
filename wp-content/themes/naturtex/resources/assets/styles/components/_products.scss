@@ -58,4 +58,30 @@
       }
     }
   }
+
+  &__group {
+    display: flex;
+    flex-wrap: wrap;
+
+    &-title {
+      @include section-title;
+
+      margin: 0 0 rem($spacer) rem($spacer);
+      text-transform: none;
+
+      @media (min-width: $md) {
+        margin-left: rem(25px);
+      }
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 33px;
+        height: 2px;
+        background: $primary;
+        vertical-align: middle;
+        margin-right: rem(4px);
+      }
+    }
+  }
 }

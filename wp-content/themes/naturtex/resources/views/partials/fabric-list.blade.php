@@ -9,7 +9,7 @@
   ));
   $products_page = $pages[0];
 @endphp
-<section class="projects archive container">
+<section class="projects archive container products">
   <nav class="top-nav__wrapper">
     <ul class="top-nav top-nav--small">
       @while (have_rows('options', $products_page))  @php(the_row())
@@ -31,13 +31,40 @@
     </ul>
   </nav>
 
+  @php($term_name_test = '')
   @while(have_posts()) @php(the_post())
+    @php
+      if (is_post_type_archive('un_fabric')) {
+        global $wp_query;
+        $terms = get_the_terms(get_the_ID(), 'un_fabric_material');
+        if (empty($terms) || is_wp_error($terms)) {
+            $term_name = 'Sin categoría';
+        } else {
+            $term_name = $terms[0]->name;
+        }
+
+        if ($term_name_test != $term_name) {
+          if ($wp_query->current_post != 0 )
+            echo '</div>';
+
+          echo '<h2 class="products__group-title">' . $term_name . '</h2>';
+          echo '<div class="products__group">';
+        }
+
+        $term_name_test = $term_name;
+      }
+    @endphp
     <article class="project-item">
       <a href="{{ the_permalink() }}">
         <span class="project-item__image">{{ the_post_thumbnail('featured-project') }}</span>
         <h2 class="project-item__title">{{ the_title() }}</h2>
       </a>
     </article>
+
+    @php
+        if ((($wp_query->current_post + 1) == $wp_query->post_count) && is_post_type_archive('un_fabric'))
+            echo '</div>';
+    @endphp
   @endwhile
 
   {!! App::pagination() !!}

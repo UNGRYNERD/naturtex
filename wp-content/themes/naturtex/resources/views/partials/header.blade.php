@@ -1,5 +1,5 @@
 <header class="header">
-  <div class="container">
+  <div class="container container--full">
     {!! App::languageSwitcher() !!}
 
     <div class="header__search">
