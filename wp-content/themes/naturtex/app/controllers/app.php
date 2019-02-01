@@ -51,12 +51,13 @@ class App extends Controller
         return $selector;
     }
 
-    public static function isCurrentURL($url) {
+    public static function isCurrentURL($url, $force = false) {
         global $wp;
-        $current_url =  home_url($wp->request);
-        $position = strpos($current_url , '/page');
+        $current_url = parse_url(home_url($wp->request), PHP_URL_PATH);
+        $position = strpos($current_url, '/page');
+        $url = parse_url($url, PHP_URL_PATH);
         $nopaging_url = ($position) ? substr($current_url, 0, $position) : $current_url;
-        return trailingslashit($nopaging_url) == $url ? "is-current" : "";
+        return (trailingslashit($nopaging_url) == trailingslashit($url) || $force) ? "is-current" : "";
     }
 
     public function pagination()

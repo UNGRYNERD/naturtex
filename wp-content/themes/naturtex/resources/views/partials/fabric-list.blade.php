@@ -10,11 +10,12 @@
   $products_page = $pages[0];
 @endphp
 <section class="projects archive container products">
+
   <nav class="top-nav__wrapper">
     <ul class="top-nav top-nav--small">
       @while (have_rows('options', $products_page))  @php(the_row())
-        <li class="top-nav__item {{ App::isCurrentURL(get_sub_field('link', $products_page)) }}">
-          <a href="{{ get_sub_field('link', $products_page) }}">{{ get_sub_field('name', $products_page) }}</a>
+        <li class="top-nav__item {{ App::isCurrentURL(get_post_type_archive_link(get_sub_field('post_type', $products_page)), get_sub_field('post_type', $products_page) == 'un_fabric') }}">
+          <a href="{{ get_post_type_archive_link(get_sub_field('post_type', $products_page)) }}">{{ get_sub_field('name', $products_page) }}</a>
         </li>
       @endwhile
     </ul>

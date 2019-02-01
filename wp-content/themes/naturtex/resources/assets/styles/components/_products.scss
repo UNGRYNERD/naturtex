@@ -60,6 +60,7 @@
   }
 
   &__group {
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
 
@@ -68,6 +69,8 @@
 
       margin: 0 0 rem($spacer) rem($spacer);
       text-transform: none;
+      width: 100%;
+      text-align: left;
 
       @media (min-width: $md) {
         margin-left: rem(25px);
