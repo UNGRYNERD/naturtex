@@ -1,12 +1,13 @@
-<section class="section container product">
+<section class="section container container--full product">
   <h1 class="product__title">{{ the_title() }}</h1>
   <div class="product__content product__content--mobile">@php(the_content())</div>
   <div class="product__data">
     @php($images = get_field('gallery'))
     <div class="product__gallery">
       @foreach($images as $image)
-        <a href="{{ wp_get_attachment_image_src($image['ID'], 'large')[0] }}" data-lightbox="gallery" class="product__item">
+        <a href="{{ wp_get_attachment_image_src($image['ID'], 'large')[0] }}" data-lightbox="gallery" class="product__item js-product-item" data-scale="2">
           {!! wp_get_attachment_image($image['ID'], 'large', false, array('class' => 'product__image')) !!}
+          {!! wp_get_attachment_image($image['ID'], 'large', false, array('class' => 'product__image product__image--placeholder')) !!}
         </a>
       @endforeach
     </div>
@@ -20,7 +21,12 @@
             <li class="product__color">
               {{ get_sub_field('name') }}
               <a class="js-image-toggle" href="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}">
-                {!! wp_get_attachment_image(get_sub_field('image'), 'thumb') !!}
+                <img
+                  src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'thumb')[0] }}"
+                  alt="{{ the_title_attribute() }}"
+                  data-src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}"
+                  data-srcset="{{ wp_get_attachment_image_srcset(get_sub_field('image'), 'large') }}"
+                >
               </a>
             </li>
           @endwhile

@@ -38,6 +38,38 @@ const Common = {
       autoplayHoverPause: true,
     });
   },
+  setupColors: function () {
+    $('.js-image-toggle').on('click', function (e) {
+      $('.js-product-item')
+        .first()
+        .attr('href', $(this).attr('href'))
+        .find('img')
+        .attr('src', $(this).find('img').data('src'))
+        .attr('srcset', $(this).find('img').data('srcset'));
+      $('html, body').animate({
+        scrollTop: 0,
+      }, 300);
+      e.preventDefault();
+    });
+  },
+  setupImagesDimension: function () {
+    $('.js-product-item')
+      .on('mouseover', function () {
+        $(this).children('img').css({
+          'transform': 'scale(' + $(this).attr('data-scale') + ')',
+        });
+      })
+      .on('mouseout', function () {
+        $(this).children('img').css({
+          'transform': 'scale(1)',
+        });
+      })
+      .on('mousemove', function (e) {
+        $(this).children('img').css({
+          'transform-origin': ((e.pageX - $(this).offset().left) / $(this).width()) * 100 + '% ' + ((e.pageY - $(this).offset().top) / $(this).height()) * 100 + '%',
+        });
+      })
+  },
 };
 export default {
   init() {
@@ -46,6 +78,8 @@ export default {
     Common.setupSearch();
     Common.setupMainSlideshow();
     Common.setupFeaturedSlideshow();
+    Common.setupColors();
+    Common.setupImagesDimension();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired
