@@ -5,9 +5,9 @@
     @php($images = get_field('gallery'))
     <div class="product__gallery">
       @foreach($images as $image)
-        <div class="product__item">
+        <a href="{{ wp_get_attachment_image_src($image['ID'], 'large')[0] }}" data-lightbox="gallery" class="product__item">
           {!! wp_get_attachment_image($image['ID'], 'large', false, array('class' => 'product__image')) !!}
-        </div>
+        </a>
       @endforeach
     </div>
     <div class="product__info">
