@@ -41,6 +41,10 @@ body {
   &--full {
     max-width: rem($container-full-px);
   }
+
+  &--small {
+    max-width: rem($container-small-px);
+  }
 }
 
 .section {

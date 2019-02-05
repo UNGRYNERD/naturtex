@@ -1,0 +1,143 @@
+.contact {
+  &__image {
+    width: 100%;
+    margin-bottom: $spacer;
+
+    @media (min-width: $sm) {
+      flex: 1;
+    }
+  }
+
+  &__data {
+    text-align: center;
+    font-size: rem(14px);
+    font-weight: bold;
+    color: $dark;
+    margin-bottom: rem($spacer * 3);
+
+    @media (min-width: $sm) {
+      display: flex;
+      justify-content: center;
+      text-align: left;
+      position: relative;
+    }
+
+    p {
+      @media (min-width: $sm) {
+        margin: rem(20px) rem(30px);
+        flex: 1;
+      }
+
+      &:first-of-type {
+        @media (min-width: $sm) {
+          text-align: right;
+        }
+      }
+    }
+
+    &::after {
+      @media (min-width: $sm) {
+        display: block;
+        position: absolute;
+        content: '';
+        height: 100%;
+        width: 2px;
+        background: $primary;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
+  &__form {
+    @media (min-width: $sm) {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .wpcf7-form {
+      @media (min-width: $sm) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-left: rem(20px);
+      }
+
+      p {
+        margin-top: 0;
+      }
+    }
+
+    .contact-col {
+      flex: 1;
+
+      &--1 {
+        @media (min-width: $sm) {
+          padding-right: rem(10px);
+        }
+      }
+
+      &--2 {
+        @media (min-width: $sm) {
+          padding-left: rem(10px);
+        }
+      }
+
+      input[type=text],
+      input[type=email],
+      input[type=tel],
+      textarea {
+        border: 2px solid $primary;
+        padding: rem(18px);
+        font-size: rem(14px);
+        font-weight: bold;
+        line-height: 0.71;
+        color: $primary;
+        width: 100%;
+        display: block;
+
+        &::placeholder {
+          color: $dark;
+        }
+      }
+
+      textarea {
+        height: 200px;
+      }
+
+      input[type=submit] {
+        font-size: 0.875rem;
+        width: 100%;
+        font-weight: bold;
+        color: $white;
+        padding: 1.125rem;
+        text-align: center;
+        background: $primary;
+        border: 2px solid $primary;
+        display: inline-block;
+        transition: $transition-standard;
+
+        &:hover {
+          background-color: $white;
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  &__social {
+    text-align: center;
+
+    &-link {
+      margin: 0 rem(10px);
+      display: inline-block;
+
+      img {
+        width: rem(26px);
+        display: block;
+      }
+    }
+  }
+}
