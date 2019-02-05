@@ -11,6 +11,81 @@
     }
   }
 
+  &__subtitle {
+    display: block;
+    font-size: rem(14px);
+    font-weight: bold;
+    line-height: 1.86;
+    text-align: center;
+    color: $dark;
+    position: relative;
+    padding-top: $gap;
+    margin-top: $gap;
+    text-transform: none;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 2px;
+      background: $dark;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  &__intro {
+    border-bottom: 2px solid $primary;
+    padding-bottom: rem(10px);
+    margin-bottom: rem(27px);
+
+    @media (min-width: $md) {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 0;
+      padding-bottom: rem(49px);
+      margin-bottom: rem(59px);
+      position: relative;
+    }
+
+    &-image {
+      width: 100%;
+
+      @media (min-width: $md) {
+        max-width: 315px;
+        flex: 0 0 315px;
+      }
+    }
+
+    &-text {
+      @media (min-width: $md) {
+        flex: 1;
+        padding-left: rem(78px);
+        font-size: rem(20px);
+        line-height: 1.35;
+        margin-top: rem(49px);
+      }
+    }
+
+    &::after {
+      @media (min-width: $md) {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 300px;
+        height: 2px;
+        background: $primary;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+
   &__item {
     margin-bottom: rem(20px);
 
