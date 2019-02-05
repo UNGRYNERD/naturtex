@@ -28,7 +28,7 @@ const Common = {
     });
   },
   setupFeaturedSlideshow: function () {
-    $('.featured__slideshow').owlCarousel({
+    $('.js-featured-slideshow').owlCarousel({
       items: 1,
       nav: true,
       dots: true,
@@ -70,6 +70,15 @@ const Common = {
         });
       })
   },
+  setupDropdowns: function () {
+    $('.js-dropdown-item').on('click', function (e) {
+      const fieldId = $(this).closest('.js-dropdown').data('field');
+      const field = $(`input[name="${fieldId}"]`);
+      field.val($(this).data('value'));
+      $(this).closest('form').submit();
+      e.preventDefault();
+    })
+  },
 };
 export default {
   init() {
@@ -80,6 +89,7 @@ export default {
     Common.setupFeaturedSlideshow();
     Common.setupColors();
     Common.setupImagesDimension();
+    Common.setupDropdowns();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired

@@ -3,7 +3,8 @@
   font-weight: bold;
   color: $primary;
   text-transform: uppercase;
-  padding: rem(18px) rem(60px);
+  padding: rem(18px);
+  text-align: center;
   border: 2px solid $primary;
   display: inline-block;
   transition: $transition-standard;

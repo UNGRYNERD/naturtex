@@ -60,6 +60,10 @@ class App extends Controller
         return (trailingslashit($nopaging_url) == trailingslashit($url) || $force) ? "is-current" : "";
     }
 
+    public static function isCurrentParam($param, $value) {
+        return ($_GET[$param] == $value) ? 'is-current' : '';
+    }
+
     public function pagination()
     {
         global $wp_query;

@@ -1,11 +1,12 @@
-<section class="featured section ">
+<section class="featured section {{ get_sub_field('title') ? '' : 'featured--notitle' }}">
   @if (get_sub_field('title'))
     <h2 class="featured__title">{{ the_sub_field('title') }}</h2>
   @endif
   @php($reverse = get_sub_field('reverse'))
-  <div class="featured__slideshow owl-carousel">
+  @php($slides = get_sub_field('slide'))
+  <div class="featured__slideshow {{ count($slides) < 2 ? 'featured__slideshow--simple' : 'js-featured-slideshow owl-carousel' }}">
     @while (have_rows('slide'))  @php(the_row())
-      <article class="featured-item {{ $reverse ? "featured-item--reverse" : "" }}">
+      <article class="featured-item {{ $reverse ? "featured-item--reverse" : "" }} {{ get_sub_field('title') ? '' : 'featured-item--notitle' }}">
         {!! wp_get_attachment_image(get_sub_field('image'), 'featured-medium', false, ['class' => 'featured-item__img']) !!}
         <div class="featured-item__content">
           @if (get_sub_field('title'))

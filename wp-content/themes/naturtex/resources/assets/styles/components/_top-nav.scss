@@ -121,6 +121,7 @@
       @media (max-width: $md) {
         max-height: 999px;
         position: absolute;
+        z-index: 99;
         left: 50%;
         top: 0;
         transform: translateX(-50%);
