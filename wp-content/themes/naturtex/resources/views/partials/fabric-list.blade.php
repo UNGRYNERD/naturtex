@@ -33,10 +33,12 @@
   </nav>
 
   @php($term_name_test = '')
+  @php
+    global $wp_query
+  @endphp
   @while(have_posts()) @php(the_post())
     @php
       if (is_post_type_archive('un_fabric')) {
-        global $wp_query;
         $terms = get_the_terms(get_the_ID(), 'un_fabric_material');
         if (empty($terms) || is_wp_error($terms)) {
             $term_name = 'Sin categoría';

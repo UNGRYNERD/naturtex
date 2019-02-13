@@ -6,7 +6,7 @@ use Sober\Controller\Controller;
 
 class FabricsArchive extends Controller
 {
-    public function fabricMaterials()
+    public static function fabricMaterials()
     {
         $terms = get_terms('un_fabric_material', array(
             'hide_empty' => false,

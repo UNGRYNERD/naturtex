@@ -31,15 +31,15 @@ class App extends Controller
         return get_the_title();
     }
 
-    public function languageSwitcher()
+    public static function languageSwitcher()
     {
         if (!function_exists('icl_get_languages')) {
             return false;
         }
 
         $languages = icl_get_languages('skip_missing=0');
+        $selector = "";
         if (!empty($languages)) {
-            $selector = '';
             $selector .= '<ul class="lang-switcher">';
             foreach ($languages as $l) {
                 $selector .= '<li><a href="'.$l['url'].'" ' . ($l['active'] ? 'class="is-active" ' : '') . '>';
@@ -61,26 +61,28 @@ class App extends Controller
     }
 
     public static function isCurrentParam($param, $value) {
-        return ($_GET[$param] == $value) ? 'is-current' : '';
+        return (isset($_GET[$param]) && $_GET[$param] == $value) ? 'is-current' : '';
     }
 
-    public function pagination()
+    public static function pagination($query = false)
     {
         global $wp_query;
         $query = $query ? $query : $wp_query;
         $big = 999999999;
         $args = array();
-        $paginate = paginate_links(array(
-            'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big, false))),
-            'type' => 'array',
-            'total' => $query->max_num_pages,
-            'format' => '?paged=%#%',
-            'mid_size' => 2,
-            'end_size' => 1,
-            'current' => max(1, get_query_var('paged')),
-            'prev_text' => esc_html__('Anterior', 'naturtex'),
-            'next_text' => esc_html__('Siguiente', 'naturtex'),
-            'add_args' => array($args)
+        $pag = "";
+        $paginate = paginate_links(
+            array(
+                'base' => str_replace($big, '%#%', esc_url(get_pagenum_link($big, false))),
+                'type' => 'array',
+                'total' => $query->max_num_pages,
+                'format' => '?paged=%#%',
+                'mid_size' => 2,
+                'end_size' => 1,
+                'current' => max(1, get_query_var('paged')),
+                'prev_text' => esc_html__('Anterior', 'naturtex'),
+                'next_text' => esc_html__('Siguiente', 'naturtex'),
+                'add_args' => array($args)
             )
         );
 

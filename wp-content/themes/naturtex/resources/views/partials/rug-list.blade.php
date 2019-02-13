@@ -21,8 +21,8 @@
     </ul>
 
     <form method="get" class="filter-dropdown__wrapper">
-      <input type="hidden" name="un_rug_material" value="{{ esc_attr($_GET['un_rug_material']) }}">
-      <input type="hidden" name="un_rug_type" value="{{ esc_attr($_GET['un_rug_type']) }}">
+      <input type="hidden" name="un_rug_material" value="{{ isset($_GET['un_rug_material']) ? esc_attr($_GET['un_rug_material']) : '' }}">
+      <input type="hidden" name="un_rug_type" value="{{ isset($_GET['un_rug_type']) ? esc_attr($_GET['un_rug_type']) : '' }}">
 
       <h3 class="filter-dropdown__title">{{ __('Filter', 'naturtex') }}</h3>
       <ul class="filter-dropdown js-dropdown" data-field="un_rug_material">

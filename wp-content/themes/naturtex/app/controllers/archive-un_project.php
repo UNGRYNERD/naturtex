@@ -6,7 +6,7 @@ use Sober\Controller\Controller;
 
 class ProjectsArchive extends Controller
 {
-    public function projectsTypes()
+    public static function projectsTypes()
     {
         $terms = get_terms('un_project_type', array(
             'hide_empty' => false,

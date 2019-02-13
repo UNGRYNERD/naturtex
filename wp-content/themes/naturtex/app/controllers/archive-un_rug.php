@@ -6,7 +6,7 @@ use Sober\Controller\Controller;
 
 class RugsArchive extends Controller
 {
-    public function rugMaterials()
+    public static function rugMaterials()
     {
         $terms = get_terms('un_rug_material', array(
             'hide_empty' => false,
@@ -23,7 +23,7 @@ class RugsArchive extends Controller
         return $terms_links;
     }
 
-    public function rugTypes()
+    public static function rugTypes()
     {
         $terms = get_terms('un_rug_type', array(
             'hide_empty' => false,
