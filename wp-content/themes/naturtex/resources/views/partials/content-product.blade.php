@@ -42,6 +42,10 @@
 
       <div class="product__downloads">
         <div class="product__download">
+          <h2 class="product__intitle">{{ __('Overview', 'naturtex') }}:</h2>
+          <a download href="{{ wp_get_attachment_url(get_field('overview')) }}"><img src="@asset('images/download.png')" alt="{{ __('Overview', 'naturtex') }}"></a>
+        </div>
+        <div class="product__download">
           <h2 class="product__intitle">{{ __('Care', 'naturtex') }}:</h2>
           <a download href="{{ wp_get_attachment_url(get_field('care')) }}"><img src="@asset('images/download.png')" alt="{{ __('Care', 'naturtex') }}"></a>
         </div>

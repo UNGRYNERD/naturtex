@@ -9,7 +9,7 @@ class RugsArchive extends Controller
     public static function rugMaterials()
     {
         $terms = get_terms('un_rug_material', array(
-            'hide_empty' => false,
+            'hide_empty' => true,
         ));
         $terms_links = array();
         foreach ($terms as $term) {
@@ -26,7 +26,7 @@ class RugsArchive extends Controller
     public static function rugTypes()
     {
         $terms = get_terms('un_rug_type', array(
-            'hide_empty' => false,
+            'hide_empty' => true,
         ));
         $terms_links = array();
         foreach ($terms as $term) {

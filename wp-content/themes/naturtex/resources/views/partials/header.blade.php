@@ -4,11 +4,11 @@
 
     <div class="header__search">
       <a href="#" class="header__search-link">
-        @inline_svg('images/search.svg')
+        {!! App::inlineSVG('images/search.svg') !!}
       </a>
       <div class="search-wrap">
         {!! get_search_form(false) !!}
-        <a href="#" class="search-wrap__close">@inline_svg('images/close.svg')</a>
+        <a href="#" class="search-wrap__close">{!! App::inlineSVG('images/close.svg') !!}</a>
       </div>
     </div>
 

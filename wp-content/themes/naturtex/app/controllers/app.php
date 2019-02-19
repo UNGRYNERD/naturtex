@@ -96,4 +96,12 @@ class App extends Controller
 
         return $pag;
     }
+
+
+    public static function inlineSVG($svg) {
+        if (empty($svg)) {
+            return;
+        }
+        return file_get_contents(asset_path($svg));
+    }
 }

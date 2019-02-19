@@ -67,5 +67,44 @@
         border-color: $white;
       }
     }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-90deg);
+      background: url('../images/arrow-white.svg') no-repeat;
+      width: 13px;
+      height: 24px;
+    }
+  }
+
+  &.owl-carousel {
+    .owl-nav {
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 96%;
+      left: 2%;
+
+      .owl-prev,
+      .owl-next {
+        background: url('../images/arrow-white.svg') no-repeat;
+        width: 13px;
+        height: 24px;
+
+        span {
+          display: none;
+        }
+      }
+
+      .owl-next {
+        position: absolute;
+        right: 0;
+        transform: rotate(180deg);
+      }
+    }
   }
 }

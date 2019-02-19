@@ -9,7 +9,7 @@ class ProjectsArchive extends Controller
     public static function projectsTypes()
     {
         $terms = get_terms('un_project_type', array(
-            'hide_empty' => false,
+            'hide_empty' => true,
         ));
         $terms_links = array();
         foreach ($terms as $term) {

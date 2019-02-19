@@ -38,7 +38,7 @@
   @endphp
   @while(have_posts()) @php(the_post())
     @php
-      if (is_post_type_archive('un_fabric')) {
+      if (is_tax('un_fabric_material')) {
         $terms = get_the_terms(get_the_ID(), 'un_fabric_material');
         if (empty($terms) || is_wp_error($terms)) {
             $term_name = 'Sin categoría';
@@ -65,7 +65,7 @@
     </article>
 
     @php
-        if ((($wp_query->current_post + 1) == $wp_query->post_count) && is_post_type_archive('un_fabric'))
+        if ((($wp_query->current_post + 1) == $wp_query->post_count) && is_tax('un_fabric_material'))
             echo '</div>';
     @endphp
   @endwhile
