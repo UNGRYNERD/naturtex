@@ -96,7 +96,7 @@ class SitePress extends WPML_WPDB_User implements
 		$this->term_translation = &$wpml_term_translations;
 		// @since 3.1
 		if ( is_admin() && ! $this->get_setting( 'icl_capabilities_verified' ) ) {
-			add_action( 'plugins_loaded', 'wpml_enable_capabilities' );
+			wpml_enable_capabilities();
 		}
 
 		if ( null === $pagenow && is_multisite() ) {
@@ -112,7 +112,17 @@ class SitePress extends WPML_WPDB_User implements
 		}
 
 		if ( isset( $_REQUEST['icl_ajx_action'] ) ) {
-			add_action( 'init', array( $this, 'ajax_setup' ), 15 );
+			/**
+			 * It is very common to register a CPT on admin_init, thus
+             * the init hook is too early in this case. This causes
+             * malformed post guid as well as empty post content
+             * when saving the post a second time. E.g.: Avada.
+			 */
+		    if ( 'make_duplicates' === $_REQUEST['icl_ajx_action'] ) {
+			    add_action( 'admin_init', array( $this, 'ajax_setup' ), PHP_INT_MAX );
+            } else {
+			    add_action( 'init', array( $this, 'ajax_setup' ), 15 );
+            }
 		}
 
 		// Process post requests
@@ -204,7 +214,9 @@ class SitePress extends WPML_WPDB_User implements
 			add_filter( 'locale', array( $this, 'locale_filter' ), 10, 1 );
 			add_filter( 'pre_option_page_on_front', array( $this, 'pre_option_page_on_front' ) );
 			add_filter( 'pre_option_page_for_posts', array( $this, 'pre_option_page_for_posts' ) );
-			add_filter( 'pre_option_sticky_posts', array( $this, 'option_sticky_posts' ), 10, 2 );
+
+			$sticky_posts_loader = new WPML_Sticky_Posts_Loader( $this );
+			$sticky_posts_loader->add_hooks();
 
 			add_filter( 'trashed_post', array( $this, 'fix_trashed_front_or_posts_page_settings' ) );
 			add_filter( 'delete_post', array( $this, 'fix_trashed_front_or_posts_page_settings' ) );
@@ -238,6 +250,8 @@ class SitePress extends WPML_WPDB_User implements
 		if ( $pagenow === 'post.php' && isset( $_REQUEST['action'], $_GET['post'] ) && $_REQUEST['action'] === 'edit' ) {
 			add_action( 'init', '_icl_trash_restore_prompt' );
 		}
+
+	  add_action( 'init', array( $this, 'register_assets' ), 2 );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'js_load' ), 2 ); // enqueue scripts - higher priority
 		add_action( 'wp_enqueue_scripts', array( $this, 'js_load' ), 2 ); // enqueue scripts - higher priority
@@ -416,10 +430,6 @@ class SitePress extends WPML_WPDB_User implements
 				} else {
 					$this->set_this_lang( 'all' );
 				}
-			}
-
-			if ( defined( 'DISQUS_VERSION' ) && ! is_admin() ) {
-				include WPML_PLUGIN_PATH . '/modules/disqus.php';
 			}
 		}
 
@@ -673,7 +683,7 @@ class SitePress extends WPML_WPDB_User implements
 	 * @return icl_cache
 	 */
 	function get_language_name_cache() {
-		if ( ! isset( $this->icl_language_name_cache ) ) {
+		if ( ! $this->icl_language_name_cache ) {
 			$this->icl_language_name_cache = new icl_cache( 'language_name', true );
 		}
 
@@ -1164,6 +1174,26 @@ class SitePress extends WPML_WPDB_User implements
 	/**
 	 * Hooked to `init`
 	 */
+	function register_assets() {
+		global $wpdb, $wpml_post_translations, $wpml_term_translations;
+
+		$page                  = filter_input( INPUT_GET, 'page' );
+		$page                  = $page !== null ? basename( $_GET['page'] ) : null;
+		$page_basename         = $page === null ? false : preg_replace( '/[^\w-]/',
+			'',
+			str_replace( '.php', '', $page ) );
+		$this->scripts_handler = new WPML_Admin_Scripts_Setup( $wpdb,
+			$this,
+			$wpml_post_translations,
+			$wpml_term_translations,
+			$page_basename );
+
+		$this->scripts_handler->register_styles();
+	}
+
+	/**
+	 * Hooked to `admin_enqueue_scripts` AND `wp_enqueue_scripts`
+	 */
 	function js_load() {
 		global $pagenow, $wpdb, $wpml_post_translations, $wpml_term_translations;
 
@@ -1181,9 +1211,6 @@ class SitePress extends WPML_WPDB_User implements
 			$wpml_term_translations,
 			$page_basename
 		);
-
-		$this->scripts_handler->register_styles();
-		$this->scripts_handler->register_scripts();
 
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
 
@@ -3223,6 +3250,12 @@ class SitePress extends WPML_WPDB_User implements
 		if ( null === $this->template_real_path ) {
 			$this->template_real_path = realpath( TEMPLATEPATH );
 		}
+
+		// The TEMPLATEPATH could not be resolved (the theme folder is possibly missing).
+		if ( false === $this->template_real_path ) {
+			return $setting;
+		}
+
 		$debug_backtrace   = $this->get_backtrace( 7 ); // Ignore objects and limit to first 7 stack frames, since 6 is the highest index we use
 		$function          = isset( $debug_backtrace[4] ) && isset( $debug_backtrace[4]['function'] ) ? $debug_backtrace[4]['function'] : null;
 		$previous_function = isset( $debug_backtrace[5] ) && isset( $debug_backtrace[5]['function'] ) ? $debug_backtrace[5]['function'] : null;
@@ -3230,16 +3263,20 @@ class SitePress extends WPML_WPDB_User implements
 
 		if ( $function === 'get_bloginfo' && $previous_function === 'bloginfo' ) {
 			// case of bloginfo
-			$is_template_file = false !== strpos( $debug_backtrace[5]['file'], $this->template_real_path );
-			$is_direct_call   = in_array( $debug_backtrace[6]['function'], $inc_methods ) || ( false !== strpos( $debug_backtrace[6]['file'], $this->template_real_path ) );
+			$is_template_file = false !== strpos( $debug_backtrace[5]['file'], (string) $this->template_real_path );
+			$is_direct_call   = in_array( $debug_backtrace[6]['function'], $inc_methods ) || ( false !== strpos( $debug_backtrace[6]['file'], (string) $this->template_real_path ) );
 		} elseif ( in_array( $function, array( 'get_bloginfo', 'get_settings' ), true ) ) {
 			// case of get_bloginfo or get_settings
-			$is_template_file = false !== strpos( $debug_backtrace[4]['file'], $this->template_real_path );
-			$is_direct_call   = in_array( $previous_function, $inc_methods ) || ( false !== strpos( $debug_backtrace[5]['file'], $this->template_real_path ) );
+			$is_template_file = false !== strpos( $debug_backtrace[4]['file'], (string) $this->template_real_path );
+			$is_direct_call   = in_array( $previous_function, $inc_methods ) || ( false !== strpos( $debug_backtrace[5]['file'], (string) $this->template_real_path ) );
 		} else {
 			// case of get_option
-			$is_template_file = isset( $debug_backtrace[3]['file'] ) && ( false !== strpos( $debug_backtrace[3]['file'], $this->template_real_path ) );
-			$is_direct_call   = in_array( $function, $inc_methods ) || ( isset( $debug_backtrace[4]['file'] ) && false !== strpos( $debug_backtrace[4]['file'], $this->template_real_path ) );
+			$is_template_file = isset( $debug_backtrace[3]['file'] ) && ( false !== strpos( $debug_backtrace[3]['file'], (string) $this->template_real_path ) );
+			$is_direct_call   = in_array( $function, $inc_methods )
+								|| (
+									isset( $debug_backtrace[4]['file'] )
+									&& false !== strpos( $debug_backtrace[4]['file'], (string) $this->template_real_path )
+								);
 		}
 
 		$home_url = $is_template_file && $is_direct_call ? $this->language_url( $this->this_lang ) : $setting;
@@ -3404,28 +3441,6 @@ class SitePress extends WPML_WPDB_User implements
 		return $link;
 	}
 
-	/**
-	 * Wrapper for \WPML_Post_Translation::pre_option_sticky_posts_filter
-	 *
-	 * @param int[] $posts
-	 *
-	 * @return int[]|false
-	 *
-	 * @uses \WPML_Post_Translation::pre_option_sticky_posts_filter to filter the sticky posts
-	 *
-	 * @hook pre_option_sticky_posts
-	 */
-	function option_sticky_posts( $posts ) {
-		/** @var WPML_Post_Translation $wpml_post_translations */
-		global $wpml_post_translations;
-
-		remove_filter( 'pre_option_sticky_posts', array( $this, 'option_sticky_posts' ) );
-		$posts = $wpml_post_translations->pre_option_sticky_posts_filter( $posts, $this );
-		add_filter( 'pre_option_sticky_posts', array( $this, 'option_sticky_posts' ), 10, 2 );
-
-		return $posts;
-	}
-
 	function noscript_notice() {
 		?>
 		<noscript>
@@ -3454,8 +3469,7 @@ class SitePress extends WPML_WPDB_User implements
 		);
 		$q    = http_build_query( $args );
 		?>
-		<br clear="all"/>
-		<div id="message" class="updated message fade otgs-is-dismissible">
+		<div id="message" class="notice wpml-notice otgs-is-dismissible">
 			<p>
 				<?php _e( 'You need to configure WPML before you can start translating.', 'sitepress' ); ?>
 			</p>
@@ -4080,7 +4094,7 @@ class SitePress extends WPML_WPDB_User implements
 			// but save current language context in $current_language, we will have to switch to this back
 			$domains = array_filter( $this->get_setting( 'language_domains' ) );
 			foreach ( $domains as $code => $domain ) {
-				if ( strpos( $url, $domain ) === 0 ) {
+				if ( strpos( $url, (string) $domain ) === 0 ) {
 					$is_translated_domain = true;
 					$current_language     = $this->get_current_language();
 					$this->switch_lang( $code );
@@ -4129,7 +4143,7 @@ class SitePress extends WPML_WPDB_User implements
 		}
 
 		// if this is not url to external site
-		if ( 0 === strpos( $original_url, $site_url ) ) {
+		if ( 0 === strpos( $original_url, (string) $site_url ) ) {
 
 			// if this is url like ...?cpt-rewrite-slug=cpt-title
 			// change it into ...?p=11
@@ -4300,10 +4314,11 @@ class SitePress extends WPML_WPDB_User implements
 	 * @return string HTML code of search form
 	 */
 	function get_search_form_filter( $form ) {
-		if ( strpos( $form, wpml_get_language_input_field() ) === false
+		$language_form_field = wpml_get_language_form_field();
+		if ( strpos( $form, (string) $language_form_field ) === false
 			 && WPML_LANGUAGE_NEGOTIATION_TYPE_PARAMETER === (int) $this->get_setting( 'language_negotiation_type' )
 		) {
-			$form = str_replace( '</form>', wpml_get_language_input_field() . '</form>', $form );
+			$form = str_replace( '</form>', $language_form_field . '</form>', $form );
 		}
 
 		return $form;

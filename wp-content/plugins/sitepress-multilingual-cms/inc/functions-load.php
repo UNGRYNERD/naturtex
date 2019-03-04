@@ -428,6 +428,17 @@ function wpml_get_upgrade_command_factory() {
 	return $factory;
 }
 
+function wpml_get_upgrade_schema() {
+	global $wpdb;
+	static $instance;
+
+	if ( ! $instance ) {
+		$instance = new WPML_Upgrade_Schema( $wpdb );
+	}
+
+	return $instance;
+}
+
 /**
  * @param string      $class_name   A class implementing \IWPML_Upgrade_Command.
  * @param array       $dependencies An array of dependencies passed to the `$class_name`'s constructor.

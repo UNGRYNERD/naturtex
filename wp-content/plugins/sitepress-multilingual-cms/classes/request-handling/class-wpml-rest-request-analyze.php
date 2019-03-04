@@ -8,6 +8,9 @@ class WPML_REST_Request_Analyze {
 	/** @var array $active_language_codes */
 	private $active_language_codes;
 
+	/** @var string $request_uri_without_subdir */
+	private $request_uri_without_subdir;
+
 	public function __construct( WPML_URL_Converter $url_converter, array $active_language_codes ) {
 		$this->url_converter         = $url_converter;
 		$this->active_language_codes = $active_language_codes;
@@ -46,7 +49,12 @@ class WPML_REST_Request_Analyze {
 	 * @return string
 	 */
 	private function get_uri_part( $index = 0 ) {
-		$parts = explode( '/', ltrim( $_SERVER['REQUEST_URI'], '/' ) );
+		if ( null === $this->request_uri_without_subdir ) {
+			$request_uri                      = filter_var( $_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING );
+			$this->request_uri_without_subdir = wpml_strip_subdir_from_url( $request_uri );
+		}
+
+		$parts = explode( '/', ltrim( $this->request_uri_without_subdir, '/' ) );
 		return isset( $parts[ $index ] ) ? $parts[ $index ] : '';
 	}
 
