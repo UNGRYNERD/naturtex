@@ -1,6 +1,6 @@
 <header class="header">
   <div class="container container--full">
-    {!! App::languageSwitcher() !!}
+    {{--!! App::languageSwitcher() !!--}}
 
     <div class="header__search">
       <a href="#" class="header__search-link">
@@ -55,7 +55,7 @@
         </a>
       @endif
     </div>
-    {!! App::languageSwitcher() !!}
+    {{--!!  App::languageSwitcher() !!--}}
   </div>
   <nav class="nav-primary">
     @if (has_nav_menu('main-menu'))

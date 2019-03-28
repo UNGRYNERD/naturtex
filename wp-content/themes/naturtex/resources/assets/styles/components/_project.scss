@@ -70,20 +70,6 @@
         margin-top: rem(49px);
       }
     }
-
-    &::after {
-      @media (min-width: $md) {
-        content: '';
-        display: block;
-        position: absolute;
-        width: 300px;
-        height: 2px;
-        background: $primary;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-    }
   }
 
   &__item {
@@ -119,9 +105,31 @@
   }
 
   &__data {
+    border-bottom: 2px solid $primary;
+    padding-bottom: rem(10px);
+    margin-bottom: rem(27px);
+    position: relative;
+
     @media (min-width: $md) {
       display: flex;
       flex-wrap: wrap;
+      padding-bottom: rem(16px);
+      margin-bottom: rem(59px);
+      border-bottom: 0;
+    }
+
+    &::after {
+      @media (min-width: $md) {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 300px;
+        height: 2px;
+        background: $primary;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
 }

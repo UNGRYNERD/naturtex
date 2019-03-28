@@ -63,6 +63,13 @@
     padding: rem(9px) $spacer;
     background-color: $super-light;
 
+    a {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     &.is-current {
       background-color: $light;
       order: 0;

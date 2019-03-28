@@ -41,18 +41,24 @@
       </div>
 
       <div class="product__downloads">
-        <div class="product__download">
-          <h2 class="product__intitle">{{ __('Overview', 'naturtex') }}:</h2>
-          <a download href="{{ wp_get_attachment_url(get_field('overview')) }}"><img src="@asset('images/download.png')" alt="{{ __('Overview', 'naturtex') }}"></a>
-        </div>
-        <div class="product__download">
-          <h2 class="product__intitle">{{ __('Care', 'naturtex') }}:</h2>
-          <a download href="{{ wp_get_attachment_url(get_field('care')) }}"><img src="@asset('images/download.png')" alt="{{ __('Care', 'naturtex') }}"></a>
-        </div>
-        <div class="product__download">
-          <h2 class="product__intitle">{{ __('Install', 'naturtex') }}:</h2>
-          <a download href="{{ wp_get_attachment_url(get_field('install')) }}"><img src="@asset('images/download.png')" alt="{{ __('Install', 'naturtex') }}"></a>
-        </div>
+        @if (get_field('overview'))
+          <div class="product__download">
+            <h2 class="product__intitle">{{ __('Overview', 'naturtex') }}:</h2>
+            <a download href="{{ wp_get_attachment_url(get_field('overview')) }}"><img src="@asset('images/download.png')" alt="{{ __('Overview', 'naturtex') }}"></a>
+          </div>
+        @endif
+        @if (get_field('care'))
+          <div class="product__download">
+            <h2 class="product__intitle">{{ __('Care', 'naturtex') }}:</h2>
+            <a download href="{{ wp_get_attachment_url(get_field('care')) }}"><img src="@asset('images/download.png')" alt="{{ __('Care', 'naturtex') }}"></a>
+          </div>
+        @endif
+        @if (get_field('install'))
+          <div class="product__download">
+            <h2 class="product__intitle">{{ __('Install', 'naturtex') }}:</h2>
+            <a download href="{{ wp_get_attachment_url(get_field('install')) }}"><img src="@asset('images/download.png')" alt="{{ __('Install', 'naturtex') }}"></a>
+          </div>
+        @endif
       </div>
 
     </div>
