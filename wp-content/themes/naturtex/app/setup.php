@@ -51,11 +51,11 @@ add_action('after_setup_theme', function () {
      * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
      */
     add_theme_support('post-thumbnails');
-    add_image_size('featured', 2880, 1430, true);
-    add_image_size('featured-medium', 800, 600, true);
-    add_image_size('featured-square', 800, 800, true);
-    add_image_size('featured-project', 630, 916, true);
-    add_image_size('featured-project-medium', 1100, 830, true);
+    add_image_size('featured', 1440, 715, true);
+    add_image_size('featured-medium', 400, 300, true);
+    add_image_size('featured-square', 400, 400, true);
+    add_image_size('featured-project', 315, 458, true);
+    add_image_size('featured-project-medium', 550, 415, true);
 
     /**
      * Enable HTML5 markup support

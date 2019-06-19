@@ -22,7 +22,7 @@
               {{ get_sub_field('name') }}
               <a class="js-image-toggle" href="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}">
                 <img
-                  src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'thumb')[0] }}"
+                  src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'thumbnail')[0] }}"
                   alt="{{ the_title_attribute() }}"
                   data-src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}"
                   data-srcset="{{ wp_get_attachment_image_srcset(get_sub_field('image'), 'large') }}"

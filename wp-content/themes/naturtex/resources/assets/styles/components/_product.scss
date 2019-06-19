@@ -105,6 +105,8 @@
   }
 
   &__colors {
+    cursor: pointer;
+
     .product__intitle {
       &::after {
         content: '';
@@ -125,9 +127,10 @@
       }
     }
 
-    &:hover {
+    &:hover,
+    &:active {
       .product__colors-list {
-        max-height: 300px;
+        max-height: 999px;
       }
 
       .product__intitle {

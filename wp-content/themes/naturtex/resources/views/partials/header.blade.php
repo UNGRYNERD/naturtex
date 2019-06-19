@@ -1,6 +1,6 @@
 <header class="header">
   <div class="container container--full">
-    {{--!! App::languageSwitcher() !!--}}
+    {!! App::languageSwitcher() !!}
 
     <div class="header__search">
       <a href="#" class="header__search-link">
