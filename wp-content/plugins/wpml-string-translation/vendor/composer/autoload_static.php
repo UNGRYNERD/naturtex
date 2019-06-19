@@ -4,16 +4,10 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit56757b2eb54c60f00e795c658c5ba4b4
+class ComposerStaticInit4e7a4c2acca8dd745f77d0397b816bd5
 {
-    public static $prefixesPsr0 = array (
-        'x' => 
-        array (
-            'xrstf\\Composer52' => 
-            array (
-                0 => __DIR__ . '/..' . '/xrstf/composer-php52/lib',
-            ),
-        ),
+    public static $files = array (
+        '2403a7200c2043ad6a729eb7257a75ff' => __DIR__ . '/../..' . '/functions/gettext.php',
     );
 
     public static $classMap = array (
@@ -22,6 +16,7 @@ class ComposerStaticInit56757b2eb54c60f00e795c658c5ba4b4
         'IWPML_ST_String_Scanner' => __DIR__ . '/../..' . '/classes/strings-scanning/iwpml-st-string-scanner.php',
         'IWPML_ST_Translations_File' => __DIR__ . '/../..' . '/classes/translations-file-scan/translations-file/iwpml-st-translations-file.php',
         'IWPML_St_Upgrade_Command' => __DIR__ . '/../..' . '/classes/upgrade/interface-iwpml_st_upgrade_command.php',
+        'WPML\\ST\\Package\\Domains' => __DIR__ . '/../..' . '/classes/package/class-domains.php',
         'WPML_Admin_Notifier' => __DIR__ . '/../..' . '/classes/class-wpml-admin-notifier.php',
         'WPML_Admin_Text_Configuration' => __DIR__ . '/../..' . '/inc/admin-texts/wpml-admin-text-configuration.php',
         'WPML_Admin_Text_Functionality' => __DIR__ . '/../..' . '/inc/admin-texts/wpml-admin-text-functionality.class.php',
@@ -78,6 +73,7 @@ class ComposerStaticInit56757b2eb54c60f00e795c658c5ba4b4
         'WPML_ST_Element_Slug_Translation_UI_Model' => __DIR__ . '/../..' . '/classes/slug-translation/wpml-st-element-slug-translation-ui-model.php',
         'WPML_ST_Fastest_Settings_Notice' => __DIR__ . '/../..' . '/classes/performance/class-wpml-st-fastest-settings-notice.php',
         'WPML_ST_File_Hashing' => __DIR__ . '/../..' . '/classes/strings-scanning/class-wpml-st-file-hashing.php',
+        'WPML_ST_Gettext_Filters_Activation' => __DIR__ . '/../..' . '/classes/performance/class-wpml-st-gettext-filters-activation.php',
         'WPML_ST_Gettext_Hooks' => __DIR__ . '/../..' . '/classes/performance/class-wpml-st-gettext-hooks.php',
         'WPML_ST_Gettext_Hooks_Factory' => __DIR__ . '/../..' . '/classes/performance/class-wpml-st-gettext-hooks-factory.php',
         'WPML_ST_ICL_String_Translations' => __DIR__ . '/../..' . '/classes/records/class-wpml-st-icl-string-translations.php',
@@ -217,7 +213,6 @@ class ComposerStaticInit56757b2eb54c60f00e795c658c5ba4b4
         'WPML_ST_Upgrade_Command_Factory' => __DIR__ . '/../..' . '/classes/upgrade/class-wpml-st-upgrade-command-factory.php',
         'WPML_ST_Upgrade_Command_Not_Found_Exception' => __DIR__ . '/../..' . '/classes/upgrade/class-wpml-st-upgrade-command-not-found-exception.php',
         'WPML_ST_Upgrade_DB_Longtext_String_Value' => __DIR__ . '/../..' . '/classes/upgrade/class-wpml-st-upgrade-db-longtext-string-value.php',
-        'WPML_ST_Upgrade_DB_String_Location' => __DIR__ . '/../..' . '/classes/upgrade/class-wpml-st-upgrade-db-string-location.php',
         'WPML_ST_Upgrade_DB_String_Name_Index' => __DIR__ . '/../..' . '/classes/upgrade/class-wpml-st-upgrade-db-string-name-index.php',
         'WPML_ST_Upgrade_DB_String_Packages' => __DIR__ . '/../..' . '/classes/upgrade/class-wpml-st-upgrade-db-string-packages.php',
         'WPML_ST_Upgrade_DB_String_Packages_Word_Count' => __DIR__ . '/../..' . '/classes/upgrade/class-wpml-st-upgrade-db-string-packages-word-count.php',
@@ -256,8 +251,7 @@ class ComposerStaticInit56757b2eb54c60f00e795c658c5ba4b4
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInit56757b2eb54c60f00e795c658c5ba4b4::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit56757b2eb54c60f00e795c658c5ba4b4::$classMap;
+            $loader->classMap = ComposerStaticInit4e7a4c2acca8dd745f77d0397b816bd5::$classMap;
 
         }, null, ClassLoader::class);
     }

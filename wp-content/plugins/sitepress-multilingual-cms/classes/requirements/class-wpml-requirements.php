@@ -23,15 +23,19 @@ class WPML_Requirements {
 		'woocommerce-multilingual'    => array(
 			'version' => '2.5.2',
 			'name'    => 'WooCommerce Multilingual',
-			'url'     => '#',
+			'url'     => 'https://wpml.org/download/woocommerce-multilingual/',
 		),
 		'gravityforms-multilingual'   => array(
 			'name' => 'GravityForms Multilingual',
-			'url'  => '#',
+			'url'  => 'https://wpml.org/download/gravityforms-multilingual/',
 		),
 		'buddypress-multilingual'     => array(
 			'name' => 'BuddyPress Multilingual',
-			'url'  => '#',
+			'url'  => 'https://wpml.org/download/buddypress-multilingual/',
+		),
+		'wp-seo-multilingual'     => array(
+			'name' => 'Yoast SEO Multilingual',
+			'url'  => 'https://wpml.org/download/yoast-seo-multilingual/',
 		),
 	);
 
@@ -80,6 +84,12 @@ class WPML_Requirements {
 			'requirements' => array(
 				'wpml-string-translation',
 			),
+		),
+		'wordpress-seo'	=> array(
+			'url'          => '#',
+			'requirements' => array(
+				'wp-seo-multilingual',
+			)
 		),
 	);
 
