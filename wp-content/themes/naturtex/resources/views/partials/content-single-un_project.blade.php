@@ -18,6 +18,20 @@
     </div>
   </div>
 
+  @while (have_rows('others')) @php(the_row())
+    <div class="project__data">
+      @php($images = get_sub_field('gallery'))
+      @foreach($images as $image)
+        <div class="project__item">
+          {!! wp_get_attachment_image($image['ID'], 'large', false, array('class' => 'project__image')) !!}
+        </div>
+      @endforeach
+      <div class="project__item">
+        {!! get_sub_field('content') !!}
+      </div>
+    </div>
+  @endwhile
+
   @if (have_rows('intro'))
     <div class="project__intro">
       @while (have_rows('intro'))  @php(the_row())

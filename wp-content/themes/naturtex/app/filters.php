@@ -92,3 +92,8 @@ add_filter('embed_oembed_html', function ($html, $url, $args) {
     }
     return $html;
 }, 10, 3);
+
+add_filter('wp_video_shortcode', function ($output) {
+    $output = str_replace('controls="controls"', '', $output);
+    return $output;
+});

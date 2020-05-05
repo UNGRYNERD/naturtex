@@ -2,7 +2,7 @@
   &__item {
     position: relative;
 
-    img {
+    .slide__image {
       width: 100%;
       height: calc(100vh - 78px);
       object-fit: cover;
@@ -10,6 +10,21 @@
       @media (min-width: $md) {
         height: 750px;
       }
+    }
+  }
+
+  &__videobg {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    transform: translateY(-50%);
+
+    .mejs-controls {
+      display: none !important;
+      visibility: hidden !important;
     }
   }
 
@@ -105,6 +120,14 @@
         right: 0;
         transform: rotate(180deg);
       }
+    }
+  }
+
+  &__video {
+    margin-top: rem($gap * 2);
+
+    &:hover {
+      opacity: 0.8;
     }
   }
 }

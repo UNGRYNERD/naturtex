@@ -5,7 +5,8 @@
     'fields' => 'ids',
     'posts_per_page' => 1,
     'meta_key' => '_wp_page_template',
-    'meta_value' => 'views/page-template-products.blade.php'
+    'meta_value' => 'views/page-template-products.blade.php',
+    'suppress_filters' => false
   ));
   $products_page = $pages[0];
 @endphp

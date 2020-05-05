@@ -2,6 +2,7 @@
 import 'jquery';
 import 'owl.carousel';
 import 'lightbox2';
+import 'lity';
 
 // Import everything from autoload
 import "./autoload/**/*"

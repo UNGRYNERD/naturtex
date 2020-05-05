@@ -7,7 +7,12 @@
   <div class="featured__slideshow {{ count($slides) < 2 ? 'featured__slideshow--simple' : 'js-featured-slideshow owl-carousel' }}">
     @while (have_rows('slide'))  @php(the_row())
       <article class="featured-item {{ $reverse ? "featured-item--reverse" : "" }} {{ get_sub_field('title') ? '' : 'featured-item--notitle' }}">
-        {!! wp_get_attachment_image(get_sub_field('image'), 'featured-medium', false, ['class' => 'featured-item__img']) !!}
+        <div class="featured-item__image">
+          {!! wp_get_attachment_image(get_sub_field('image'), 'featured-medium', false, ['class' => 'featured-item__img']) !!}
+          @if (get_sub_field('video'))
+            <a data-lity href="{{ get_sub_field('video') }}" class="featured-item__video"><img src="@asset('images/play.png')" alt="{{ __('Ver video', 'naturtex') }}"></a>
+          @endif
+        </div>
         <div class="featured-item__content">
           @if (get_sub_field('title'))
             <h3 class="featured-item__title">{{ the_sub_field('title') }}</h3>

@@ -25,6 +25,19 @@ const Common = {
       autoplay: false,
       autoplayTimeout: 6000,
       autoplayHoverPause: true,
+      onChange: function (owl) {
+        var current = owl.item.index;
+        const video = $(owl.target).find(".owl-item").eq(current).find("video");
+        if (video.length) {
+          video.get(0).play();
+        }
+      },
+    });
+
+    $('.js-play').on('click', function (e) {
+      e.preventDefault();
+      $(this).closest('.owl-item').find('video').get(0).play();
+      $(this).hide();
     });
   },
   setupFeaturedSlideshow: function () {
