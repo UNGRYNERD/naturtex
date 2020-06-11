@@ -29,4 +29,12 @@
   h3 {
     @include title-h3;
   }
+
+  &--center {
+    text-align: center;
+
+    .container {
+      max-width: 650px;
+    }
+  }
 }

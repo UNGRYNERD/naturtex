@@ -1,0 +1,130 @@
+.slide-comp {
+  margin-top: rem($spacer * 5);
+
+  @media (min-width: $md) {
+    margin-top: rem($spacer * 10);
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    grid-gap: 5px;
+
+    @media (min-width: $md) {
+      grid-gap: 22px;
+    }
+  }
+
+  &__image-wrapper {
+    max-height: 400px;
+
+    &:nth-child(1) {
+      grid-column: span 11;
+    }
+
+    &:nth-child(2) {
+      grid-column: span 7;
+    }
+
+    &:nth-child(3) {
+      grid-column: span 6;
+    }
+
+    &:nth-child(4) {
+      grid-column: span 6;
+    }
+
+    &:nth-child(5) {
+      grid-column: span 9;
+    }
+
+    &:nth-child(6) {
+      grid-column: span 9;
+    }
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: 400px;
+    object-fit: cover;
+  }
+
+  .owl-dots {
+    position: absolute;
+    top: rem(-$gap * 5);
+    left: 0;
+    width: 100%;
+    text-align: center;
+
+    @media (min-width: $md) {
+      top: rem(-$gap * 10);
+    }
+
+    button.owl-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      margin: 0 $gap/2;
+      background-color: $light;
+      border: 1px solid transparent;
+
+      &.active {
+        background-color: $primary;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-90deg);
+      background: url('../images/arrow-white.svg') no-repeat;
+      width: 13px;
+      height: 24px;
+    }
+  }
+
+  &.owl-carousel {
+    .owl-nav {
+      display: none;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 96%;
+      left: 2%;
+      opacity: 0;
+
+      .owl-prev,
+      .owl-next {
+        background: url('../images/arrow-white.svg') rgba($black, 0.3) center center no-repeat;
+        width: 30px;
+        height: 35px;
+        border-radius: 3px;
+
+        span {
+          display: none;
+        }
+      }
+
+      .owl-next {
+        position: absolute;
+        right: 0;
+        transform: rotate(180deg);
+      }
+    }
+
+    &:hover {
+      .owl-nav {
+        opacity: 1;
+      }
+    }
+  }
+}

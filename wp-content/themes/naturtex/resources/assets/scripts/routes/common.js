@@ -29,7 +29,18 @@ const Common = {
         var current = owl.item.index;
         const video = $(owl.target).find(".owl-item").eq(current).find("video");
         if (video.length) {
-          video.get(0).play();
+          video.get(0).play().then(function () {
+            $(owl.target).find(".owl-item").eq(current).find(".js-play").hide();
+          });
+        }
+      },
+      onInitialized: function (owl) {
+        var current = owl.item.index;
+        const video = $(owl.target).find(".owl-item").eq(current).find("video");
+        if (video.length) {
+          video.get(0).play().then(function () {
+            $(owl.target).find(".owl-item").eq(current).find(".js-play").hide();
+          });
         }
       },
     });
@@ -49,6 +60,15 @@ const Common = {
       autoplay: false,
       autoplayTimeout: 6000,
       autoplayHoverPause: true,
+    });
+  },
+  setupCompSlideshow: function () {
+    $('.js-comp-slide').owlCarousel({
+      items: 1,
+      nav: true,
+      dots: true,
+      loop: true,
+      autoplay: false,
     });
   },
   setupColors: function () {
@@ -103,6 +123,7 @@ export default {
     Common.setupColors();
     Common.setupImagesDimension();
     Common.setupDropdowns();
+    Common.setupCompSlideshow();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired

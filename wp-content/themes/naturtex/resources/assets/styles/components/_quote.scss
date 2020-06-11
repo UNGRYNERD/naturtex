@@ -1,0 +1,16 @@
+.quote {
+  @include container(600px);
+
+  text-align: center;
+  font-size: rem(18px);
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1.33;
+  color: $mushroom;
+
+  &__author {
+    font-size: rem(16px);
+    font-weight: normal;
+    font-style: normal;
+  }
+}

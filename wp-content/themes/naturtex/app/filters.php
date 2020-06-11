@@ -97,3 +97,8 @@ add_filter('wp_video_shortcode', function ($output) {
     $output = str_replace('controls="controls"', '', $output);
     return $output;
 });
+
+add_filter('wp_video_shortcode', function ($output) {
+    $output = str_replace('<video', '<video muted playsinline', $output);
+    return $output;
+});

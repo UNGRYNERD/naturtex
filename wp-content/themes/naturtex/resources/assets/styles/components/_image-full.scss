@@ -1,0 +1,46 @@
+.image-full {
+  @include container;
+
+  &__wrapper {
+    position: relative;
+    padding: 0;
+  }
+
+  &__image {
+    width: 100%;
+    display: block;
+  }
+
+  &__text-wrapper {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    background-color: rgba($black, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $white;
+    text-align: center;
+  }
+
+  &__text {
+    max-width: 600px;
+
+    h2 {
+      font-style: italic;
+      font-size: rem(20px);
+    }
+  }
+
+  &:hover {
+    .image-full {
+      &__text-wrapper {
+        opacity: 1;
+      }
+    }
+  }
+}

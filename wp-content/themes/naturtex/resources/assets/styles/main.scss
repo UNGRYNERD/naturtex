@@ -1,5 +1,5 @@
-@import "common/variables";
 @import "common/mixins";
+@import "common/variables";
 
 /** Import everything from autoload */
 @import "./autoload/**/*";
@@ -25,11 +25,14 @@
 @import "components/instagram";
 @import "components/top-nav";
 @import "components/top-filter";
+@import "components/slide-comp";
 @import "components/projects";
 @import "components/feat-projects";
 @import "components/project";
 @import "components/products";
 @import "components/product";
+@import "components/quote";
+@import "components/image-full";
 @import "components/accordion";
 @import "components/pagination";
 @import "components/buttons";
