@@ -1,15 +1,16 @@
 <?php
 
-namespace App;
+namespace App\Controllers;
 
 use Sober\Controller\Controller;
 
-class ProjectsArchive extends Controller
+class ArchiveUnFabric extends Controller
 {
-    public static function projectsTypes()
+    public static function fabricMaterials()
     {
-        $terms = get_terms('un_project_type', array(
+        $terms = get_terms('un_fabric_material', array(
             'hide_empty' => true,
+            'parent' => 0
         ));
         $terms_links = array();
         foreach ($terms as $term) {
@@ -21,5 +22,4 @@ class ProjectsArchive extends Controller
         }
         return $terms_links;
     }
-
 }

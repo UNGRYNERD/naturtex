@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Controllers;
 
 use Sober\Controller\Controller;
 
-class RugsArchive extends Controller
+class ArchiveUnRug extends Controller
 {
     public static function rugMaterials()
     {

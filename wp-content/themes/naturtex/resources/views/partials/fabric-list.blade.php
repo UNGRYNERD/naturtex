@@ -25,7 +25,7 @@
       <li class="top-filter__item {{ App::isCurrentURL(get_post_type_archive_link('un_fabric')) }}">
         <a href="{{ get_post_type_archive_link('un_fabric') }}">{{ __('All', 'naturtex') }}</a>
       </li>
-      @foreach (FabricsArchive::fabricMaterials() as $term)
+      @foreach (ArchiveUnFabric::fabricMaterials() as $term)
         <li class="top-filter__item {{ App::isCurrentURL($term['link']) }}">
           <a href="{{ $term['link'] }}">{{ $term['name'] }}</a>
         </li>
@@ -33,12 +33,12 @@
     </ul>
   </nav>
 
-  @php($term_name_test = '')
-  @php
-    global $wp_query
-  @endphp
+  <?php
+    $term_name_test = '';
+    global $wp_query;
+  ?>
   @while(have_posts()) @php(the_post())
-    @php
+    <?php
       if (is_tax('un_fabric_material')) {
         $terms = get_the_terms(get_the_ID(), 'un_fabric_material');
         if (empty($terms) || is_wp_error($terms)) {
@@ -57,7 +57,7 @@
 
         $term_name_test = $term_name;
       }
-    @endphp
+    ?>
     <article class="project-item">
       <a href="{{ the_permalink() }}">
         <span class="project-item__image">{{ the_post_thumbnail('featured-project') }}</span>
@@ -65,10 +65,10 @@
       </a>
     </article>
 
-    @php
-        if ((($wp_query->current_post + 1) == $wp_query->post_count) && is_tax('un_fabric_material'))
-            echo '</div>';
-    @endphp
+    <?php
+      if ((($wp_query->current_post + 1) == $wp_query->post_count) && is_tax('un_fabric_material'))
+          echo '</div>';
+    ?>
   @endwhile
 
   {!! App::pagination() !!}

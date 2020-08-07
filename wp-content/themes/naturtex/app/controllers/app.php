@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Controllers;
 
 use Sober\Controller\Controller;
 
@@ -102,6 +102,6 @@ class App extends Controller
         if (empty($svg)) {
             return;
         }
-        return file_get_contents(asset_path($svg));
+        return file_get_contents(\App\asset_path($svg));
     }
 }

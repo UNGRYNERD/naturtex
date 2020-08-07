@@ -29,7 +29,7 @@
       <ul class="filter-dropdown js-dropdown" data-field="un_rug_material">
         <li class="filter-dropdown__item {{ App::isCurrentParam('un_rug_material', '') }}">
         <a class="js-dropdown-item" data-value="" href="#">{{ __('Material', 'naturtex') }}</a></li>
-        @foreach (RugsArchive::rugMaterials() as $term)
+        @foreach (ArchiveUnRug::rugMaterials() as $term)
           <li class="filter-dropdown__item {{ App::isCurrentParam('un_rug_material', $term['slug']) }}">
             <a class="js-dropdown-item" data-value="{{ $term['slug'] }}" href="#">{{ $term['name'] }}</a>
           </li>
@@ -39,7 +39,7 @@
       <ul class="filter-dropdown js-dropdown" data-field="un_rug_type">
         <li class="filter-dropdown__item {{ App::isCurrentParam('un_rug_type', '') }}">
           <a class="js-dropdown-item" data-value="" href="#">{{ __('Type', 'naturtex') }}</a></li>
-        @foreach (RugsArchive::rugTypes() as $term)
+        @foreach (ArchiveUnRug::rugTypes() as $term)
           <li class="filter-dropdown__item {{ App::isCurrentParam('un_rug_type', $term['slug']) }}">
             <a class="js-dropdown-item" data-value="{{ $term['slug'] }}" href="#">{{ $term['name'] }}</a>
           </li>
