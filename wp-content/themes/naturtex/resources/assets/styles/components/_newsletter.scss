@@ -1,0 +1,160 @@
+.c-newsletter {
+  @include container;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: rem(40px);
+  padding-bottom: rem(40px);
+
+  &__title {
+    @include title-h3;
+
+    margin-right: 30px;
+  }
+}
+
+.c-newsletter-popup {
+  background-color: $primary;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: -1;
+  visibility: hidden;
+  opacity: 0;
+
+  &.is-open {
+    z-index: 10;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    background-color: transparent;
+    border: 0;
+    appearance: none;
+    color: $white;
+    font-size: 55px;
+    font-weight: 100;
+    cursor: pointer;
+  }
+
+  &__title {
+    @include title-h3;
+
+    @media (min-width: $md) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  &__form {
+    @include container(650px);
+
+    @media (min-width: $md) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__field1,
+  &__field2,
+  &__field3 {
+    margin-bottom: 10px;
+
+    @media (min-width: $md) {
+      margin-bottom: 30px;
+    }
+  }
+
+  &__field1 {
+    @media (min-width: $md) {
+      flex: 0 0 22%;
+      max-width: 22%;
+    }
+  }
+
+  &__field2 {
+    @media (min-width: $md) {
+      flex: 0 0 75%;
+      max-width: 75%;
+    }
+  }
+
+  &__field3 {
+    @media (min-width: $md) {
+      flex: 0 0 49%;
+      max-width: 49%;
+    }
+  }
+
+  input[type=text],
+  input[type=email] {
+    border: 0;
+    background-color: transparent;
+    color: $white;
+    border-bottom: 1px solid $white;
+    padding: 5px 0;
+    width: 100%;
+
+    &::placeholder {
+      color: $white;
+    }
+  }
+
+  .c-dropdown {
+    border: 0;
+    background-color: transparent;
+    color: $white;
+    border-bottom: 1px solid $white;
+    padding: 5px 0;
+    width: 100%;
+    position: relative;
+
+    select {
+      border: 0;
+      appearance: none;
+      background-color: transparent;
+      color: $white;
+      width: 100%;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      transform: rotate(135deg);
+      width: 10px;
+      height: 10px;
+      border-top: 1px solid $white;
+      border-right: 1px solid $white;
+      pointer-events: none;
+    }
+  }
+
+  .button {
+    border: 2px solid $white;
+    background-color: $primary;
+    color: $white;
+
+    &:hover {
+      color: $primary;
+      background-color: $white;
+    }
+  }
+}

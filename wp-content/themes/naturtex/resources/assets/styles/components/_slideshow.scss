@@ -104,6 +104,10 @@
       width: 96%;
       left: 2%;
 
+      &.disabled {
+        display: none;
+      }
+
       .owl-prev,
       .owl-next {
         background: url('../images/arrow-white.svg') no-repeat;

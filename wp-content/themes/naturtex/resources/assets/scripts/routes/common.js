@@ -112,6 +112,17 @@ const Common = {
       e.preventDefault();
     })
   },
+  setupNewsletter: function() {
+    $('.js-newsletter').on('click', function (e) {
+      e.preventDefault();
+      $('.js-newsletter-popup').toggleClass('is-open');
+    });
+
+    $('.js-newsletter-popup-close').on('click', function (e) {
+      e.preventDefault();
+      $('.js-newsletter-popup').toggleClass('is-open');
+    });
+  },
 };
 export default {
   init() {
@@ -124,6 +135,7 @@ export default {
     Common.setupImagesDimension();
     Common.setupDropdowns();
     Common.setupCompSlideshow();
+    Common.setupNewsletter();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired

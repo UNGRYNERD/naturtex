@@ -1,0 +1,54 @@
+.c-samples {
+  @include container;
+
+  text-align: center;
+
+  &__text {
+    max-width: 600px;
+    margin: 0 auto rem(30px) auto;
+  }
+
+  &__wrapper {
+    margin: rem(70px) 0;
+
+    @media (min-width: $md) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+
+  &__item {
+    width: 100%;
+    position: relative;
+    margin-bottom: rem(30px);
+
+    @media (min-width: $md) {
+      flex: 0 0 32%;
+      max-width: 32%;
+      margin-right: 2%;
+    }
+
+    &:nth-child(3n) {
+      @media (min-width: $md) {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__image {
+    display: block;
+    width: 100%;
+  }
+
+  &__name {
+    font-size: rem(14px);
+    font-weight: bold;
+    letter-spacing: 3.5px;
+    color: $white;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    margin: 0;
+  }
+}
