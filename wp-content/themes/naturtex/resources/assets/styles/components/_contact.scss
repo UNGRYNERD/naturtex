@@ -141,3 +141,151 @@
     }
   }
 }
+
+.c-contact {
+  &-list {
+    @include container;
+
+    margin-top: rem($gap * 5);
+    margin-bottom: rem($gap * 5);
+
+    @media (min-width: $md) {
+      margin-top: rem($gap * 10);
+      margin-bottom: rem($gap * 10);
+    }
+
+    &__title {
+      @include body-title;
+
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0 0 rem(35px) 0;
+
+      @media (min-width: $md) {
+        margin: 0 0 rem(66px) 0;
+      }
+    }
+
+    &__wrapper {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: rem($gap * 2);
+      text-align: center;
+
+      @media (min-width: $xs) {
+        text-align: left;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      @media (min-width: $md) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+
+  &-form {
+    padding-top: rem($gap * 5);
+    padding-bottom: rem($gap * 5);
+    background-color: $super-light;
+
+    @media (min-width: $md) {
+      padding-top: rem($gap * 10);
+      padding-bottom: rem($gap * 10);
+    }
+
+    &__form {
+      @include container(600px);
+
+      @media (min-width: $sm) {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .wpcf7-form {
+        @media (min-width: $sm) {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding-left: rem(20px);
+        }
+
+        p {
+          margin-top: 0;
+        }
+      }
+
+      .contact-col {
+        flex: 1 1 50%;
+        max-width: 50%;
+
+        &--1 {
+          @media (min-width: $sm) {
+            padding-right: rem(10px);
+          }
+        }
+
+        &--2 {
+          @media (min-width: $sm) {
+            padding-left: rem(10px);
+          }
+        }
+
+        &--3 {
+          text-align: center;
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+      }
+
+      input[type=text],
+      input[type=email],
+      input[type=tel],
+      textarea {
+        border: 0;
+        border-bottom: 2px solid $primary;
+        background-color: transparent;
+        padding: rem(18px);
+        font-size: rem(14px);
+        font-weight: bold;
+        line-height: 0.71;
+        color: $primary;
+        width: 100%;
+        display: block;
+
+        &::placeholder {
+          color: $dark;
+        }
+      }
+
+      textarea {
+        height: 150px;
+        flex: 0 0 100%;
+        max-width: 100%;
+        border: 2px solid $primary;
+        margin-bottom: rem($gap * 5);
+      }
+
+      input[type=submit] {
+        font-size: 0.875rem;
+        width: 100%;
+        font-weight: bold;
+        color: $primary;
+        padding: 1.125rem;
+        text-align: center;
+        background: transparent;
+        border: 2px solid $primary;
+        display: inline-block;
+        transition: $transition-standard;
+        max-width: 200px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $primary;
+          color: $white;
+        }
+      }
+    }
+  }
+}

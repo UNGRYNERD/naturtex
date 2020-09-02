@@ -3,6 +3,10 @@
 
   text-align: center;
 
+  @media (min-width: $md) {
+    margin-top: 100px;
+  }
+
   &__text {
     max-width: 600px;
     margin: 0 auto rem(30px) auto;

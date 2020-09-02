@@ -1,0 +1,17 @@
+.c-banner {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  padding: rem($gap * 3) 0;
+
+  @media (min-width: $md) {
+    padding: rem($gap * 18);
+  }
+
+  &__text {
+    @include container;
+
+    text-align: center;
+    color: $white;
+  }
+}
