@@ -1,0 +1,229 @@
+.woocommerce.single-product {
+  .product_title {
+    @include body-title;
+
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 0 rem(35px) 0;
+
+    @media (min-width: $md) {
+      margin: 0 0 rem(66px) 0;
+    }
+  }
+
+  .product {
+    margin-bottom: rem($spacer * 2);
+
+    @media (min-width: $md) {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .woocommerce-product-gallery {
+      @media (min-width: $md) {
+        flex: 0 0 54%;
+        padding-right: $spacer * 3;
+      }
+
+      &__wrapper {
+        padding: 0;
+        margin: 0;
+      }
+
+      &__image {
+        background-color: $super-light;
+        padding: rem($gap * 10) rem($gap * 12);
+        text-align: center;
+        margin-bottom: rem($spacer * 2);
+      }
+    }
+
+    .summary {
+      @media (min-width: $md) {
+        flex: 0 0 46%;
+        padding-left: $spacer * 3;
+      }
+
+      .image-variable-wrapper {
+        padding: 0;
+        list-style: none;
+        margin: 0;
+        max-height: 0;
+        transition: $transition-standard;
+        overflow: hidden;
+
+        @media (min-width: $md) {
+          max-height: unset;
+        }
+
+        li {
+          display: inline-block;
+          text-align: center;
+          margin: rem(10px);
+
+          @media (min-width: $md) {
+            margin: 0 rem(20px) rem(10px) 0;
+          }
+
+          img {
+            display: block;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+          }
+        }
+      }
+
+      .variations {
+        display: block;
+
+        .label {
+          display: block;
+          font-size: rem(14px);
+          font-weight: bold;
+          line-height: 1.86;
+          text-transform: uppercase;
+          color: $primary;
+        }
+
+        .value {
+          display: block;
+          margin-bottom: rem($gap * 3);
+
+          &.woo-variation-items-wrapper {
+            margin-bottom: 0;
+          }
+        }
+
+        .reset_variations {
+          display: none;
+        }
+      }
+
+      .single_variation_wrap {
+        margin-top: rem($spacer);
+
+        @media (min-width: $md) {
+          margin-top: rem($spacer * 2);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        p {
+          margin-bottom: rem($spacer);
+
+          @media (min-width: $md) {
+            margin: 0;
+          }
+        }
+      }
+
+      .woocommerce-variation-add-to-cart {
+        display: inline-flex;
+        justify-content: space-between;
+
+        .quantity {
+          padding-right: rem($spacer);
+
+          @media (min-width: $md) {
+            padding: 0 rem($spacer);
+          }
+        }
+      }
+
+      .quantity {
+        .qty {
+          border-bottom: 2px solid $primary;
+          max-width: 70px;
+          height: 100%;
+          text-align: center;
+        }
+      }
+
+      .price {
+        font-size: rem(30px);
+        font-weight: bold;
+        line-height: 0.87;
+        color: $primary;
+      }
+
+      p:first-child {
+        margin-top: 0;
+      }
+    }
+
+    &.product-type-simple {
+      .summary {
+        .cart {
+          display: inline-flex;
+          justify-content: space-between;
+
+          .quantity {
+            padding: 0 rem($spacer) 0 0;
+          }
+        }
+      }
+    }
+  }
+
+  .c-product-gallery {
+    margin-bottom: rem($spacer * 2);
+
+    &__slider {
+      margin: 0;
+      list-style: none;
+      position: relative;
+      padding: 0 rem($spacer * 2);
+    }
+
+    &__image {
+      width: 100%;
+      display: block;
+      margin-bottom: rem($spacer * 2);
+    }
+
+    .owl-nav {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+
+      button.owl-prev,
+      button.owl-next {
+        position: absolute;
+        left: 0;
+        background: url('../images/arrow.svg') no-repeat;
+        width: 13px;
+        height: 24px;
+
+        span {
+          display: none;
+        }
+      }
+
+      button.owl-next {
+        left: auto;
+        right: 0;
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  .c-product-content {
+    font-size: rem(16px);
+    font-weight: bold;
+    line-height: 1.63;
+    text-align: center;
+    color: $primary;
+    padding: rem($spacer * 2) 0;
+    border-top: 2px solid #979797;
+    border-bottom: 2px solid #979797;
+
+    &__wrapper {
+      max-width: 450px;
+      margin: 0 auto;
+    }
+  }
+}

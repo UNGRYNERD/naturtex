@@ -134,4 +134,12 @@
       opacity: 0.8;
     }
   }
+
+  &--shop {
+    margin-bottom: rem($spacer);
+
+    @media (min-width: $md) {
+      margin-bottom: rem($spacer * 3);
+    }
+  }
 }

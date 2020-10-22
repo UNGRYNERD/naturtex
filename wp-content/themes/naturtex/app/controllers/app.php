@@ -104,4 +104,57 @@ class App extends Controller
         }
         return file_get_contents(\App\asset_path($svg));
     }
+
+
+    public static function shopCategories() {
+        $terms = get_terms('product_cat', array(
+            'hide_empty' => true,
+            'parent' => 0
+        ));
+        $terms_links = array();
+        foreach ($terms as $term) {
+            $terms_links[] = array(
+                'id' => $term->term_id,
+                'name' => $term->name,
+                'link' => get_term_link($term),
+                'slug' => $term->slug
+            );
+        }
+        return $terms_links;
+    }
+
+    public static function shopTags() {
+        $terms = get_terms('product_tag', array(
+            'hide_empty' => true,
+            'parent' => 0
+        ));
+        $terms_links = array();
+        foreach ($terms as $term) {
+            $terms_links[] = array(
+                'id' => $term->term_id,
+                'name' => $term->name,
+                'link' => get_term_link($term),
+                'slug' => $term->slug
+            );
+        }
+        return $terms_links;
+    }
+
+    public static function shopPrices() {
+        $terms = get_terms('un_price', array(
+            'hide_empty' => true,
+            'parent' => 0
+        ));
+        $terms_links = array();
+        foreach ($terms as $term) {
+            $terms_links[] = array(
+                'id' => $term->term_id,
+                'name' => $term->name,
+                'link' => get_term_link($term),
+                'slug' => $term->slug
+            );
+        }
+        return $terms_links;
+    }
+
 }

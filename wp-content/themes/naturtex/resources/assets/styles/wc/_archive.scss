@@ -1,0 +1,94 @@
+.woocommerce {
+  .woocommerce-products-header {
+    text-align: center;
+
+    .page-title {
+      @include body-title;
+
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0 0 rem(35px) 0;
+
+      @media (min-width: $md) {
+        margin: 0 0 rem(66px) 0;
+      }
+    }
+  }
+
+  ul.products {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @media (min-width: $md) {
+      padding-top: rem(47px);
+    }
+
+    .product {
+      flex: 0 0 100%;
+      padding: 0 rem($spacer) rem($spacer * 2) rem($spacer);
+
+      @media (min-width: $xs) {
+        flex: 0 0 50%;
+      }
+
+      @media (min-width: $md) {
+        padding: rem(25px);
+        flex: 0 0 (100% / 3);
+      }
+
+      .woocommerce-loop-product {
+        &__link {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        &__title {
+          font-size: rem(18px);
+          font-weight: bold;
+          line-height: 1.44;
+          color: $primary;
+          text-align: center;
+        }
+      }
+
+      &__image-wrapper {
+        flex: 0 0 100%;
+        background-color: $super-light;
+        padding: rem($gap * 9) rem($gap * 6);
+        text-align: center;
+        position: relative;
+
+        img {
+          display: block;
+          width: 100%;
+          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .onsale {
+          display: inline-block;
+          background: #f8fb15;
+          padding: rem($gap);
+          position: absolute;
+          top: $gap;
+          right: $gap;
+          font-size: rem(14px);
+          font-weight: bold;
+          letter-spacing: 0.47px;
+          color: #4a4a4a;
+          text-transform: uppercase;
+        }
+      }
+
+      .price {
+        del {
+          color: $grey;
+        }
+      }
+    }
+  }
+}

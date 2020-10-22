@@ -123,6 +123,31 @@ const Common = {
       $('.js-newsletter-popup').toggleClass('is-open');
     });
   },
+  setupProductGallery: function () {
+    $('.js-gallery-slider').owlCarousel({
+      items: 1,
+      nav: true,
+      dots: false,
+      loop: true,
+      margin: 32,
+      responsive: {
+        0 : {
+          items: 1,
+        },
+        768: {
+          items: 4,
+        },
+      },
+    });
+
+    $('.js-gallery-slider').on('click', 'a', function (e) {
+      $('.js-product-image')
+        .attr('src', $(this).attr('href'))
+        .attr('srcset', $(this).data('srcset'));
+      e.preventDefault();
+    });
+
+  },
 };
 export default {
   init() {
@@ -136,6 +161,7 @@ export default {
     Common.setupDropdowns();
     Common.setupCompSlideshow();
     Common.setupNewsletter();
+    Common.setupProductGallery();
   },
   finalize() {
     // JavaScript to be fired on all pages, after page specific JS is fired

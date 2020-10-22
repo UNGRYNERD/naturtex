@@ -58,7 +58,7 @@ array_map(function ($file) use ($sage_error) {
     if (!locate_template($file, true, true)) {
         $sage_error(sprintf(__('Error locating <code>%s</code> for inclusion.', 'sage'), $file), 'File not found');
     }
-}, ['helpers', 'setup', 'filters', 'admin', 'post-types', 'acf']);
+}, ['helpers', 'setup', 'filters', 'admin', 'post-types', 'acf', 'woocommerce']);
 
 /**
  * Here's what's happening with these hooks:
@@ -91,4 +91,9 @@ Container::getInstance()
         ]);
     }, true);
 
-
+if (function_exists('acf_add_options_page')) {
+    acf_add_options_page(array(
+        'page_title' => 'Naturtex',
+        'menu_title' => 'Naturtex',
+    ));
+}

@@ -1,5 +1,48 @@
-/** Search form */
-// TODO: .search-form {}
-// TODO: .search-form label {}
-// TODO: .search-form .search-field {}
-// TODO: .search-form .search-submit {}
+.c-dropdown {
+  color: $black;
+  display: inline-block;
+  background-color: $light;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  padding: rem($gap) rem($spacer * 3) rem($gap) rem($gap);
+
+  select {
+    appearance: none;
+    border: 0;
+    background-color: transparent;
+    font-size: rem(16px);
+    line-height: 1.57;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    width: 160%;
+
+    @media (min-width: $md) {
+      font-size: (14px);
+    }
+
+    &:focus {
+      font-size: (16px);
+
+      @media (min-width: $md) {
+        font-size: (14px);
+      }
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 8px;
+    background: url('../images/dropdown.svg') no-repeat;
+    background-size: cover;
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0;
+    right: 10px;
+    top: 16px;
+    transform: rotate(180deg);
+    pointer-events: none;
+  }
+}

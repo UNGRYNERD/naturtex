@@ -166,3 +166,24 @@ add_action('init', function () {
     );
     register_taxonomy('un_rug_type', array('un_rug'), $args);
 });
+
+add_action('init', function () {
+    $args = array(
+        'hierarchical'               => true,
+        'public'                     => true,
+        'labels'                     => array(
+            'name'                   => __('Prices', 'naturtex'),
+            'singular_name'          => __('Price', 'naturtex')
+        ),
+        'show_ui'                    => true,
+        'show_admin_column'          => true,
+        'show_in_nav_menus'          => true,
+        'show_tagcloud'              => false,
+        'rewrite'                    => array(
+            'slug'                       => 'prices',
+            'with_front'                 => true,
+            'hierarchical'               => false,
+        )
+    );
+    register_taxonomy('un_price', array('product'), $args);
+});

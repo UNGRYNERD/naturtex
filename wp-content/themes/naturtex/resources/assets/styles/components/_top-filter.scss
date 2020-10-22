@@ -32,12 +32,11 @@
 }
 
 .filter-dropdown {
-  margin: 0;
   padding: 0;
   list-style: none;
   background-color: $light;
   max-height: 39px;
-  display: inline-flex;
+  display: flex;
   flex-flow: column;
   justify-content: flex-start;
   font-size: rem(14px);
@@ -45,22 +44,16 @@
   font-weight: bold;
   text-transform: uppercase;
   color: $primary;
-  position: absolute;
   text-align: left;
-  left: 0;
-  width: 47%;
   overflow: hidden;
-
-  &:last-child {
-    left: auto;
-    right: 0;
-  }
+  position: relative;
+  margin: 0 rem($gap) rem($gap) rem($gap);
 
   &__item {
     display: block;
     order: 1;
     height: 39px;
-    padding: rem(9px) $spacer;
+    padding: rem(9px) rem($spacer * 2) rem(9px) $spacer;
     background-color: $super-light;
 
     a {
@@ -78,9 +71,10 @@
 
   &__wrapper {
     position: relative;
-    width: 290px;
-    margin: rem($spacer * 2) auto 0 auto;
-    height: 76px;
+    margin: rem($spacer * 2) auto rem($spacer) auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   &__title {
@@ -91,6 +85,7 @@
     color: $dark;
     text-transform: uppercase;
     margin: 0 0 $spacer 0;
+    flex: 0 0 100%;
   }
 
   &::after {
@@ -110,7 +105,7 @@
   }
 
   &:hover {
-    max-height: 999px;
+    overflow: visible;
     z-index: 99;
 
     &::after {
