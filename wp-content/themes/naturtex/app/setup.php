@@ -56,6 +56,7 @@ add_action('after_setup_theme', function () {
     add_image_size('featured-square', 400, 400, true);
     add_image_size('featured-project', 315, 458, true);
     add_image_size('featured-project-medium', 550, 415, true);
+    add_image_size('product-thumb', 880, 550, true);
 
     /**
      * Enable HTML5 markup support

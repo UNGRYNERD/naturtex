@@ -14,84 +14,18 @@
   visibility: hidden;
   transition: visibility, opacity 0.3s ease-in-out;
 
-  @media (min-width: $md) {
-    flex-flow: row;
-  }
-
-  .lang-switcher {
-    @include lang-switcher;
-
-    @media (min-width: $md) {
-      display: none;
-    }
-  }
-
-  &__contact {
-    order: 2;
+  &__social {
     display: flex;
-    align-items: center;
-    flex-flow: column;
-    opacity: 0;
+    border-top: 1px solid $primary;
+    padding-top: rem(16px);
 
-    @media (min-width: $md) {
-      order: 0;
-      padding: rem(100px);
-      align-items: flex-end;
-      border-right: 1px solid $dark;
-    }
+    &-link {
+      max-width: rem(25px);
+      margin: 0 rem(10px);
 
-    &-title {
-      @include menu;
-
-      display: none;
-
-      @media (min-width: $md) {
-        display: block;
-        color: $primary;
-        margin: 0 0 rem(40px) 0;
+      &:hover {
+        opacity: 0.5;
       }
-    }
-
-    &-data {
-      display: none;
-
-      @media (min-width: $md) {
-        display: block;
-        font-size: rem(14px);
-        font-weight: bold;
-        line-height: 1.3;
-        text-align: right;
-        color: $dark;
-        margin-bottom: rem(40px);
-      }
-    }
-
-    &-social {
-      display: flex;
-    }
-
-    &::before {
-      content: '';
-      width: 136px;
-      border-top: 1px solid $grey;
-      margin-bottom: rem(33px);
-
-      @media (min-width: $md) {
-        display: none;
-      }
-    }
-  }
-
-  &__social-link {
-    max-width: rem(25px);
-    margin: 0 rem(10px);
-
-    @media (min-width: $md) {
-      margin: 0 0 0 rem(20px);
-    }
-
-    &:hover {
-      opacity: 0.5;
     }
   }
 
@@ -108,26 +42,54 @@
     @media (min-width: $md) {
       padding: rem(100px) rem(80px);
       margin: 0;
-      align-items: flex-start;
     }
 
     .menu-item {
       @include menu;
 
       margin: rem(4px) 0;
-
-      @media (min-width: $md) {
-        text-align: left;
-      }
+      text-align: center;
 
       a {
         padding: rem(12px) rem(20px);
         display: block;
-        border-radius: 26px;
+        font-weight: normal;
 
         &:hover {
           text-decoration: none;
-          background-color: $light;
+          font-weight: bold;
+        }
+      }
+
+      .sub-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+
+        .menu-item {
+          font-size: rem(18px);
+          line-height: 1.39;
+          letter-spacing: 0.6px;
+          margin: 0;
+
+          a {
+            color: $dark;
+            padding-top: rem(6px);
+            padding-bottom: rem(6px);
+
+            &:hover {
+              color: $primary;
+            }
+          }
+        }
+      }
+
+      &:hover {
+        .sub-menu {
+          max-height: 300px;
         }
       }
     }

@@ -112,4 +112,23 @@
       transform: rotate(0deg);
     }
   }
+
+  &[data-field=un_price] {
+    background-color: #834017;
+    color: $white;
+
+    .filter-dropdown {
+      &__item {
+        background-color: #834017;
+
+        a {
+          color: $white;
+        }
+      }
+    }
+
+    &::after {
+      filter: brightness(100);
+    }
+  }
 }

@@ -58,13 +58,12 @@
 @mixin menu {
   font-family: $font-primary;
   font-size: rem(20px);
-  font-weight: bold;
+  font-weight: normal;
   line-height: 1;
   letter-spacing: 0.7px;
-  text-transform: uppercase;
 
   @media (min-width: $md) {
-    font-size: rem(26px);
+    font-size: rem(24px);
     letter-spacing: 0.9px;
   }
 }

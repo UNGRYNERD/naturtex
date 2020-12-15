@@ -18,4 +18,53 @@
       color: $white;
     }
   }
+
+  &--big {
+    @media (min-width: $md) {
+      padding: rem($gap * 22);
+    }
+
+    .c-banner {
+      &__text {
+        font-family: 'Wensley', serif;
+        font-size: rem(18px);
+        font-weight: bold;
+        line-height: 1.25;
+        letter-spacing: 8px;
+
+        @media (min-width: $md) {
+          font-size: rem(32px);
+        }
+      }
+    }
+  }
+
+  .text + & {
+    margin-top: rem(30px);
+
+    @media (min-width: $md) {
+      margin-top: rem(60px);
+    }
+  }
+
+  &--icons {
+    @media (min-width: $md) {
+      padding: rem($gap * 22) 0 rem($gap * 12) 0;
+    }
+
+    .c-icons {
+      color: $white;
+
+      &__text {
+        padding-top: rem($gap * 2);
+        border-top: 1px solid $white;
+      }
+
+      &__item {
+        @media (min-width: $sm) {
+          margin: rem($gap * 5) rem($gap * 5) 0 rem($gap * 5);
+        }
+      }
+    }
+  }
 }

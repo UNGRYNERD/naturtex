@@ -1,0 +1,26 @@
+.c-icons {
+  text-align: center;
+  color: $black;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  &__item {
+    margin: rem($gap * 3) auto;
+    max-width: rem(80px);
+    flex: 0 0 80px;
+
+    @media (min-width: $sm) {
+      max-width: rem(130px);
+      flex: 0 0 130px;
+      margin: rem($gap * 5) rem($gap) 0 rem($gap);
+    }
+  }
+
+  &__icon {
+    max-height: 80px;
+    width: auto;
+    display: block;
+    margin: 0 auto rem($gap * 3) auto;
+  }
+}
