@@ -14,25 +14,6 @@
     <div class="product__info">
       <div class="product__content">@php(the_content())</div>
 
-      <div class="product__colors">
-        <h2 class="product__intitle">{{ __('Colors:', 'naturtex') }}</h2>
-        <ul class="product__colors-list">
-          @while (have_rows('colors'))  @php(the_row())
-            <li class="product__color">
-              {{ get_sub_field('name') }}
-              <a class="js-image-toggle" href="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}">
-                <img
-                  src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'thumbnail')[0] }}"
-                  alt="{{ the_title_attribute() }}"
-                  data-src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}"
-                  data-srcset="{{ wp_get_attachment_image_srcset(get_sub_field('image'), 'large') }}"
-                >
-              </a>
-            </li>
-          @endwhile
-        </ul>
-      </div>
-
       @if (have_rows('pattern'))
         <div class="product__colors">
           <h2 class="product__intitle">{{ get_field('pattern_title') }}</h2>
@@ -51,6 +32,23 @@
           </ul>
         </div>
       @endif
+
+      <div class="product__colors">
+        <h2 class="product__intitle">{{ __('Colors:', 'naturtex') }}</h2>
+        <ul class="product__colors-list">
+          @while (have_rows('colors')) @php(the_row())
+          <li class="product__color">
+            {{ get_sub_field('name') }}
+            <a class="js-image-toggle" href="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}">
+              <img src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'thumbnail')[0] }}"
+                alt="{{ the_title_attribute() }}"
+                data-src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'large')[0] }}"
+                data-srcset="{{ wp_get_attachment_image_srcset(get_sub_field('image'), 'large') }}">
+            </a>
+          </li>
+          @endwhile
+        </ul>
+      </div>
 
       @if (have_rows('finishing'))
         <div class="product__colors">
