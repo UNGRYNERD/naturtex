@@ -68,9 +68,9 @@
                             <select name="_wvs_pro_swatch_option[<?php echo $attribute_key ?>][image_size]">
                                 <option <?php selected( $saved_image_size, '' ) ?> value=""><?php esc_html_e( 'Global', 'woo-variation-swatches-pro' ) ?></option>
 								<?php
-                                    foreach ( wvs_get_all_image_sizes() as $key => $value ): ?>
-                                    <option <?php selected( $saved_image_size, $key ) ?> value="<?php echo $key ?>"><?php echo $value ?></option>
-								<?php endforeach; ?>
+									foreach ( wvs_get_all_image_sizes() as $key => $value ): ?>
+                                        <option <?php selected( $saved_image_size, $key ) ?> value="<?php echo $key ?>"><?php echo $value ?></option>
+									<?php endforeach; ?>
                             </select>
                         </td>
                     </tr>
@@ -79,10 +79,11 @@
 							
 							<?php foreach ( $wvs_pro_attribute[ 'terms' ] as $term_id => $term ): ?>
 								<?php
+        
 								// terms
 								if ( isset( $saved_product_attributes[ $attribute_key ] ) ) {
-									// print_r( $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ]);
-									$saved_term_type          = isset( $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ] ) ? $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ][ 'type' ] : $saved_type;
+									// print_r( $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ]); die;
+									$saved_term_type          = (isset( $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ] ) && isset($saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ][ 'type' ])) ? $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ][ 'type' ] : $saved_type;
 									$saved_term_tooltip       = isset( $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ] ) ? $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ][ 'tooltip_text' ] : '';
 									$saved_term_tooltip_type  = isset( $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ] ) ? $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ][ 'tooltip_type' ] : '';
 									$saved_term_tooltip_image = isset( $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ] ) ? $saved_product_attributes[ $attribute_key ][ 'terms' ][ $term_id ][ 'tooltip_image' ] : false;
@@ -104,13 +105,13 @@
 									$saved_term_secondary_color = '';
 								}
 								?>
-                                <div class="wc-metabox wvs-pro-variable-swatches-attribute-tax-wrapper closed visible_if_tax_<?php echo $saved_term_type ?>">
+                                <div class="wc-metabox wvs-pro-variable-swatches-attribute-tax-wrapper closed visible_if_tax_<?php echo esc_attr( $saved_term_type ) ?>">
                                     <h3 class="variable-swatches-taxonomy-header">
                                         <div class="handlediv" title="<?php esc_attr_e( 'Click to toggle', 'woo-variation-swatches-pro' ) ?>"></div>
-                                        <strong class="attribute_name"><?php echo $term ?></strong>
+                                        <strong class="attribute_name"><?php echo esc_html( $term ) ?></strong>
                                         <div class="attribute-type-wrapper">
                                             <strong><?php esc_html_e( 'Type', 'woo-variation-swatches-pro' ) ?></strong>
-                                            <select class="wvs-pro-swatch-tax-type" name="_wvs_pro_swatch_option[<?php echo $attribute_key ?>][terms][<?php echo $term_id ?>][type]">
+                                            <select class="wvs-pro-swatch-tax-type" name="_wvs_pro_swatch_option[<?php echo esc_attr($attribute_key) ?>][terms][<?php echo $term_id ?>][type]">
 
                                                 <!-- ADDING RADIO TYPE TO SELECT DEFAULT RADIO WHEN NO TYPE SELECTED -->
 												<?php if ( in_array( 'radio', array_keys( $attribute_types ) ) ): ?>

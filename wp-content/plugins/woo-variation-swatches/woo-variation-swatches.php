@@ -4,12 +4,12 @@
 	 * Plugin URI: https://wordpress.org/plugins/woo-variation-swatches/
 	 * Description: Beautiful colors, images and buttons variation swatches for woocommerce product attributes. Requires WooCommerce 3.2+
 	 * Author: Emran Ahmed
-	 * Version: 1.0.86
+	 * Version: 1.1.2
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
 	 * Tested up to: 5.5
 	 * WC requires at least: 3.2
-	 * WC tested up to: 4.4
+	 * WC tested up to: 4.7
 	 * Text Domain: woo-variation-swatches
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches {
 			
-			protected $_version = '1.0.85';
+			protected $_version = '1.1.2';
 			
 			protected static $_instance = null;
 			private          $_settings_api;
@@ -61,6 +61,7 @@
 			
 			public function includes() {
 				if ( $this->is_required_php_version() ) {
+					require_once $this->include_path( 'class-woo-variation-swatches-cache.php' );
 					require_once $this->include_path( 'class-wvs-customizer.php' );
 					require_once $this->include_path( 'class-wvs-settings-api.php' );
 					require_once $this->include_path( 'class-wvs-term-meta.php' );
@@ -203,14 +204,14 @@
 			
 			public function deactivate_feedback() {
 				
-				$api_url = 'https://getwooplugins.com/wp-json/getwooplugins/v1/deactivation';
+				$api_url = 'https://stats.storepress.com/wp-json/storepress/deactivation';
 				
 				$deactivate_reasons = $this->deactivate_feedback_reasons();
 				
 				$plugin         = sanitize_title( $_POST[ 'plugin' ] );
 				$reason_id      = sanitize_title( $_POST[ 'reason_type' ] );
 				$reason_title   = $deactivate_reasons[ $reason_id ][ 'title' ];
-				$reason_text    = sanitize_text_field( $_POST[ 'reason_text' ] );
+				$reason_text    = ( isset( $_POST[ 'reason_text' ] ) ? sanitize_text_field( $_POST[ 'reason_text' ] ) : '' );
 				$plugin_version = sanitize_text_field( $_POST[ 'version' ] );
 				
 				if ( 'temporary_deactivation' === $reason_id ) {
@@ -224,23 +225,33 @@
 					'parent_theme'     => $this->get_parent_theme_name(),
 					'theme_name'       => $this->get_theme_name(),
 					'theme_version'    => $this->get_theme_version(),
-					'theme_uri'        => wp_get_theme( get_template() )->get( 'ThemeURI' ),
-					'theme_author'     => wp_get_theme( get_template() )->get( 'Author' ),
-					'theme_author_uri' => wp_get_theme( get_template() )->get( 'AuthorURI' ),
+					'theme_uri'        => esc_url( wp_get_theme( get_template() )->get( 'ThemeURI' ) ),
+					'theme_author'     => esc_html( wp_get_theme( get_template() )->get( 'Author' ) ),
+					'theme_author_uri' => esc_url( wp_get_theme( get_template() )->get( 'AuthorURI' ) ),
 				);
 				
 				$database_version = wc_get_server_database_version();
 				$active_plugins   = (array) get_option( 'active_plugins', array() );
+				$plugins          = array();
 				
 				if ( is_multisite() ) {
 					$network_activated_plugins = array_keys( get_site_option( 'active_sitewide_plugins', array() ) );
 					$active_plugins            = array_merge( $active_plugins, $network_activated_plugins );
 				}
 				
+				foreach ( $active_plugins as $active_plugin ) {
+					
+					if ( $active_plugin === 'woo-variation-swatches/woo-variation-swatches.php' ) {
+						continue;
+					}
+					
+					$plugins[ $active_plugin ] = get_plugin_data( WP_PLUGIN_DIR . '/' . $active_plugin, false, false );
+				}
+				
 				$environment = array(
 					'is_multisite'         => is_multisite(),
-					'site_url'             => get_option( 'siteurl' ),
-					'home_url'             => get_option( 'home' ),
+					'site_url'             => esc_url( get_option( 'siteurl' ) ),
+					'home_url'             => esc_url( get_option( 'home' ) ),
 					'php_version'          => phpversion(),
 					'mysql_version'        => $database_version[ 'number' ],
 					'mysql_version_string' => $database_version[ 'string' ],
@@ -249,18 +260,28 @@
 					'server_info'          => isset( $_SERVER[ 'SERVER_SOFTWARE' ] ) ? wc_clean( wp_unslash( $_SERVER[ 'SERVER_SOFTWARE' ] ) ) : '',
 				);
 				
+				$request_body = array(
+					'plugin'       => $plugin,
+					'version'      => $plugin_version,
+					'reason_id'    => $reason_id,
+					'reason_title' => $reason_title,
+					'reason_text'  => $reason_text,
+					'settings'     => $this->get_options(),
+					'theme'        => $theme,
+					'plugins'      => $plugins,
+					'environment'  => $environment
+				);
+				
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					$logger  = wc_get_logger();
+					$context = array( 'source' => 'woo-variation-swatches' );
+					$logger->info( sprintf( 'Deactivate log: %s', print_r( $request_body, true ) ), $context );
+				}
+				
 				$response = wp_remote_post( $api_url, $args = array(
 					'sslverify' => false,
 					'timeout'   => 60,
-					'body'      => array(
-						'plugin'       => $plugin,
-						'version'      => $plugin_version,
-						'reason_title' => $reason_title,
-						'reason_text'  => $reason_text,
-						'theme'        => $theme,
-						'plugins'      => $active_plugins,
-						'environment'  => $environment
-					)
+					'body'      => $request_body
 				) );
 				
 				if ( ! is_wp_error( $response ) && wp_remote_retrieve_response_code( $response ) === 200 ) {
@@ -292,11 +313,15 @@
 				array_push( $classes, sprintf( 'wvs-theme-%s', $this->get_parent_theme_dir() ) );
 				array_push( $classes, sprintf( 'wvs-theme-child-%s', $this->get_theme_dir() ) );
 				array_push( $classes, sprintf( 'wvs-style-%s', $this->get_option( 'style' ) ) );
-				array_push( $classes, sprintf( 'wvs-attr-behavior-%s', $this->get_option( 'attribute-behavior' ) ) );
+				array_push( $classes, sprintf( 'wvs-attr-behavior-%s', $this->get_option( 'attribute_behavior' ) ) );
 				// array_push( $classes, sprintf( 'woo-variation-swatches-tooltip-%s', $this->get_option( 'tooltip' ) ? 'enabled' : 'disabled' ) );
 				array_push( $classes, sprintf( 'wvs%s-tooltip', $this->get_option( 'tooltip' ) ? '' : '-no' ) );
 				// array_push( $classes, sprintf( 'woo-variation-swatches-stylesheet-%s', $this->get_option( 'stylesheet' ) ? 'enabled' : 'disabled' ) );
 				array_push( $classes, sprintf( 'wvs%s-css', $this->get_option( 'stylesheet' ) ? '' : '-no' ) );
+				
+				if ( (bool) woo_variation_swatches()->get_option( 'show_variation_label' ) ) {
+					$classes[] = 'wvs-show-label';
+				}
 				
 				if ( $this->is_pro_active() ) {
 					array_push( $classes, 'wvs-pro' );
@@ -318,12 +343,16 @@
 					wp_enqueue_script( 'bluebird', $this->assets_uri( "/js/bluebird{$suffix}.js" ), array(), '3.5.3' );
 				}
 				
-				$is_defer = (bool) woo_variation_swatches()->get_option( 'defer_load_js' );
+				$is_defer             = (bool) woo_variation_swatches()->get_option( 'defer_load_js' );
+				$show_variation_label = (bool) woo_variation_swatches()->get_option( 'show_variation_label' );
+				//$hide_disabled_variation = (bool) woo_variation_swatches()->get_option( 'hide_disabled_variation' );
 				
 				// If defer enable we want to load this script to top
 				wp_enqueue_script( 'woo-variation-swatches', $this->assets_uri( "/js/frontend{$suffix}.js" ), array( 'jquery', 'wp-util' ), $this->version(), ! $is_defer );
 				wp_localize_script( 'woo-variation-swatches', 'woo_variation_swatches_options', apply_filters( 'woo_variation_swatches_js_options', array(
-					'is_product_page' => is_product()
+					'is_product_page'      => is_product(),
+					'show_variation_label' => $show_variation_label,
+					//'hide_disabled_variation' => $hide_disabled_variation
 				) ) );
 				
 				if ( $this->get_option( 'stylesheet' ) ) {
@@ -346,7 +375,7 @@
 				
 				$width     = $this->get_option( 'width' );
 				$height    = $this->get_option( 'height' );
-				$font_size = $this->get_option( 'single-font-size' );
+				$font_size = $this->get_option( 'single_font_size' );
 				
 				ob_start();
 				include_once $this->include_path( 'stylesheet.php' );
@@ -370,6 +399,11 @@
 				
 				/*wp_enqueue_script( 'jquery-ui-dialog' );
 				wp_enqueue_style( 'wp-jquery-ui-dialog' );*/
+				
+				// Filter for disable loading scripts
+				if ( apply_filters( 'disable_wvs_admin_enqueue_scripts', false ) ) {
+					return false;
+				}
 				
 				wp_enqueue_style( 'wp-color-picker' );
 				wp_enqueue_script( 'wp-color-picker-alpha', $this->assets_uri( "/js/wp-color-picker-alpha{$suffix}.js" ), array( 'wp-color-picker' ), '2.1.3', true );
@@ -430,7 +464,11 @@
 				return $this->_settings_api;
 			}
 			
-			public function add_setting( $tab_id, $tab_title, $tab_sections, $active = false, $is_pro_tab = false ) {
+			function is_gallery_active() {
+				return class_exists( 'Woo_Variation_Gallery' );
+			}
+			
+			public function add_setting( $tab_id, $tab_title, $tab_sections, $active = false, $is_pro_tab = false, $is_new = false ) {
 				// Example:
 				
 				// fn(tab_id, tab_title, [
@@ -444,19 +482,22 @@
 				//         'type'=>'',
 				//         'title'=>'',
 				//         'desc'=>'',
-				//         'value'=>''
+				//         'default'=>'',
+				//         'is_new'=>true|false,
+				//         'require' => array( 'trigger_catalog_mode' => array( 'type' => '==', 'value' => 'hover' ) )
 				//      ]
 				//    ] // fields end
 				//  ]
 				//], active ? true | false)
 				
-				add_filter( 'wvs_settings', function ( $fields ) use ( $tab_id, $tab_title, $tab_sections, $active, $is_pro_tab ) {
+				add_filter( 'wvs_settings', function ( $fields ) use ( $tab_id, $tab_title, $tab_sections, $active, $is_pro_tab, $is_new ) {
 					array_push( $fields, array(
 						'id'       => $tab_id,
 						'title'    => esc_html( $tab_title ),
 						'active'   => $active,
 						'sections' => $tab_sections,
-						'is_pro'   => $is_pro_tab
+						'is_pro'   => $is_pro_tab,
+						'is_new'   => $is_new
 					) );
 					
 					return $fields;
@@ -470,6 +511,10 @@
 				}
 				
 				return $this->_settings_api->get_option( $id );
+			}
+			
+			public function get_options() {
+				return get_option( 'woo_variation_swatches' );
 			}
 			
 			public function add_term_meta( $taxonomy, $post_type, $fields ) {

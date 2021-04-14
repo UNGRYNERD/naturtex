@@ -4,12 +4,12 @@
 	 * Plugin URI: https://getwooplugins.com/plugins/woocommerce-variation-swatches/
 	 * Description: WooCommerce Variation Swatches Pro features
 	 * Author: Emran Ahmed
-	 * Version: 1.0.55
+	 * Version: 1.1.2
 	 * Domain Path: /languages
 	 * Requires at least: 4.8
-	 * Tested up to: 5.4
+	 * Tested up to: 5.5
 	 * WC requires at least: 3.2
-	 * WC tested up to: 4.3
+	 * WC tested up to: 4.7
 	 * Text Domain: woo-variation-swatches-pro
 	 * Author URI: https://getwooplugins.com/
 	 */
@@ -20,7 +20,7 @@
 		
 		final class Woo_Variation_Swatches_Pro {
 			
-			protected        $_version  = '1.0.55';
+			protected        $_version  = '1.1.2';
 			protected static $_instance = null;
 			
 			public static function instance() {
@@ -160,7 +160,8 @@
                  background-color: %1$s !important;
 				}
 				
-				.variable-items-wrapper [data-wvstooltip]:before {
+				.variable-items-wrapper [data-wvstooltip]:before,
+				 .variable-items-wrapper .wvs-has-image-tooltip:before {
 				 background-color: %1$s !important;
 				 color: %2$s !important;
 				 }

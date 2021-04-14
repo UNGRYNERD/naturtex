@@ -11,11 +11,11 @@
 	// add_filter( 'woocommerce_loop_add_to_cart_link', 'wvs_pro_loop_add_to_cart_link', 20, 3 );
 	
 	/*	add_filter( 'woocommerce_loop_add_to_cart_link', function ( $link, $product ) {
-			
+	
 			if ( $product->get_type() === 'variable' && ! woo_variation_swatches()->get_option( 'show_add_to_cart_button_on_archive' ) ) {
 				$link = '';
 			}
-			
+	
 			return $link;
 		}, 20, 2 );*/
 	
@@ -557,12 +557,23 @@
 						'size'    => 'tiny',
 						'title'   => esc_html__( 'Catalog Mode Display Event', 'woo-variation-swatches-pro' ),
 						'desc'    => esc_html__( 'Show catalog mode image display event.', 'woo-variation-swatches-pro' ),
-						'default' => 'click',
+						'default' => 'hover',
 						'options' => array(
 							'click' => esc_html__( 'on Click', 'woo-variation-swatches-pro' ),
 							'hover' => esc_html__( 'on Hover', 'woo-variation-swatches-pro' ),
 						)
 					),
+					
+					array(
+						'id'      => 'linkable_attribute',
+						'type'    => 'checkbox',
+						'title'   => esc_html__( 'Linkable Attribute', 'woo-variation-swatches-pro' ),
+						'desc'    => esc_html__( 'Keep attribute variation selected on product page after clicking from catalog page', 'woo-variation-swatches-pro' ),
+						'default' => false,
+						'is_new'  => true,
+						'require' => array( 'trigger_catalog_mode' => array( 'type' => '==', 'value' => 'hover' ) )
+					),
+					
 					array(
 						'id'      => 'catalog_mode_display_limit',
 						'type'    => 'number',
@@ -688,8 +699,8 @@
 			array(
 				'id'      => 'hide_out_of_stock_variation',
 				'type'    => 'checkbox',
-				'title'   => esc_html__( 'Out of stock variation', 'woo-variation-swatches-pro' ),
-				'desc'    => esc_html__( 'Disable out of stock variation product item.', 'woo-variation-swatches-pro' ),
+				'title'   => esc_html__( 'Disable Out of stock', 'woo-variation-swatches-pro' ),
+				'desc'    => esc_html__( 'Disable out of stock attribute variations', 'woo-variation-swatches-pro' ),
 				'default' => true
 			),
 			
@@ -699,6 +710,27 @@
 				'title'   => esc_html__( 'Generate variation url', 'woo-variation-swatches-pro' ),
 				'desc'    => esc_html__( 'Generate sharable url based on selected variation attributes.', 'woo-variation-swatches-pro' ),
 				'default' => false
+			),
+			
+			// EDIT ID to show_variation_stock_info
+			array(
+				'id'      => 'show_variation_stock_info',
+				'type'    => 'checkbox',
+				'title'   => esc_html__( 'Variation stock info', 'woo-variation-swatches-pro' ),
+				'desc'    => esc_html__( 'Show variation product stock info', 'woo-variation-swatches-pro' ),
+				'default' => false,
+				'is_new'  => true
+			),
+			
+			array(
+				'id'      => 'stock_label_display_threshold',
+				'type'    => 'number',
+				'title'   => esc_html__( 'Minimum stock threshold', 'woo-variation-swatches-pro' ),
+				'desc'    => esc_html__( 'When stock reaches this amount stock label will be shown.', 'woo-variation-swatches-pro' ),
+				'default' => 5,
+				'min'     => 1,
+				'max'     => 99,
+				'is_new'  => true
 			),
 		);
 		
@@ -743,7 +775,8 @@
 		$attribute = $args[ 'attribute' ];
 		// $saved_attributes = get_post_meta( $product->get_id(), '_wvs_product_attributes', true );
 		$saved_attributes = wvs_pro_get_product_option( $product->get_id() );
-		$id               = sanitize_title( $attribute );
+		
+		$id = sanitize_title( $attribute );
 		
 		if ( empty( $saved_attributes ) ) {
 			return $data;
@@ -836,6 +869,11 @@
 			}
 		}
 		
+		if ( $is_archive ) {
+			$classes[] = 'wvs-archive-variable-wrapper';
+		}
+		
+		
 		if ( woo_variation_swatches()->get_option( 'enable_catalog_mode' ) && $is_archive ) {
 			$attribute_name = woo_variation_swatches()->get_option( 'catalog_mode_attribute' );
 			// $product_settings = (array) get_post_meta( $args[ 'product' ]->get_id(), '_wvs_product_attributes', true );
@@ -847,15 +885,17 @@
 			
 			// $attribute_type = wvs_pro_attribute_taxonomy_type_by_name( $attribute_name );
 			// or $attribute_type === $type
-			if ( $attribute_name === $args[ 'attribute' ] ) {
+			
+			if ( wc_variation_attribute_name( $attribute_name ) === wc_variation_attribute_name( $args[ 'attribute' ] ) ) {
 				$classes[] = 'wvs-catalog-variable-wrapper';
 			}
 		}
 		
-		return $classes;
+		
+		return array_unique( array_values( $classes ) );
 	}, 10, 4 );
 	
-	// Hide Out Of stock variation product
+	// Extra Variation Data
 	add_filter( 'woocommerce_available_variation', function ( $variation, $productObject, $variationObject ) {
 		
 		$thumbnail_size = apply_filters( 'woocommerce_thumbnail_size', 'woocommerce_thumbnail' );
@@ -865,9 +905,20 @@
 			$variation[ 'image' ][ 'thumb_sizes' ]  = function_exists( 'wp_get_attachment_image_sizes' ) ? wp_get_attachment_image_sizes( $variationObject->get_image_id(), $thumbnail_size ) : false;
 		}
 		
-		if ( woo_variation_swatches()->get_option( 'hide_out_of_stock_variation' ) ) {
-			return $variationObject->is_in_stock() ? $variation : false;
+		if ( (bool) woo_variation_swatches()->get_option( 'show_variation_stock_info' ) ) {
+			
+			$variation[ 'wvs_stock_left' ] = '';
+			
+			if ( $variationObject->managing_stock() ) {
+				$stock_amount                  = $variationObject->get_stock_quantity();
+				$variation[ 'wvs_stock_left' ] = sprintf( esc_html__( '%s left', 'woo-variation-swatches-pro' ), $stock_amount );
+			}
+			
 		}
+		
+		/*if ( woo_variation_swatches()->get_option( 'hide_out_of_stock_variation' ) ) {
+			return $variationObject->is_in_stock() ? $variation : false;
+		}*/
 		
 		return $variation;
 	}, 100, 3 );
@@ -891,9 +942,11 @@
 		$enable_catalog_mode = (bool) woo_variation_swatches()->get_option( 'enable_catalog_mode' );
 		
 		$options[ 'enable_catalog_mode' ] = $enable_catalog_mode;
+		$options[ 'linkable_attribute' ]  = false;
 		
 		if ( $enable_catalog_mode ) {
 			$options[ 'catalog_mode_event' ]     = woo_variation_swatches()->get_option( 'trigger_catalog_mode' );
+			$options[ 'linkable_attribute' ]     = ( (bool) woo_variation_swatches()->get_option( 'linkable_attribute' ) && ( woo_variation_swatches()->get_option( 'trigger_catalog_mode' ) == 'hover' ) );
 			$options[ 'catalog_mode_attribute' ] = wc_variation_attribute_name( woo_variation_swatches()->get_option( 'catalog_mode_attribute' ) );
 		}
 		
@@ -908,7 +961,10 @@
 		$options[ 'archive_image_selector' ] = apply_filters( 'woo_variation_swatches_archive_image_selector', trim( woo_variation_swatches()->get_option( 'archive_image_selector' ) ) );
 		
 		$options[ 'enable_linkable_variation_url' ] = (bool) woo_variation_swatches()->get_option( 'enable_linkable_variation_url' );
-		$options[ 'wc_bundles_enabled' ]            = class_exists( 'WC_Bundles' );
+		$options[ 'show_variation_stock_info' ]     = (bool) woo_variation_swatches()->get_option( 'show_variation_stock_info' );
+		$options[ 'stock_label_display_threshold' ] = absint( woo_variation_swatches()->get_option( 'stock_label_display_threshold' ) );
+		
+		$options[ 'wc_bundles_enabled' ] = class_exists( 'WC_Bundles' );
 		
 		if ( is_product() ) {
 			$product_id = $post->ID;
@@ -917,6 +973,9 @@
 			}
 			$options[ 'product_permalink' ] = trim( get_permalink() );
 		}
+		
+		// Convert unicode char to css selector
+		$options[ 'single_variation_preview_attribute' ] = str_ireplace( '%', '\\%', sanitize_title( $options[ 'single_variation_preview_attribute' ] ) );
 		
 		return $options;
 	} );
@@ -942,3 +1001,15 @@
 			delete_transient( $product_transient_name );
 		}
 	} );
+	
+	// Hide Out Of stock
+	add_filter( 'woocommerce_variation_is_active', function ( $active, $variation ) {
+		
+		$hide_out_of_stock = (bool) woo_variation_swatches()->get_option( 'hide_out_of_stock_variation' );
+		if ( ! $variation->is_in_stock() && $hide_out_of_stock ) {
+			return false;
+		}
+		
+		return $active;
+	}, 10, 2 );
+	

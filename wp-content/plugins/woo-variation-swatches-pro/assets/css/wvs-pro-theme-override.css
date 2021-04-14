@@ -1,27 +1,27 @@
 /*!
- * Variation Swatches for WooCommerce - Pro v1.0.55 
+ * Variation Swatches for WooCommerce - Pro v1.1.2 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 7/12/2020, 7:25:01 PM
+ * Date: 11/26/2020, 7:20:19 PM
  * Released under the GPLv3 license.
  */
-.wvs-theme-flatsome .variations {
+.wvs-theme-flatsome:not(.wvs-show-label) .variations {
   margin-bottom: 0;
 }
 
-.wvs-theme-flatsome .variations .value {
+.wvs-theme-flatsome:not(.wvs-show-label) .variations .value {
   padding-left: 15px;
 }
 
-.wvs-theme-flatsome .variable-items-wrapper {
+.wvs-theme-flatsome:not(.wvs-show-label) .variable-items-wrapper {
   margin: 10px 0;
 }
 
-.wvs-theme-flatsome .variable-items-wrapper .variable-item:not(.radio-variable-item) {
+.wvs-theme-flatsome:not(.wvs-show-label) .variable-items-wrapper .variable-item:not(.radio-variable-item) {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
-.wvs-theme-flatsome .wvs-archive-variation-wrapper ul.variations > li {
+.wvs-theme-flatsome:not(.wvs-show-label) .wvs-archive-variation-wrapper ul.variations > li {
   margin-left: 0;
 }
 
@@ -105,8 +105,7 @@
 }
 
 .wvs-theme-oceanwp .oceanwp-row.list .variable-items-wrapper {
-  -webkit-box-pack: start;
-          justify-content: flex-start;
+  justify-content: flex-start;
   text-align: left;
 }
 
@@ -163,7 +162,6 @@
 }
 
 .wvs-theme-shop-isle .variable-items-wrapper {
-  display: -webkit-inline-box;
   display: inline-flex;
 }
 
@@ -174,8 +172,7 @@
 
 .wvs-theme-ushop .wvs-archive-variation-wrapper ul li,
 .wvs-theme-child-ushop .wvs-archive-variation-wrapper ul li {
-  -webkit-box-flex: 0 !important;
-          flex: none !important;
+  flex: none !important;
   max-width: inherit !important;
   width: auto;
 }
