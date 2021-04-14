@@ -19,6 +19,7 @@
     color: $primary;
     width: 100%;
     flex: 0 0 100%;
+    border-bottom: 1px solid $primary;
   }
 
   &__content {
@@ -145,6 +146,74 @@
     }
   }
 
+  &__sustainability {
+    margin-bottom: rem(22px);
+
+    @media (min-width: $md) {
+      margin-bottom: rem(44px);
+    }
+
+    &-list {
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      max-height: 0;
+      transition: $transition-standard;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 10px;
+
+      @media (min-width: $sm) {
+        grid-template-columns: repeat(4, 1fr);
+        max-height: unset;
+      }
+    }
+
+    &-item {
+      text-align: center;
+
+      img {
+        display: block;
+        max-width: 66px;
+        margin: 10px auto 10px auto;
+      }
+    }
+
+    .product__intitle {
+      &::after {
+        content: '';
+        display: inline-block;
+        margin-left: $spacer;
+        width: 14px;
+        height: 8px;
+        background: url('../images/dropdown.svg') no-repeat;
+        background-size: cover;
+        border: 0;
+        border-radius: 0;
+        box-shadow: 0;
+        transform: rotate(180deg);
+
+        @media (min-width: $md) {
+          display: none;
+        }
+      }
+    }
+
+    &:hover,
+    &:active {
+      .product__sustainability-list {
+        max-height: 999px;
+      }
+
+      .product__intitle {
+        &::after {
+          transform: rotate(0);
+        }
+      }
+    }
+  }
+
   &__color {
     display: inline-block;
     text-align: center;
@@ -216,31 +285,7 @@
 
     @media (min-width: $md) {
       padding: 0 0 0 rem($spacer * 4);
-      border-left: 2px solid $primary;
       flex: 1;
-    }
-  }
-
-  &__downloads {
-    display: flex;
-    padding: $spacer $spacer * 2;
-    justify-content: flex-start;
-
-    @media (min-width: $md) {
-      padding: 0;
-    }
-  }
-
-  &__download {
-    color: inherit;
-    margin-right: $spacer * 2;
-
-    a {
-      display: block;
-
-      img {
-        width: 86px;
-      }
     }
   }
 }

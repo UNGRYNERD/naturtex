@@ -33,6 +33,25 @@
         </ul>
       </div>
 
+      @if (have_rows('pattern'))
+        <div class="product__colors">
+          <h2 class="product__intitle">{{ get_field('pattern_title') }}</h2>
+          <ul class="product__colors-list">
+            @while (have_rows('pattern'))  @php(the_row())
+              <li class="product__color">
+                {{ get_sub_field('name') }}
+                <a data-lightbox="pattern" href="{{ wp_get_attachment_image_src(get_sub_field('image_zoom'), 'large')[0] }}">
+                  <img
+                    src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'thumbnail')[0] }}"
+                    alt="{{ the_title_attribute() }}"
+                  >
+                </a>
+              </li>
+            @endwhile
+          </ul>
+        </div>
+      @endif
+
       @if (have_rows('finishing'))
         <div class="product__colors">
           <h2 class="product__intitle">{{ __('Finishings:', 'naturtex') }}</h2>
@@ -60,25 +79,36 @@
         <div class="product__col2">{!! $info['col2'] !!}</div>
       </div>
 
+      @if (have_rows('sustainability'))
+        <div class="product__sustainability">
+          <h2 class="product__intitle">{{ __('Sustainability:', 'naturtex') }}</h2>
+          <ul class="product__sustainability-list">
+            @while (have_rows('sustainability'))  @php(the_row())
+              <li class="product__sustainability-item">
+                <img
+                  src="{{ wp_get_attachment_image_src(get_sub_field('image'), 'thumbnail')[0] }}"
+                  alt="{{ the_title_attribute() }}"
+                >
+                {{ get_sub_field('name') }}
+              </li>
+            @endwhile
+          </ul>
+        </div>
+      @endif
+
       <div class="product__downloads">
-        @if (get_field('overview'))
-          <div class="product__download">
-            <h2 class="product__intitle">{{ __('Overview', 'naturtex') }}:</h2>
-            <a download href="{{ wp_get_attachment_url(get_field('overview')) }}"><img src="@asset('images/download.png')" alt="{{ __('Overview', 'naturtex') }}"></a>
-          </div>
-        @endif
-        @if (get_field('care'))
-          <div class="product__download">
-            <h2 class="product__intitle">{{ __('Care', 'naturtex') }}:</h2>
-            <a download href="{{ wp_get_attachment_url(get_field('care')) }}"><img src="@asset('images/download.png')" alt="{{ __('Care', 'naturtex') }}"></a>
-          </div>
-        @endif
-        @if (get_field('install'))
-          <div class="product__download">
-            <h2 class="product__intitle">{{ __('Install', 'naturtex') }}:</h2>
-            <a download href="{{ wp_get_attachment_url(get_field('install')) }}"><img src="@asset('images/download.png')" alt="{{ __('Install', 'naturtex') }}"></a>
-          </div>
-        @endif
+        <h2 class="product__intitle">{{ __('Descargas', 'naturtex') }}:</h2>
+        <div class="">
+          @if (get_field('overview'))
+            <p><a download href="{{ wp_get_attachment_url(get_field('overview')) }}">{{ __('Overview', 'ungrynerd') }}</a></p>
+          @endif
+          @if (get_field('care'))
+            <p><a download href="{{ wp_get_attachment_url(get_field('care')) }}">{{ __('Care', 'naturtex') }}</a></p>
+          @endif
+          @if (get_field('install'))
+            <p><a download href="{{ wp_get_attachment_url(get_field('install')) }}">{{ __('Install', 'naturtex') }}</a></p>
+          @endif
+        </div>
       </div>
 
     </div>
