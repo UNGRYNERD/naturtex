@@ -21,6 +21,7 @@ includes
 languages
 templates
 package.json
+wpml-config.xml
 webpack.mix.js`;
 
         let includes = list.split("\n");
@@ -59,7 +60,7 @@ if (Mix.inProduction()) {
 }
 
 mix.banner({
-    banner : "Variation Swatches for WooCommerce - Pro v1.1.2 \n\nAuthor: Emran Ahmed ( emran.bd.08@gmail.com ) \nDate: " + new Date().toLocaleString() + "\nReleased under the GPLv3 license."
+    banner : "Variation Swatches for WooCommerce - Pro v1.1.14 \n\nAuthor: Emran Ahmed ( emran.bd.08@gmail.com ) \nDate: " + new Date().toLocaleDateString('en-GB') + "\nReleased under the GPLv3 license."
 });
 
 mix.notification({

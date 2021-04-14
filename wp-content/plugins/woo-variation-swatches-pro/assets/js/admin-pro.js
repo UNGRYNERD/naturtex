@@ -1,8 +1,8 @@
 /*!
- * Variation Swatches for WooCommerce - Pro v1.1.2 
+ * Variation Swatches for WooCommerce - Pro v1.1.14 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/26/2020, 7:20:19 PM
+ * Date: 4/11/2021
  * Released under the GPLv3 license.
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -87,214 +87,219 @@ module.exports = __webpack_require__(9);
 
 jQuery(function ($) {
 
-    $('#woocommerce-product-data').on('woocommerce_variations_loaded', function () {
-        wp.ajax.send("wvs_pro_load_product_attributes", {
-            success: function success(data) {
-                $('#wvs-pro-product-variable-swatches-options').html(data);
-                $(document.body).trigger('wvs_pro_product_swatches_variation_loaded');
-            },
-            data: {
-                post_id: wvs_pro_product_variation_data.post_id,
-                nonce: wvs_pro_product_variation_data.nonce
-            }
-        });
+  $('#woocommerce-product-data').on('woocommerce_variations_loaded', function () {
+    wp.ajax.send('wvs_pro_load_product_attributes', {
+      success: function success(data) {
+        $('#wvs-pro-product-variable-swatches-options').html(data);
+        $(document.body).trigger('wvs_pro_product_swatches_variation_loaded');
+      },
+      data: {
+        post_id: wvs_pro_product_variation_data.post_id,
+        nonce: wvs_pro_product_variation_data.nonce
+      }
+    });
+  });
+
+  $(document.body).on('click', '.wvs_pro_save_product_attributes', function () {
+
+    // let data = $('.wvs-pro-product-variable-swatches-options').find('input, select, textarea').serialize();
+    // let data = $('.wvs-pro-product-variable-swatches-options').find(':input:not(.wvs-skip-field)').serialize();
+    var data = $('#wvs-pro-product-variable-swatches-options').find(':input:not(.wvs-skip-field)').serializeJSON();
+    var key = Object.keys(data) ? Object.keys(data).shift() : '_wvs_pro_swatch_option';
+
+    // console.log(Object.fromEntries(new URLSearchParams(data)));
+
+    $('#wvs-pro-product-variable-swatches-options').block({
+      message: null,
+      overlayCSS: {
+        background: '#fff',
+        opacity: 0.6
+      }
     });
 
-    $(document.body).on('click', '.wvs_pro_save_product_attributes', function () {
+    wp.ajax.send('wvs_pro_save_product_attributes', {
+      success: function success(data) {
+        $('#wvs-pro-product-variable-swatches-options').unblock();
+        $('#wvs-pro-product-variable-swatches-options-notice').removeClass('notice updated error').html(data.message).addClass(data.class);
+      },
+      error: function error(_error) {
+        console.error(_error);
+        $('#wvs-pro-product-variable-swatches-options').unblock();
+        $('#wvs-pro-product-variable-swatches-options-notice').removeClass('notice updated error').html('Ajax error. Please check console').addClass('error');
+      },
 
-        var data = $('.wvs-pro-product-variable-swatches-options').find('input, select, textarea').serialize();
-
-        // console.log(Object.fromEntries(new URLSearchParams(data)));
-
-        $('#wvs-pro-product-variable-swatches-options').block({
-            message: null,
-            overlayCSS: {
-                background: '#fff',
-                opacity: 0.6
-            }
-        });
-
-        wp.ajax.send("wvs_pro_save_product_attributes", {
-            success: function success(data) {
-                $('#wvs-pro-product-variable-swatches-options').unblock();
-            },
-            error: function error(_error) {
-                // console.error(error)
-                $('#wvs-pro-product-variable-swatches-options').unblock();
-            },
-
-            data: {
-                post_id: wvs_pro_product_variation_data.post_id,
-                nonce: wvs_pro_product_variation_data.nonce,
-                data: data
-            }
-        });
+      data: {
+        post_id: wvs_pro_product_variation_data.post_id,
+        nonce: wvs_pro_product_variation_data.nonce,
+        data: data[key]
+      }
     });
+  });
 
-    $(document.body).on('click', '.wvs_pro_reset_product_attributes', function () {
-        if (confirm(wvs_pro_product_variation_data.reset_notice)) {
-            $('#wvs-pro-product-variable-swatches-options').block({
-                message: null,
-                overlayCSS: {
-                    background: '#fff',
-                    opacity: 0.6
-                }
-            });
-            wp.ajax.send("wvs_pro_reset_product_attributes", {
-                success: function success(data) {
-                    $('#woocommerce-product-data').trigger('woocommerce_variations_loaded');
-                    $('#wvs-pro-product-variable-swatches-options').unblock();
-                },
-                error: function error(_error2) {
-                    // console.error(error)
-                    $('#wvs-pro-product-variable-swatches-options').unblock();
-                },
-
-                data: {
-                    post_id: wvs_pro_product_variation_data.post_id,
-                    nonce: wvs_pro_product_variation_data.nonce
-                }
-            });
+  $(document.body).on('click', '.wvs_pro_reset_product_attributes', function () {
+    if (confirm(wvs_pro_product_variation_data.reset_notice)) {
+      $('#wvs-pro-product-variable-swatches-options').block({
+        message: null,
+        overlayCSS: {
+          background: '#fff',
+          opacity: 0.6
         }
+      });
+      wp.ajax.send('wvs_pro_reset_product_attributes', {
+        success: function success(data) {
+          $('#woocommerce-product-data').trigger('woocommerce_variations_loaded');
+          $('#wvs-pro-product-variable-swatches-options').unblock();
+        },
+        error: function error(_error2) {
+          console.error(_error2);
+          $('#wvs-pro-product-variable-swatches-options').unblock();
+        },
+
+        data: {
+          post_id: wvs_pro_product_variation_data.post_id,
+          nonce: wvs_pro_product_variation_data.nonce
+        }
+      });
+    }
+  });
+
+  $.fn.wvs_pro_product_attribute_type = function (options) {
+    return this.each(function () {
+      var _this = this;
+
+      var $wrapper = $(this).closest('.wvs-pro-variable-swatches-attribute-wrapper');
+
+      var change_classes = function change_classes() {
+        var value = $(_this).val();
+        var visible_class = 'visible_if_' + value;
+
+        var existing_classes = Object.keys(wvs_pro_product_variation_data.attribute_types).map(function (type) {
+          return 'visible_if_' + type;
+        }).join(' ');
+
+        $wrapper.removeClass(existing_classes).removeClass('visible_if_custom').addClass(visible_class);
+        return value;
+      };
+
+      $(this).on('change', function (e) {
+        var value = change_classes();
+        $wrapper.find('.wvs-pro-swatch-tax-type').val(value).trigger('change.taxonomy');
+      });
+
+      $(this).on('change.attribute', function (e) {
+        change_classes();
+      });
     });
+  };
 
-    $.fn.wvs_pro_product_attribute_type = function (options) {
-        return this.each(function () {
-            var _this = this;
+  $.fn.wvs_pro_product_taxonomy_type = function (options) {
+    return this.each(function () {
+      var _this2 = this;
 
-            var $wrapper = $(this).closest('.wvs-pro-variable-swatches-attribute-wrapper');
+      var $wrapper = $(this).closest('.wvs-pro-variable-swatches-attribute-tax-wrapper');
+      var $main_wrapper = $(this).closest('.wvs-pro-variable-swatches-attribute-wrapper');
 
-            var change_classes = function change_classes() {
-                var value = $(_this).val();
-                var visible_class = 'visible_if_' + value;
+      var change_classes = function change_classes() {
+        var value = $(_this2).val();
+        var visible_class = 'visible_if_tax_' + value;
 
-                var existing_classes = Object.keys(wvs_pro_product_variation_data.attribute_types).map(function (type) {
-                    return 'visible_if_' + type;
-                }).join(' ');
+        var existing_classes = Object.keys(wvs_pro_product_variation_data.attribute_types).map(function (type) {
+          return 'visible_if_tax_' + type;
+        }).join(' ');
 
-                $wrapper.removeClass(existing_classes).removeClass('visible_if_custom').addClass(visible_class);
-                return value;
-            };
+        $wrapper.removeClass(existing_classes).addClass(visible_class);
+        return value;
+      };
 
-            $(this).on('change', function (e) {
-                var value = change_classes();
-                $wrapper.find('.wvs-pro-swatch-tax-type').val(value).trigger('change.taxonomy');
-            });
+      $(this).on('change', function (e) {
 
-            $(this).on('change.attribute', function (e) {
-                change_classes();
-            });
+        change_classes();
+
+        var allValues = [];
+        $main_wrapper.find('.wvs-pro-swatch-tax-type').each(function () {
+          allValues.push($(this).val());
         });
-    };
 
-    $.fn.wvs_pro_product_taxonomy_type = function (options) {
-        return this.each(function () {
-            var _this2 = this;
+        var uniqueValues = _.uniq(allValues);
+        var is_all_tax_same = uniqueValues.length === 1;
 
-            var $wrapper = $(this).closest('.wvs-pro-variable-swatches-attribute-tax-wrapper');
-            var $main_wrapper = $(this).closest('.wvs-pro-variable-swatches-attribute-wrapper');
+        if (is_all_tax_same) {
+          $main_wrapper.find('.wvs-pro-swatch-option-type').val(uniqueValues.toString()).trigger('change.attribute');
+        } else {
+          $main_wrapper.find('.wvs-pro-swatch-option-type').val('custom').trigger('change.attribute');
+        }
+      });
 
-            var change_classes = function change_classes() {
-                var value = $(_this2).val();
-                var visible_class = 'visible_if_tax_' + value;
+      $(this).on('change.taxonomy', function (e) {
+        change_classes();
+      });
+    });
+  };
 
-                var existing_classes = Object.keys(wvs_pro_product_variation_data.attribute_types).map(function (type) {
-                    return 'visible_if_tax_' + type;
-                }).join(' ');
+  $.fn.wvs_pro_product_taxonomy_item_tooltip_type = function (options) {
+    return this.each(function () {
+      var _this3 = this;
 
-                $wrapper.removeClass(existing_classes).addClass(visible_class);
-                return value;
-            };
+      var $wrapper = $(this).closest('tbody');
 
-            $(this).on('change', function (e) {
+      var change_classes = function change_classes() {
+        var value = $(_this3).val();
+        var visible_class = 'visible_if_item_tooltip_type_' + value;
 
-                change_classes();
+        var existing_classes = ['', 'text', 'image', 'no'].map(function (type) {
+          return 'visible_if_item_tooltip_type_' + type;
+        }).join(' ');
 
-                var allValues = [];
-                $main_wrapper.find('.wvs-pro-swatch-tax-type').each(function () {
-                    allValues.push($(this).val());
-                });
+        $wrapper.find('.wvs-pro-item-tooltip-type-item').removeClass(existing_classes).addClass(visible_class);
+        return value;
+      };
 
-                var uniqueValues = _.uniq(allValues);
-                var is_all_tax_same = uniqueValues.length === 1;
+      $(this).on('change', function (e) {
+        change_classes();
+      });
 
-                if (is_all_tax_same) {
-                    $main_wrapper.find('.wvs-pro-swatch-option-type').val(uniqueValues.toString()).trigger('change.attribute');
-                } else {
-                    $main_wrapper.find('.wvs-pro-swatch-option-type').val('custom').trigger('change.attribute');
-                }
-            });
+      $(this).trigger('change');
+    });
+  };
 
-            $(this).on('change.taxonomy', function (e) {
-                change_classes();
-            });
-        });
-    };
+  $.fn.wvs_pro_product_taxonomy_item_dual_color = function (options) {
+    return this.each(function () {
+      var _this4 = this;
 
-    $.fn.wvs_pro_product_taxonomy_item_tooltip_type = function (options) {
-        return this.each(function () {
-            var _this3 = this;
+      var $wrapper = $(this).closest('tbody');
 
-            var $wrapper = $(this).closest('tbody');
+      var change_classes = function change_classes() {
+        var value = $(_this4).val();
+        var visible_class = 'visible_if_item_dual_color_' + value;
 
-            var change_classes = function change_classes() {
-                var value = $(_this3).val();
-                var visible_class = 'visible_if_item_tooltip_type_' + value;
+        var existing_classes = ['', 'yes', 'no'].map(function (type) {
+          return 'visible_if_item_dual_color_' + type;
+        }).join(' ');
 
-                var existing_classes = ['', 'text', 'image', 'no'].map(function (type) {
-                    return 'visible_if_item_tooltip_type_' + type;
-                }).join(' ');
+        $wrapper.find('.wvs-pro-item-secondary-color-item').removeClass(existing_classes).addClass(visible_class);
+        return value;
+      };
 
-                $wrapper.find('.wvs-pro-item-tooltip-type-item').removeClass(existing_classes).addClass(visible_class);
-                return value;
-            };
+      $(this).on('change', function (e) {
+        change_classes();
+      });
 
-            $(this).on('change', function (e) {
-                change_classes();
-            });
+      $(this).trigger('change');
+    });
+  };
 
-            $(this).trigger('change');
-        });
-    };
+  $('.wvs-pro-swatch-option-type').wvs_pro_product_attribute_type();
+  $('.wvs-pro-swatch-tax-type').wvs_pro_product_taxonomy_type();
+  $('.wvs-pro-item-tooltip-type').wvs_pro_product_taxonomy_item_tooltip_type();
+  $('.wvs-pro-item-tooltip-is-dual-color').wvs_pro_product_taxonomy_item_dual_color();
 
-    $.fn.wvs_pro_product_taxonomy_item_dual_color = function (options) {
-        return this.each(function () {
-            var _this4 = this;
-
-            var $wrapper = $(this).closest('tbody');
-
-            var change_classes = function change_classes() {
-                var value = $(_this4).val();
-                var visible_class = 'visible_if_item_dual_color_' + value;
-
-                var existing_classes = ['', 'yes', 'no'].map(function (type) {
-                    return 'visible_if_item_dual_color_' + type;
-                }).join(' ');
-
-                $wrapper.find('.wvs-pro-item-secondary-color-item').removeClass(existing_classes).addClass(visible_class);
-                return value;
-            };
-
-            $(this).on('change', function (e) {
-                change_classes();
-            });
-
-            $(this).trigger('change');
-        });
-    };
-
+  // Re Init
+  $(document.body).on('wvs_pro_product_swatches_variation_loaded', function () {
     $('.wvs-pro-swatch-option-type').wvs_pro_product_attribute_type();
     $('.wvs-pro-swatch-tax-type').wvs_pro_product_taxonomy_type();
     $('.wvs-pro-item-tooltip-type').wvs_pro_product_taxonomy_item_tooltip_type();
     $('.wvs-pro-item-tooltip-is-dual-color').wvs_pro_product_taxonomy_item_dual_color();
-
-    // Re Init
-    $(document.body).on('wvs_pro_product_swatches_variation_loaded', function () {
-        $('.wvs-pro-swatch-option-type').wvs_pro_product_attribute_type();
-        $('.wvs-pro-swatch-tax-type').wvs_pro_product_taxonomy_type();
-        $('.wvs-pro-item-tooltip-type').wvs_pro_product_taxonomy_item_tooltip_type();
-        $('.wvs-pro-item-tooltip-is-dual-color').wvs_pro_product_taxonomy_item_dual_color();
-    });
+  });
 });
 
 /***/ })

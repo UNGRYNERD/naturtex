@@ -1,13 +1,46 @@
 /*!
- * Variation Swatches for WooCommerce v1.1.2 
+ * Variation Swatches for WooCommerce v1.1.14 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/26/2020, 7:20:28 PM
+ * Date: 4/11/2021
  * Released under the GPLv3 license.
  */
 .woo-variation-swatches .woo-variation-raw-select,
 .woo-variation-swatches .woo-variation-raw-select + .select2 {
   display: none !important;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color > a {
+  display: inline-block;
+  position: relative;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color > a .wvs-widget-item-wrapper {
+  display: inline-block;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color .item {
+  display: inline-block;
+  float: left;
+  padding: 9px;
+  margin: 0 4px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  height: 20px;
+  width: 20px;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color .text {
+  display: inline-block;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color .text :after {
+  content: '';
+  display: inline;
+  clear: both;
+}
+
+.woo-variation-swatches .wvs-widget-layered-nav-list__item-color.woocommerce-widget-layered-nav-list__item--chosen .item {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.9);
 }
 
 .woo-variation-swatches .variable-items-wrapper {
@@ -28,6 +61,18 @@
       -ms-user-select: none;
           user-select: none;
   outline: none;
+}
+
+.woo-variation-swatches .variable-items-wrapper .variable-item .variable-item-contents {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+@supports (display: contents) {
+  .woo-variation-swatches .variable-items-wrapper .variable-item .variable-item-contents {
+    display: contents;
+  }
 }
 
 .woo-variation-swatches .variable-items-wrapper .variable-item.variation-disabled {
@@ -67,7 +112,7 @@
 }
 
 .woo-variation-swatches .variable-items-wrapper.radio-variable-wrapper .radio-variable-item input {
-  width: auto;
+  /*width: auto;*/
   margin-right: 5px;
 }
 
@@ -153,7 +198,9 @@
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
   pointer-events: none;
   cursor: not-allowed;
@@ -163,15 +210,27 @@
 
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled img,
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents,
 .woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover img,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover span {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
   opacity: .3;
 }
 
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::before,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::after,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::before,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::after {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::after {
   position: absolute;
   content: " " !important;
   width: 100%;
@@ -192,16 +251,36 @@
   z-index: 0;
 }
 
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::before,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::before {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::before,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::before {
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
 }
 
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled::after,
-.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover::after {
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents::after,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents::after {
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover {
+  overflow: visible;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
+  opacity: .6;
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur .radio-variable-item.disabled label,
@@ -221,18 +300,45 @@
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled,
-.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover {
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover {
   pointer-events: none;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
+  cursor: not-allowed;
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled img,
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled .variable-item-contents,
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover img,
-.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover span {
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).disabled:hover .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
   opacity: .3;
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover {
+  overflow: visible;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock .variable-item-contents,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover img,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover span,
+.woo-variation-swatches.wvs-attr-behavior-blur-no-cross .variable-item:not(.radio-variable-item).out-of-stock:hover .variable-item-contents {
+  opacity: .6;
 }
 
 .woo-variation-swatches.wvs-attr-behavior-blur-no-cross .radio-variable-item.disabled,
@@ -268,9 +374,9 @@
 }
 
 .woo-variation-swatches.rtl table.variations td.label {
-  padding-left: 15px;
-  padding-right: 0;
-  text-align: left;
+  /*padding-left: 15px;
+			padding-right: 0;
+			text-align: right;*/
 }
 
 .woo-variation-swatches.rtl .variable-items-wrapper .variable-item {
@@ -306,4 +412,5 @@
 .woo-variation-swatches.wvs-show-label .variations td label,
 .woo-variation-swatches.wvs-show-label .variations td .woo-selected-variation-item-name {
   display: inline-block;
+  margin: 0 2px;
 }

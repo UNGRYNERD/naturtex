@@ -1,14 +1,25 @@
 /*!
- * Variation Swatches for WooCommerce - Pro v1.1.2 
+ * Variation Swatches for WooCommerce - Pro v1.1.14 
  * 
  * Author: Emran Ahmed ( emran.bd.08@gmail.com ) 
- * Date: 11/26/2020, 7:20:19 PM
+ * Date: 4/11/2021
  * Released under the GPLv3 license.
  */
 #wvs-pro-product-variable-swatches-options {
   /*.variable-swatches-attribute-header {
-    background-color : #F1F1F1;
-    }*/
+	  background-color : #F1F1F1;
+	  }*/
+}
+
+#wvs-pro-product-variable-swatches-options .woocommerce-message {
+  display: none;
+}
+
+#wvs-pro-product-variable-swatches-options .woocommerce-message.notice,
+#wvs-pro-product-variable-swatches-options .woocommerce-message.updated,
+#wvs-pro-product-variable-swatches-options .woocommerce-message.error {
+  margin: 10px !important;
+  display: block;
 }
 
 #wvs-pro-product-variable-swatches-options .product-settings {

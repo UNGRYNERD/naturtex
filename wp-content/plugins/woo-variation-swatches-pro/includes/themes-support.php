@@ -3,88 +3,115 @@ defined( 'ABSPATH' ) or die( 'Keep Silent' );
 
 // ==========================================================
 // Flatsome Theme
+// What we did is: Just add wvs_pro_ux_products_shortcode_class filter on wrapper class
 // ==========================================================
 
-function wvs_pro_ux_products( $atts, $content = null, $tag ) {
-	global $woocommerce;
+function wvs_pro_ux_products( $atts, $content = null, $tag = '' ) {
 	$sliderrandomid = rand();
 
 	if ( ! is_array( $atts ) ) {
 		$atts = array();
 	}
 
-	extract(
-		shortcode_atts(
-			array(
-				'_id'                 => 'product-grid-' . rand(),
-				'title'               => '',
-				'ids'                 => '',
-				'style'               => 'default',
-				'class'               => '',
+	extract( shortcode_atts( array(
+		'_id'                 => 'product-grid-' . rand(),
+		'title'               => '',
+		'ids'                 => '',
+		'style'               => 'default',
+		'class'               => '',
+		'visibility'          => '',
 
-				// Ooptions
-				'back_image'          => true,
+		// Ooptions
+		'back_image'          => true,
 
-				// Layout
-				'columns'             => '4',
-				'columns__sm'         => '',
-				'columns__md'         => '',
-				'col_spacing'         => 'small',
-				'type'                => 'slider', // slider, row, masonery, grid
-				'width'               => '',
-				'grid'                => '1',
-				'grid_height'         => '600px',
-				'grid_height__md'     => '500px',
-				'grid_height__sm'     => '400px',
-				'slider_nav_style'    => 'reveal',
-				'slider_nav_position' => '',
-				'slider_nav_color'    => '',
-				'slider_bullets'      => 'false',
-				'slider_arrows'       => 'true',
-				'auto_slide'          => '',
-				'infinitive'          => 'true',
-				'depth'               => '',
-				'depth_hover'         => '',
-				// posts
-				'products'            => '8',
-				'cat'                 => '',
-				'excerpt'             => 'visible',
-				'offset'              => '',
-				'filter'              => '',
-				// Posts Woo
-				'orderby'             => '', // normal, sales, rand, date
-				'order'               => '',
-				'tags'                => '',
-				'show'                => '', //featured, onsale
-				// Box styles
-				'animate'             => '',
-				'text_pos'            => 'bottom',
-				'text_padding'        => '',
-				'text_bg'             => '',
-				'text_color'          => '',
-				'text_hover'          => '',
-				'text_align'          => 'center',
-				'text_size'           => '',
-				'image_size'          => '',
-				'image_radius'        => '',
-				'image_width'         => '',
-				'image_height'        => '',
-				'image_hover'         => '',
-				'image_hover_alt'     => '',
-				'image_overlay'       => '',
+		// Layout
+		'columns'             => '4',
+		'columns__sm'         => '',
+		'columns__md'         => '',
+		'col_spacing'         => 'small',
+		'type'                => 'slider', // slider, row, masonery, grid
+		'width'               => '',
+		'grid'                => '1',
+		'grid_height'         => '600px',
+		'grid_height__md'     => '500px',
+		'grid_height__sm'     => '400px',
+		'slider_nav_style'    => 'reveal',
+		'slider_nav_position' => '',
+		'slider_nav_color'    => '',
+		'slider_bullets'      => 'false',
+		'slider_arrows'       => 'true',
+		'auto_slide'          => '',
+		'infinitive'          => 'true',
+		'depth'               => '',
+		'depth_hover'         => '',
+		'equalize_box'        => 'false',
+		// posts
+		'products'            => '8',
+		'cat'                 => '',
+		'excerpt'             => 'visible',
+		'offset'              => '',
+		'filter'              => '',
+		// Posts Woo
+		'orderby'             => '', // normal, sales, rand, date
+		'order'               => '',
+		'tags'                => '',
+		'show'                => '', //featured, onsale
+		'out_of_stock'        => '', // exclude.
+		// Box styles
+		'animate'             => '',
+		'text_pos'            => 'bottom',
+		'text_padding'        => '',
+		'text_bg'             => '',
+		'text_color'          => '',
+		'text_hover'          => '',
+		'text_align'          => 'center',
+		'text_size'           => '',
+		'image_size'          => '',
+		'image_radius'        => '',
+		'image_width'         => '',
+		'image_height'        => '',
+		'image_hover'         => '',
+		'image_hover_alt'     => '',
+		'image_overlay'       => '',
+		'show_cat'            => 'true',
+		'show_title'          => 'true',
+		'show_rating'         => 'true',
+		'show_price'          => 'true',
+		'show_add_to_cart'    => 'true',
+		'show_quick_view'     => 'true',
 
-			), $atts
-		)
-	);
+	), $atts ) );
+
+	// Stop if visibility is hidden
+	if ( $visibility == 'hidden' ) {
+		return;
+	}
+
+	$items                             = flatsome_ux_product_box_items();
+	$items['cat']['show']              = $show_cat;
+	$items['title']['show']            = $show_title;
+	$items['rating']['show']           = $show_rating;
+	$items['price']['show']            = $show_price;
+	$items['add_to_cart']['show']      = $show_add_to_cart;
+	$items['add_to_cart_icon']['show'] = $show_add_to_cart;
+	$items['quick_view']['show']       = $show_quick_view;
+	$items                             = flatsome_box_item_toggle_start( $items );
+
+	ob_start();
 
 	// if no style is set
 	if ( ! $style ) {
 		$style = 'default';
 	}
 
-	$classes_box   = array( 'box' );
-	$classes_image = array();
-	$classes_text  = array();
+	$classes_box      = array( 'box' );
+	$classes_image    = array();
+	$classes_text     = array();
+	$classes_repeater = array( $class );
+
+	if ( $equalize_box === 'true' ) {
+		$classes_repeater[] = 'equalize-box';
+	}
 
 	// Fix product on small screens
 	if ( $style == 'overlay' || $style == 'shade' ) {
@@ -142,12 +169,12 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 		$current_grid = 0;
 		$grid         = flatsome_get_grid( $grid );
 		$grid_total   = count( $grid );
-		echo flatsome_get_grid_height( $grid_height, $_id );
+		flatsome_get_grid_height( $grid_height, $_id );
 	}
 
 	// Fix image size
 	if ( ! $image_size ) {
-		$image_size = 'shop_catalog';
+		$image_size = 'woocommerce_thumbnail';
 	}
 
 	// Add Animations
@@ -228,6 +255,8 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 	$repater['id']                  = $_id;
 	$repater['title']               = $title;
 	$repater['tag']                 = $tag;
+	$repater['class']               = implode( ' ', $classes_repeater );
+	$repater['visibility']          = $visibility;
 	$repater['type']                = $type;
 	$repater['style']               = $style;
 	$repater['slider_style']        = $slider_nav_style;
@@ -244,10 +273,7 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 	$repater['depth']               = $depth;
 	$repater['depth_hover']         = $depth_hover;
 
-
-	ob_start();
-
-	echo get_flatsome_repeater_start( $repater );
+	get_flatsome_repeater_start( $repater );
 
 	?>
 	<?php
@@ -292,7 +318,7 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 
 				$classes_col = array( 'col' );
 
-				$out_of_stock = get_post_meta( get_the_ID(), '_stock_status', true ) == 'outofstock';
+				$out_of_stock = ! $product->is_in_stock();
 				if ( $out_of_stock ) {
 					$classes[] = 'out-of-stock';
 				}
@@ -303,33 +329,33 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 					}
 					$current       = $current_grid - 1;
 					$classes_col[] = 'grid-col';
-					if ( $grid[$current]['height'] ) {
-						$classes_col[] = 'grid-col-' . $grid[$current]['height'];
+					if ( $grid[ $current ]['height'] ) {
+						$classes_col[] = 'grid-col-' . $grid[ $current ]['height'];
 					}
 
-					if ( $grid[$current]['span'] ) {
-						$classes_col[] = 'large-' . $grid[$current]['span'];
+					if ( $grid[ $current ]['span'] ) {
+						$classes_col[] = 'large-' . $grid[ $current ]['span'];
 					}
-					if ( $grid[$current]['md'] ) {
-						$classes_col[] = 'medium-' . $grid[$current]['md'];
+					if ( $grid[ $current ]['md'] ) {
+						$classes_col[] = 'medium-' . $grid[ $current ]['md'];
 					}
 					// Set image size
-					if ( $grid[$current]['size'] ) {
-						$image_size = $grid[$current]['size'];
+					if ( $grid[ $current ]['size'] ) {
+						$image_size = $grid[ $current ]['size'];
 					}
 				}
 				?>
 
 				<div class="<?php echo implode( ' ', $classes_col ); ?>" <?php echo $animate; ?>>
-					<div class="<?php echo implode( ' ', apply_filters( 'wvs_pro_ux_products_shortcode_class', array( 'col-inner' ), get_the_ID() ) ); ?>">
-						<?php echo woocommerce_show_product_loop_sale_flash(); ?>
-						<div class="product-small <?php echo implode( ' ', $classes_box ); ?>">
+					<div class="col-inner">
+						<?php woocommerce_show_product_loop_sale_flash(); ?>
+						<div class="product-small <?php echo implode( ' ', apply_filters( 'wvs_pro_ux_products_shortcode_class', $classes_box, $product ) ); ?>">
 							<div class="box-image" <?php echo get_shortcode_inline_css( $css_args_img ); ?>>
 								<div class="<?php echo implode( ' ', $classes_image ); ?>" <?php echo get_shortcode_inline_css( $css_image_height ); ?>>
 									<a href="<?php echo get_the_permalink(); ?>">
 										<?php
 										if ( $back_image ) {
-											echo flatsome_woocommerce_get_alt_product_thumbnail( $image_size );
+											flatsome_woocommerce_get_alt_product_thumbnail( $image_size );
 										}
 										echo woocommerce_get_product_thumbnail( $image_size );
 										?>
@@ -349,7 +375,7 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 								<?php } ?>
 								<?php if ( $out_of_stock ) { ?>
 									<div class="out-of-stock-label"><?php _e( 'Out of stock', 'woocommerce' ); ?></div><?php } ?>
-							</div><!-- box-image -->
+							</div>
 
 							<div class="box-text <?php echo implode( ' ', $classes_text ); ?>" <?php echo get_shortcode_inline_css( $css_args ); ?>>
 								<?php
@@ -372,19 +398,19 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 								do_action( 'flatsome_product_box_after' );
 
 								?>
-							</div><!-- box-text -->
-						</div><!-- box -->
-					</div><!-- .col-inner -->
-				</div><!-- col -->
+							</div>
+						</div>
+					</div>
+				</div>
 			<?php } ?>
 		<?php endwhile; // end of the loop. ?>
-
 	<?php
 
 	endif;
 	wp_reset_query();
 
-	echo get_flatsome_repeater_end( $repater );
+	get_flatsome_repeater_end( $repater );
+	flatsome_box_item_toggle_end( $items );
 
 	$content = ob_get_contents();
 	ob_end_clean();
@@ -394,7 +420,7 @@ function wvs_pro_ux_products( $atts, $content = null, $tag ) {
 
 function flatsome_woocommerce_shop_loop_button() {
 
-	if ( get_theme_mod( 'add_to_cart_icon', flatsome_defaults('add_to_cart_icon') ) !== "button" ) {
+	if ( get_theme_mod( 'add_to_cart_icon', flatsome_defaults( 'add_to_cart_icon' ) ) !== "button" ) {
 		return;
 	}
 
@@ -406,17 +432,17 @@ function flatsome_woocommerce_shop_loop_button() {
 		'quantity'   => 1,
 		'class'      => implode(
 			' ', array_filter(
-			array(
-				'product_type_' . $product->get_type(),
-				$product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
-				$product->supports( 'ajax_add_to_cart' ) ? 'ajax_add_to_cart' : '',
-				esc_attr( 'button' ), // Button
-				esc_attr( 'primary' ), // Button color
-				'is-' . esc_attr( get_theme_mod( 'add_to_cart_style', 'outline' ) ), // Button style
-				'mb-0',
-				'is-' . esc_attr( 'small' ), // Button size
+				array(
+					'product_type_' . $product->get_type(),
+					$product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
+					$product->supports( 'ajax_add_to_cart' ) ? 'ajax_add_to_cart' : '',
+					esc_attr( 'button' ), // Button
+					esc_attr( 'primary' ), // Button color
+					'is-' . esc_attr( get_theme_mod( 'add_to_cart_style', 'outline' ) ), // Button style
+					'mb-0',
+					'is-' . esc_attr( 'small' ), // Button size
+				)
 			)
-		)
 		),
 		'attributes' => array(
 			'data-product_id'  => $product->get_id(),
@@ -435,7 +461,7 @@ function flatsome_woocommerce_shop_loop_button() {
 function flatsome_product_box_actions_add_to_cart() {
 
 	// Check if active
-	if ( get_theme_mod( 'add_to_cart_icon', flatsome_defaults('add_to_cart_icon') ) !== "show" ) {
+	if ( get_theme_mod( 'add_to_cart_icon', flatsome_defaults( 'add_to_cart_icon' ) ) !== "show" ) {
 		return;
 	}
 
@@ -447,13 +473,13 @@ function flatsome_product_box_actions_add_to_cart() {
 		'quantity'   => 1,
 		'class'      => implode(
 			' ', array_filter(
-			array(
-				'add-to-cart-grid',
-				'product_type_' . $product->get_type(),
-				$product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
-				$product->supports( 'ajax_add_to_cart' ) ? 'ajax_add_to_cart' : '',
+				array(
+					'add-to-cart-grid',
+					'product_type_' . $product->get_type(),
+					$product->is_purchasable() && $product->is_in_stock() ? 'add_to_cart_button' : '',
+					$product->supports( 'ajax_add_to_cart' ) ? 'ajax_add_to_cart' : '',
+				)
 			)
-		)
 		),
 		'attributes' => array(
 			'data-product_id'  => $product->get_id(),
@@ -470,14 +496,12 @@ function flatsome_product_box_actions_add_to_cart() {
 }
 
 add_filter(
-	'wvs_pro_ux_products_shortcode_class', function ( $classes, $product_id ) {
+	'wvs_pro_ux_products_shortcode_class', function ( $classes, $product ) {
 
-	if ( 'product' === get_post_type( $product_id ) ) {
-		$product = wc_get_product( $product_id );
-		if ( $product->is_type( 'variable' ) ) {
-			$classes[] = 'wvs-pro-product';
-			$classes[] = sprintf( 'wvs-pro-%s-cart-button', woo_variation_swatches()->get_option( 'archive_swatches_position' ) );
-		}
+
+	if ( $product->is_type( 'variable' ) ) {
+		$classes[] = 'wvs-pro-product';
+		$classes[] = sprintf( 'wvs-pro-%s-cart-button', woo_variation_swatches()->get_option( 'archive_swatches_position' ) );
 	}
 
 	return $classes;
@@ -499,24 +523,24 @@ add_action(
 			add_filter( 'wvs_pro_add_to_cart_text', '__return_empty_string' );
 		}
 
-		// remove_shortcode( "ux_bestseller_products" );
-		// remove_shortcode( "ux_featured_products" );
-		// remove_shortcode( "ux_sale_products" );
-		// remove_shortcode( "ux_latest_products" );
-		// remove_shortcode( "ux_custom_products" );
-		// remove_shortcode( "product_lookbook" );
-		// remove_shortcode( "products_pinterest_style" );
-		// remove_shortcode( "ux_products" );
+		remove_shortcode( "ux_bestseller_products" );
+		remove_shortcode( "ux_featured_products" );
+		remove_shortcode( "ux_sale_products" );
+		remove_shortcode( "ux_latest_products" );
+		remove_shortcode( "ux_custom_products" );
+		remove_shortcode( "product_lookbook" );
+		remove_shortcode( "products_pinterest_style" );
+		remove_shortcode( "ux_products" );
 
 
-		// add_shortcode( "ux_bestseller_products", "wvs_pro_ux_products" );
-		// add_shortcode( "ux_featured_products", "wvs_pro_ux_products" );
-		// add_shortcode( "ux_sale_products", "wvs_pro_ux_products" );
-		// add_shortcode( "ux_latest_products", "wvs_pro_ux_products" );
-		// add_shortcode( "ux_custom_products", "wvs_pro_ux_products" );
-		// add_shortcode( "product_lookbook", "wvs_pro_ux_products" );
-		// add_shortcode( "products_pinterest_style", "wvs_pro_ux_products" );
-		// add_shortcode( "ux_products", "wvs_pro_ux_products" );
+		add_shortcode( "ux_bestseller_products", "wvs_pro_ux_products" );
+		add_shortcode( "ux_featured_products", "wvs_pro_ux_products" );
+		add_shortcode( "ux_sale_products", "wvs_pro_ux_products" );
+		add_shortcode( "ux_latest_products", "wvs_pro_ux_products" );
+		add_shortcode( "ux_custom_products", "wvs_pro_ux_products" );
+		add_shortcode( "product_lookbook", "wvs_pro_ux_products" );
+		add_shortcode( "products_pinterest_style", "wvs_pro_ux_products" );
+		add_shortcode( "ux_products", "wvs_pro_ux_products" );
 
 
 		if ( has_action( 'flatsome_product_box_after' ) ) {
@@ -597,16 +621,11 @@ if ( ! function_exists( 'wvs_adiva_theme_support' ) ):
 			add_action( 'woocommerce_after_shop_loop_item_title', 'wvs_pro_archive_variation_template' );
 
 			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_select_options', function () {
-				return '<span class="tooltip">' . __( 'Select options', 'woocommerce' ) . '</span>';
+				'woo_variation_swatches_archive_add_to_cart_button_text', function ( $text ) {
+				return '<span class="tooltip">' . $text . '</span>';
 			}
 			);
 
-			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_text', function () {
-				return '<span class="tooltip">' . __( 'Add to cart', 'woocommerce' ) . '</span>';
-			}
-			);
 		}
 	}
 endif;
@@ -659,19 +678,15 @@ if ( ! function_exists( 'wvs_woodmart_theme_support' ) ):
 			remove_action( 'woocommerce_after_shop_loop_item', 'wvs_pro_archive_variation_template', 7 );
 
 			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_select_options', function () {
-				return '<span>' . __( 'Select options', 'woodmart' ) . '</span>';
-			}
-			);
-
-			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_text', function () {
-				return '<span>' . __( 'Add to cart', 'woodmart' ) . '</span>';
+				'woo_variation_swatches_archive_add_to_cart_button_text', function ( $text ) {
+				return '<span>' . $text . '</span>';
 			}
 			);
 		}
 	}
 endif;
+
+add_action( 'init', 'wvs_woodmart_theme_support', 20 );
 
 function woodmart_swatches_list() {
 	ob_start();
@@ -679,9 +694,6 @@ function woodmart_swatches_list() {
 
 	return ob_get_clean();
 }
-
-add_action( 'init', 'wvs_woodmart_theme_support', 20 );
-
 
 // ==========================================================
 // Atelier Theme
@@ -697,14 +709,14 @@ if ( ! function_exists( 'wvs_atelier_theme_support' ) ):
 			add_action( 'woocommerce_after_shop_loop_item_title', 'wvs_pro_archive_variation_template', 50 );
 
 			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_select_options', function () {
-				return '<i class="sf-icon-variable-options"></i><span>' . apply_filters( 'variable_add_to_cart_text', __( 'Select options', 'swiftframework' ) ) . '</span>';
+				'woo_variation_swatches_archive_add_to_cart_select_options', function ( $text ) {
+				return '<i class="sf-icon-variable-options"></i><span>' . $text . '</span>';
 			}
 			);
 
 			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_text', function () {
-				return apply_filters( 'add_to_cart_icon', '<i class="sf-icon-add-to-cart"></i>' ) . '<span>' . apply_filters( 'add_to_cart_text', __( 'Add to cart', 'swiftframework' ) ) . '</span>';
+				'woo_variation_swatches_archive_add_to_cart_text', function ( $text ) {
+				return apply_filters( 'add_to_cart_icon', '<i class="sf-icon-add-to-cart"></i>' ) . '<span>' . $text . '</span>';
 			}
 			);
 
@@ -727,7 +739,7 @@ if ( ! function_exists( 'wvs_salient_theme_support' ) ):
 			$options       = get_nectar_theme_options();
 			$product_style = ( ! empty( $options['product_style'] ) ) ? $options['product_style'] : 'classic';
 
-			if ( 'material' == $product_style ) {
+			if ( 'material' === $product_style ) {
 				remove_action( 'woocommerce_after_shop_loop_item', 'wvs_pro_archive_variation_template', 30 );
 				remove_action( 'woocommerce_after_shop_loop_item', 'wvs_pro_archive_variation_template', 7 );
 
@@ -735,14 +747,16 @@ if ( ! function_exists( 'wvs_salient_theme_support' ) ):
 
 
 				add_filter(
-					'woo_variation_swatches_archive_add_to_cart_select_options', function () {
-					return '<span>' . __( 'Select options', 'woodmart' ) . '</span>';
+					'woo_variation_swatches_archive_add_to_cart_button_text', function ( $text ) {
+					return '<span class="text">' . esc_html( $text ) . '</span>';
 				}
 				);
+			}
 
+			if ( 'minimal' === $product_style ) {
 				add_filter(
-					'woo_variation_swatches_archive_add_to_cart_text', function () {
-					return '<span>' . __( 'Add to cart', 'woodmart' ) . '</span>';
+					'woo_variation_swatches_archive_add_to_cart_button_text', function ( $text ) {
+					return '<i class="normal icon-salient-cart"></i><span>' . esc_html( $text ) . '</span>';
 				}
 				);
 			}
@@ -884,18 +898,10 @@ if ( ! function_exists( 'wvs_the7_theme_support' ) ):
 		if ( function_exists( 'presscore_setup' ) ) {
 
 			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_select_options', function () {
+				'woo_variation_swatches_archive_add_to_cart_button_text', function ( $text ) {
 				$icon_class = of_get_option( 'woocommerce_add_to_cart_icon' );
 
-				return sprintf( '<span class="filter-popup">%s</span><i class="popup-icon %s"></i>', apply_filters( 'variable_add_to_cart_text', esc_html__( 'Select options', 'woo-variation-swatches-pro' ) ), $icon_class );
-			}
-			);
-
-			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_text', function () {
-				$icon_class = of_get_option( 'woocommerce_add_to_cart_icon' );
-
-				return sprintf( '<span class="filter-popup">%s</span><i class="popup-icon %s"></i>', apply_filters( 'add_to_cart_text', esc_html__( 'Add to cart', 'woo-variation-swatches-pro' ) ), $icon_class );
+				return sprintf( '<span class="filter-popup">%s</span><i class="popup-icon %s"></i>', $text, $icon_class );
 			}
 			);
 		}
@@ -915,14 +921,8 @@ if ( ! function_exists( 'wvs_martfury_theme_support' ) ):
 		if ( function_exists( 'martfury_setup' ) ) {
 
 			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_select_options', function () {
-				return sprintf( '<i class="p-icon icon-bag2" data-rel="tooltip" title="%1$s"></i><span class="add-to-cart-text">%1$s</span>', apply_filters( 'variable_add_to_cart_text', esc_html__( 'Select options', 'woo-variation-swatches-pro' ) ) );
-			}
-			);
-
-			add_filter(
-				'woo_variation_swatches_archive_add_to_cart_text', function () {
-				return sprintf( '<i class="p-icon icon-bag2" data-rel="tooltip" title="%1$s"></i><span class="add-to-cart-text">%1$s</span>', apply_filters( 'add_to_cart_text', esc_html__( 'Add to cart', 'woo-variation-swatches-pro' ) ) );
+				'woo_variation_swatches_archive_add_to_cart_button_text', function ( $text ) {
+				return sprintf( '<i class="p-icon icon-bag2" data-rel="tooltip" title="%1$s"></i><span class="add-to-cart-text">%1$s</span>', $text );
 			}
 			);
 		}
