@@ -13,11 +13,20 @@
     opacity: 1;
   }
 
+  .lb-nav {
+    @media (min-width: $md) {
+      width: 120%;
+      left: -10%;
+    }
+  }
+
   .lb-nav a.lb-prev {
+    width: 50%;
     background: url('../images/arrow-white.svg') no-repeat 20px 48%;
   }
 
   .lb-nav a.lb-next {
+    width: 50%;
     background: url('../images/arrow-white.svg') no-repeat 20px 52%;
     transform: rotate(180deg);
   }

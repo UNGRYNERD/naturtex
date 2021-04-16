@@ -259,21 +259,6 @@
     p {
       margin-top: 0;
     }
-
-    &::after {
-      content: '';
-      height: 100%;
-      width: 2px;
-      background: $primary;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-
-      @media (min-width: $md) {
-        display: none;
-      }
-    }
   }
 
   &__col2 {
