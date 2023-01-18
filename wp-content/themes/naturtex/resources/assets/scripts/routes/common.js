@@ -22,7 +22,7 @@ const Common = {
       nav: false,
       dots: true,
       loop: true,
-      autoplay: false,
+      autoplay: true,
       autoplayTimeout: 6000,
       autoplayHoverPause: true,
       onChange: function (owl) {

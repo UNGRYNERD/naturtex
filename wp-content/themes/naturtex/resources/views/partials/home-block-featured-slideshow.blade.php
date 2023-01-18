@@ -8,7 +8,7 @@
     @while (have_rows('slide'))  @php(the_row())
       <article class="featured-item {{ $reverse ? "featured-item--reverse" : "" }} {{ get_sub_field('title') ? '' : 'featured-item--notitle' }}">
         <div class="featured-item__image">
-          {!! wp_get_attachment_image(get_sub_field('image'), 'featured-medium', false, ['class' => 'featured-item__img']) !!}
+          {!! wp_get_attachment_image(get_sub_field('image'), 'featured', false, ['class' => 'featured-item__img']) !!}
           @if (get_sub_field('video'))
             <a data-lity href="{{ get_sub_field('video') }}" class="featured-item__video"><img src="@asset('images/play.png')" alt="{{ __('Ver video', 'naturtex') }}"></a>
           @endif
