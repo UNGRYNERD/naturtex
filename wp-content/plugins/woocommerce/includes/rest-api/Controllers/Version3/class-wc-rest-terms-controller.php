@@ -10,6 +10,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use Automattic\WooCommerce\Internal\AssignDefaultCategory;
+
 /**
  * Terms controller class.
  */
@@ -358,7 +360,7 @@ abstract class WC_REST_Terms_Controller extends WC_REST_Controller {
 		$max_pages = ceil( $total_terms / $per_page );
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
-		$base = str_replace( '(?P<attribute_id>[\d]+)', $request['attribute_id'], $this->rest_base );
+		$base = str_replace( '(?P<attribute_id>[\d]+)', $request['attribute_id'] ?? '', $this->rest_base );
 		$base = add_query_arg( $request->get_query_params(), rest_url( '/' . $this->namespace . '/' . $base ) );
 		if ( $page > 1 ) {
 			$prev_page = $page - 1;
@@ -562,6 +564,9 @@ abstract class WC_REST_Terms_Controller extends WC_REST_Controller {
 		if ( ! $retval ) {
 			return new WP_Error( 'woocommerce_rest_cannot_delete', __( 'The resource cannot be deleted.', 'woocommerce' ), array( 'status' => 500 ) );
 		}
+
+		// Schedule action to assign default category.
+		wc_get_container()->get( AssignDefaultCategory::class )->schedule_action();
 
 		/**
 		 * Fires after a single term is deleted via the REST API.

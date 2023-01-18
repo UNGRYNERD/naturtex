@@ -58,7 +58,7 @@ jQuery( function( $ ) {
 				$( document.body ).trigger( 'init_checkout' );
 			}
 			if ( wc_checkout_params.option_guest_checkout === 'yes' ) {
-				$( 'input#createaccount' ).change( this.toggle_create_account ).trigger( 'change' );
+				$( 'input#createaccount' ).on( 'change', this.toggle_create_account ).trigger( 'change' );
 			}
 		},
 		init_payment_methods: function() {
@@ -449,12 +449,12 @@ jQuery( function( $ ) {
 			$( window ).on('beforeunload', this.handleUnloadEvent);
 		},
 		detachUnloadEventsOnSubmit: function() {
-			$( window ).unbind('beforeunload', this.handleUnloadEvent);
+			$( window ).off('beforeunload', this.handleUnloadEvent);
 		},
 		blockOnSubmit: function( $form ) {
-			var form_data = $form.data();
+			var isBlocked = $form.data( 'blockUI.isBlocked' );
 
-			if ( 1 !== form_data['blockUI.isBlocked'] ) {
+			if ( 1 !== isBlocked ) {
 				$form.block({
 					message: null,
 					overlayCSS: {
@@ -560,7 +560,11 @@ jQuery( function( $ ) {
 						// Detach the unload handler that prevents a reload / redirect
 						wc_checkout_form.detachUnloadEventsOnSubmit();
 
-						wc_checkout_form.submit_error( '<div class="woocommerce-error">' + errorThrown + '</div>' );
+						wc_checkout_form.submit_error(
+							'<div class="woocommerce-error">' +
+							( errorThrown || wc_checkout_params.i18n_checkout_error ) +
+							'</div>'
+						);
 					}
 				});
 			}
@@ -579,7 +583,7 @@ jQuery( function( $ ) {
 			var scrollElement           = $( '.woocommerce-NoticeGroup-updateOrderReview, .woocommerce-NoticeGroup-checkout' );
 
 			if ( ! scrollElement.length ) {
-				scrollElement = $( '.form.checkout' );
+				scrollElement = $( 'form.checkout' );
 			}
 			$.scroll_to_notices( scrollElement );
 		}
@@ -589,11 +593,11 @@ jQuery( function( $ ) {
 		init: function() {
 			$( document.body ).on( 'click', 'a.showcoupon', this.show_coupon_form );
 			$( document.body ).on( 'click', '.woocommerce-remove-coupon', this.remove_coupon );
-			$( 'form.checkout_coupon' ).hide().submit( this.submit );
+			$( 'form.checkout_coupon' ).hide().on( 'submit', this.submit );
 		},
 		show_coupon_form: function() {
 			$( '.checkout_coupon' ).slideToggle( 400, function() {
-				$( '.checkout_coupon' ).find( ':input:eq(0)' ).focus();
+				$( '.checkout_coupon' ).find( ':input:eq(0)' ).trigger( 'focus' );
 			});
 			return false;
 		},
@@ -668,7 +672,7 @@ jQuery( function( $ ) {
 					if ( code ) {
 						$( 'form.woocommerce-checkout' ).before( code );
 
-						$( document.body ).trigger( 'removed_coupon_in_checkout', [ data.coupon_code ] );
+						$( document.body ).trigger( 'removed_coupon_in_checkout', [ data.coupon ] );
 						$( document.body ).trigger( 'update_checkout', { update_shipping_method: false } );
 
 						// Remove coupon code from coupon field

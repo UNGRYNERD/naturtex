@@ -124,14 +124,14 @@ class WC_Admin_Post_Types {
 
 		$messages['product'] = array(
 			0  => '', // Unused. Messages start at index 1.
-			/* translators: %s: Product view URL. */
-			1  => sprintf( __( 'Product updated. <a href="%s">View Product</a>', 'woocommerce' ), esc_url( get_permalink( $post->ID ) ) ),
+			/* translators: %1$s: Product link opening tag. %2$s: Product link closing tag.*/
+			1  => sprintf( __( 'Product updated. %1$sView Product%2$s', 'woocommerce' ), '<a id="woocommerce-product-updated-message-view-product__link" href="' . esc_url( get_permalink( $post->ID ) ) . '">', '</a>' ),
 			2  => __( 'Custom field updated.', 'woocommerce' ),
 			3  => __( 'Custom field deleted.', 'woocommerce' ),
 			4  => __( 'Product updated.', 'woocommerce' ),
 			5  => __( 'Revision restored.', 'woocommerce' ),
-			/* translators: %s: product url */
-			6  => sprintf( __( 'Product published. <a href="%s">View Product</a>', 'woocommerce' ), esc_url( get_permalink( $post->ID ) ) ),
+			/* translators: %1$s: Product link opening tag. %2$s: Product link closing tag.*/
+			6  => sprintf( __( 'Product published. %1$sView Product%2$s', 'woocommerce' ), '<a id="woocommerce-product-updated-message-view-product__link" href="' . esc_url( get_permalink( $post->ID ) ) . '">', '</a>' ),
 			7  => __( 'Product saved.', 'woocommerce' ),
 			/* translators: %s: product url */
 			8  => sprintf( __( 'Product submitted. <a target="_blank" href="%s">Preview product</a>', 'woocommerce' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post->ID ) ) ) ),
@@ -430,7 +430,10 @@ class WC_Admin_Post_Types {
 		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		$product->set_manage_stock( $manage_stock );
-		$product->set_backorders( $backorders );
+
+		if ( 'external' !== $product->get_type() ) {
+			$product->set_backorders( $backorders );
+		}
 
 		if ( 'yes' === get_option( 'woocommerce_manage_stock' ) ) {
 			$stock_amount = 'yes' === $manage_stock && isset( $request_data['_stock'] ) && is_numeric( wp_unslash( $request_data['_stock'] ) ) ? wc_stock_amount( wp_unslash( $request_data['_stock'] ) ) : '';
@@ -550,7 +553,10 @@ class WC_Admin_Post_Types {
 		$stock_amount = 'yes' === $manage_stock && ! empty( $request_data['change_stock'] ) && isset( $request_data['_stock'] ) ? wc_stock_amount( $request_data['_stock'] ) : $product->get_stock_quantity();
 
 		$product->set_manage_stock( $manage_stock );
-		$product->set_backorders( $backorders );
+
+		if ( 'external' !== $product->get_type() ) {
+			$product->set_backorders( $backorders );
+		}
 
 		if ( 'yes' === get_option( 'woocommerce_manage_stock' ) ) {
 			$change_stock = absint( $request_data['change_stock'] );
@@ -922,7 +928,7 @@ class WC_Admin_Post_Types {
 			return false;
 		}
 
-		$old_price     = $product->{"get_{$price_type}_price"}();
+		$old_price     = (float) $product->{"get_{$price_type}_price"}();
 		$price_changed = false;
 
 		$change_price  = absint( $request_data[ "change_{$price_type}_price" ] );
@@ -959,7 +965,7 @@ class WC_Admin_Post_Types {
 					$percent   = $price / 100;
 					$new_price = max( 0, $regular_price - ( NumberUtil::round( $regular_price * $percent, wc_get_price_decimals() ) ) );
 				} else {
-					$new_price = max( 0, $regular_price - $price );
+					$new_price = max( 0, (float) $regular_price - (float) $price );
 				}
 				break;
 

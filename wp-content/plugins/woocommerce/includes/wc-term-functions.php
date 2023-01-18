@@ -401,7 +401,7 @@ function _wc_term_recount( $terms, $taxonomy, $callback = true, $terms_are_term_
 	 * @since 5.2
 	 * @param bool
 	 */
-	if ( ! apply_filters( 'woocommerce_product_recount_terms', '__return_true' ) ) {
+	if ( ! apply_filters( 'woocommerce_product_recount_terms', true ) ) {
 		return;
 	}
 
@@ -486,7 +486,8 @@ function _wc_term_recount( $terms, $taxonomy, $callback = true, $terms_are_term_
 		$term_query['join'] .= " INNER JOIN ( SELECT object_id FROM {$wpdb->term_relationships} INNER JOIN {$wpdb->term_taxonomy} using( term_taxonomy_id ) WHERE term_id IN ( " . implode( ',', array_map( 'absint', $terms_to_count ) ) . ' ) ) AS include_join ON include_join.object_id = p.ID';
 
 		// Get the count.
-		$count = $wpdb->get_var( implode( ' ', $term_query ) ); // WPCS: unprepared SQL ok.
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+		$count = $wpdb->get_var( implode( ' ', $term_query ) );
 
 		// Update the count.
 		update_term_meta( $term_id, 'product_count_' . $taxonomy->name, absint( $count ) );
@@ -519,7 +520,7 @@ add_action( 'woocommerce_product_set_stock_status', 'wc_recount_after_stock_chan
  * @return array
  */
 function wc_change_term_counts( $terms, $taxonomies ) {
-	if ( is_admin() || is_ajax() ) {
+	if ( is_admin() || wp_doing_ajax() ) {
 		return $terms;
 	}
 
@@ -528,11 +529,14 @@ function wc_change_term_counts( $terms, $taxonomies ) {
 	}
 
 	$o_term_counts = get_transient( 'wc_term_counts' );
-	$term_counts   = $o_term_counts;
+	$term_counts   = false === $o_term_counts ? array() : $o_term_counts;
 
 	foreach ( $terms as &$term ) {
 		if ( is_object( $term ) ) {
-			$term_counts[ $term->term_id ] = isset( $term_counts[ $term->term_id ] ) ? $term_counts[ $term->term_id ] : get_term_meta( $term->term_id, 'product_count_' . $taxonomies[0], true );
+			$term_counts[ $term->term_id ] =
+				isset( $term_counts[ $term->term_id ] ) ?
+					$term_counts[ $term->term_id ] :
+					get_term_meta( $term->term_id, 'product_count_' . $taxonomies[0], true );
 
 			if ( '' !== $term_counts[ $term->term_id ] ) {
 				$term->count = absint( $term_counts[ $term->term_id ] );

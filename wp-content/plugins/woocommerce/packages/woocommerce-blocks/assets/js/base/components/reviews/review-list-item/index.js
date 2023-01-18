@@ -14,11 +14,7 @@ import './style.scss';
 function getReviewImage( review, imageType, isLoading ) {
 	if ( isLoading || ! review ) {
 		return (
-			<div
-				className="wc-block-review-list-item__image wc-block-components-review-list-item__image"
-				width="48"
-				height="48"
-			/>
+			<div className="wc-block-review-list-item__image wc-block-components-review-list-item__image" />
 		);
 	}
 
@@ -31,11 +27,13 @@ function getReviewImage( review, imageType, isLoading ) {
 					src={ review.product_image?.thumbnail || '' }
 				/>
 			) : (
+				// The alt text is left empty on purpose, as it's considered a decorative image.
+				// More can be found here: https://www.w3.org/WAI/tutorials/images/decorative/.
+				// Github discussion for a context: https://github.com/woocommerce/woocommerce-blocks/pull/7651#discussion_r1019560494.
 				<img
 					aria-hidden="true"
 					alt=""
-					src={ review.reviewer_avatar_urls[ '48' ] || '' }
-					srcSet={ review.reviewer_avatar_urls[ '96' ] + ' 2x' }
+					src={ review.reviewer_avatar_urls[ '96' ] || '' }
 				/>
 			) }
 			{ review.verified && (
@@ -129,6 +127,13 @@ function getReviewRating( review ) {
 		__( 'Rated %f out of 5', 'woocommerce' ),
 		rating
 	);
+	const ratingHTML = {
+		__html: sprintf(
+			/* translators: %s is referring to the average rating value */
+			__( 'Rated %s out of 5', 'woocommerce' ),
+			sprintf( '<strong class="rating">%f</strong>', rating )
+		),
+	};
 	return (
 		<div className="wc-block-review-list-item__rating wc-block-components-review-list-item__rating">
 			<div
@@ -136,7 +141,10 @@ function getReviewRating( review ) {
 				role="img"
 				aria-label={ ratingText }
 			>
-				<span style={ starStyle }>{ ratingText }</span>
+				<span
+					style={ starStyle }
+					dangerouslySetInnerHTML={ ratingHTML }
+				/>
 			</div>
 		</div>
 	);
@@ -163,6 +171,8 @@ const ReviewListItem = ( { attributes, review = {} } ) => {
 				'wc-block-components-review-list-item__item',
 				{
 					'is-loading': isLoading,
+					'wc-block-components-review-list-item__item--has-image':
+						showReviewImage,
 				}
 			) }
 			aria-hidden={ isLoading }
