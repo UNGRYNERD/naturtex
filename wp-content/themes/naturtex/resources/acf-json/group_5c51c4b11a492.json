@@ -6,6 +6,7 @@
             "key": "field_5c51c4bd7a6a1",
             "label": "Galería",
             "name": "gallery",
+            "aria-label": "",
             "type": "gallery",
             "instructions": "",
             "required": 0,
@@ -33,6 +34,7 @@
             "key": "field_5c51c4ca7a6a2",
             "label": "Colores",
             "name": "colors",
+            "aria-label": "",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -47,11 +49,13 @@
             "max": 0,
             "layout": "table",
             "button_label": "Añadir color",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_5c51c4da7a6a3",
                     "label": "Nombre",
                     "name": "name",
+                    "aria-label": "",
                     "type": "text",
                     "instructions": "",
                     "required": 0,
@@ -65,12 +69,14 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "maxlength": ""
+                    "maxlength": "",
+                    "parent_repeater": "field_5c51c4ca7a6a2"
                 },
                 {
                     "key": "field_5c51c4e37a6a4",
                     "label": "Imagen",
                     "name": "image",
+                    "aria-label": "",
                     "type": "image",
                     "instructions": "",
                     "required": 0,
@@ -89,7 +95,8 @@
                     "max_width": "",
                     "max_height": "",
                     "max_size": "",
-                    "mime_types": ""
+                    "mime_types": "",
+                    "parent_repeater": "field_5c51c4ca7a6a2"
                 }
             ]
         },
@@ -97,6 +104,7 @@
             "key": "field_6076fab873191",
             "label": "Título sección Dibujo",
             "name": "pattern_title",
+            "aria-label": "",
             "type": "text",
             "instructions": "",
             "required": 0,
@@ -116,6 +124,7 @@
             "key": "field_6076fa837318d",
             "label": "Dibujo",
             "name": "pattern",
+            "aria-label": "",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -130,11 +139,13 @@
             "max": 0,
             "layout": "table",
             "button_label": "Añadir color",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_6076fa837318e",
                     "label": "Nombre",
                     "name": "name",
+                    "aria-label": "",
                     "type": "text",
                     "instructions": "",
                     "required": 0,
@@ -148,12 +159,14 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "maxlength": ""
+                    "maxlength": "",
+                    "parent_repeater": "field_6076fa837318d"
                 },
                 {
                     "key": "field_6076fa837318f",
                     "label": "Imagen",
                     "name": "image",
+                    "aria-label": "",
                     "type": "image",
                     "instructions": "",
                     "required": 0,
@@ -172,12 +185,14 @@
                     "max_width": "",
                     "max_height": "",
                     "max_size": "",
-                    "mime_types": ""
+                    "mime_types": "",
+                    "parent_repeater": "field_6076fa837318d"
                 },
                 {
                     "key": "field_6076fa8373190",
                     "label": "Imagen ampliación",
                     "name": "image_zoom",
+                    "aria-label": "",
                     "type": "image",
                     "instructions": "",
                     "required": 0,
@@ -196,7 +211,8 @@
                     "max_width": "",
                     "max_height": "",
                     "max_size": "",
-                    "mime_types": ""
+                    "mime_types": "",
+                    "parent_repeater": "field_6076fa837318d"
                 }
             ]
         },
@@ -204,6 +220,7 @@
             "key": "field_5d0a2982d5a15",
             "label": "Terminación",
             "name": "finishing",
+            "aria-label": "",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -218,11 +235,13 @@
             "max": 0,
             "layout": "table",
             "button_label": "Añadir color",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_5d0a2982d5a16",
                     "label": "Nombre",
                     "name": "name",
+                    "aria-label": "",
                     "type": "text",
                     "instructions": "",
                     "required": 0,
@@ -236,12 +255,14 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "maxlength": ""
+                    "maxlength": "",
+                    "parent_repeater": "field_5d0a2982d5a15"
                 },
                 {
                     "key": "field_5d0a2982d5a17",
                     "label": "Imagen",
                     "name": "image",
+                    "aria-label": "",
                     "type": "image",
                     "instructions": "",
                     "required": 0,
@@ -260,12 +281,14 @@
                     "max_width": "",
                     "max_height": "",
                     "max_size": "",
-                    "mime_types": ""
+                    "mime_types": "",
+                    "parent_repeater": "field_5d0a2982d5a15"
                 },
                 {
                     "key": "field_5d0a299cd5a18",
                     "label": "Imagen ampliación",
                     "name": "image_zoom",
+                    "aria-label": "",
                     "type": "image",
                     "instructions": "",
                     "required": 0,
@@ -284,7 +307,8 @@
                     "max_width": "",
                     "max_height": "",
                     "max_size": "",
-                    "mime_types": ""
+                    "mime_types": "",
+                    "parent_repeater": "field_5d0a2982d5a15"
                 }
             ]
         },
@@ -292,6 +316,7 @@
             "key": "field_5c51c4fe7a6a5",
             "label": "Información",
             "name": "info",
+            "aria-label": "",
             "type": "group",
             "instructions": "",
             "required": 0,
@@ -307,6 +332,7 @@
                     "key": "field_5c51c5217a6a6",
                     "label": "Columna 1",
                     "name": "col1",
+                    "aria-label": "",
                     "type": "wysiwyg",
                     "instructions": "",
                     "required": 0,
@@ -326,6 +352,7 @@
                     "key": "field_5c51c5377a6a7",
                     "label": "Columna 2",
                     "name": "col2",
+                    "aria-label": "",
                     "type": "wysiwyg",
                     "instructions": "",
                     "required": 0,
@@ -347,6 +374,7 @@
             "key": "field_6076fe302ec5d",
             "label": "Sostenibilidad",
             "name": "sustainability",
+            "aria-label": "",
             "type": "repeater",
             "instructions": "",
             "required": 0,
@@ -361,11 +389,13 @@
             "max": 0,
             "layout": "table",
             "button_label": "Añadir color",
+            "rows_per_page": 20,
             "sub_fields": [
                 {
                     "key": "field_6076fe302ec5f",
                     "label": "Icono",
                     "name": "image",
+                    "aria-label": "",
                     "type": "image",
                     "instructions": "",
                     "required": 0,
@@ -384,12 +414,14 @@
                     "max_width": "",
                     "max_height": "",
                     "max_size": "",
-                    "mime_types": ""
+                    "mime_types": "",
+                    "parent_repeater": "field_6076fe302ec5d"
                 },
                 {
                     "key": "field_6076fe302ec5e",
                     "label": "Nombre",
                     "name": "name",
+                    "aria-label": "",
                     "type": "text",
                     "instructions": "",
                     "required": 0,
@@ -403,7 +435,8 @@
                     "placeholder": "",
                     "prepend": "",
                     "append": "",
-                    "maxlength": ""
+                    "maxlength": "",
+                    "parent_repeater": "field_6076fe302ec5d"
                 }
             ]
         },
@@ -411,6 +444,7 @@
             "key": "field_5c6aae684aa25",
             "label": "Overview",
             "name": "overview",
+            "aria-label": "",
             "type": "file",
             "instructions": "",
             "required": 0,
@@ -430,6 +464,7 @@
             "key": "field_5c51c5467a6a8",
             "label": "Instalación",
             "name": "install",
+            "aria-label": "",
             "type": "file",
             "instructions": "",
             "required": 0,
@@ -449,6 +484,7 @@
             "key": "field_5c51c5657a6a9",
             "label": "Cuidado",
             "name": "care",
+            "aria-label": "",
             "type": "file",
             "instructions": "",
             "required": 0,
@@ -463,6 +499,26 @@
             "min_size": "",
             "max_size": "",
             "mime_types": "pdf"
+        },
+        {
+            "key": "field_63cfcc0a696b4",
+            "label": "Mostrar dibujo después del color",
+            "name": "pattern_order",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 1
         }
     ],
     "location": [
@@ -501,5 +557,6 @@
     ],
     "active": true,
     "description": "",
-    "modified": 1618411090
+    "show_in_rest": 0,
+    "modified": 1674562741
 }
