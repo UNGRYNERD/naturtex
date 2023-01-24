@@ -9,7 +9,7 @@
       <img src="@asset('images/instagram.png')" alt="Instagram">
       {{ esc_html__('@naturtex_sl', 'naturtex') }}
     </h2>
-    {!! do_shortcode('[instagram-feed showbutton=false showfollow=false user="naturtex_sl"]') !!}
+    {!! do_shortcode('[instagram-feed feed=1]') !!}
   </div>
 </section>
 
